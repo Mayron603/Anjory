@@ -14,67 +14,46 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
        {/* Hero Section */}
-      <section className="relative w-full bg-primary/20 overflow-hidden paint-splatter">
-        <div className="absolute top-0 right-0 h-full w-2/3 bg-background/50 rounded-bl-full z-0" />
-
-        <div className="container mx-auto min-h-[80vh] flex items-center justify-center relative z-10 py-16 md:py-0">
-          <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-8 w-full">
-            
-            {/* Image Section */}
-            <div className="md:col-span-5 relative flex items-center justify-center h-96">
-                <div className="relative w-72 h-80 md:w-[22rem] md:h-[26rem]">
-                    {/* Imagem Principal (Vela) */}
-                    <div className="relative w-full h-full bg-white p-4 rounded-2xl shadow-2xl transform -rotate-6 transition-transform hover:scale-105 duration-300">
-                        {heroImage && (
-                            <div className="relative w-full h-full overflow-hidden rounded-xl">
-                                <Image
-                                    src={heroImage.imageUrl}
-                                    alt={heroImage.description}
-                                    data-ai-hint={heroImage.imageHint}
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                    sizes="(max-width: 768px) 100vw, 50vw"
-                                />
-                            </div>
-                        )}
-                         {/* Flor na foto */}
-                        <div className="absolute -bottom-5 -left-5 w-24 h-24 transform -rotate-12">
-                            <Image
-                                src="/flor2.png"
-                                alt="Flor de aquarela rosa"
-                                width={96}
-                                height={96}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <section className="relative w-full bg-primary/20 overflow-hidden">
+        <div className="container mx-auto min-h-[70vh] flex items-center justify-center relative z-10 py-16 md:py-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 w-full">
             
             {/* Text Section */}
-            <div className="md:col-span-7 text-center md:text-left flex flex-col items-center md:items-start relative">
-                {/* Flor atrás do texto */}
-                <div className="absolute -bottom-24 -right-24 w-80 h-80 md:w-96 md:h-96 opacity-70">
-                    <Image
-                        src="/flor.png"
-                        alt="Buquê de flores de aquarela"
-                        width={384}
-                        height={384}
-                        className="object-contain"
-                    />
-                </div>
-                <p className="font-script text-4xl md:text-5xl text-foreground/60 mb-2 z-10">Seja Bem Vindo!</p>
-                <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight z-10">
+            <div className="text-center md:text-left flex flex-col items-center md:items-start">
+                <p className="font-script text-4xl md:text-5xl text-foreground/60 mb-2">Seja Bem Vindo!</p>
+                <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight">
                 O toque artesanal
                 </h1>
-                <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight mt-2 z-10">
+                <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight mt-2">
                 que seu lar merece
                 </h1>
-                <Button asChild size="lg" className="mt-8 rounded-md px-10 bg-accent hover:bg-accent/90 text-accent-foreground z-10">
-                <Link href="#featured-products">Conheça os produtos</Link>
+                <p className="mt-6 max-w-lg text-lg text-muted-foreground">
+                    Velas aromáticas, papelaria criativa e jogos feitos à mão para trazer mais aconchego e personalidade para o seu espaço.
+                </p>
+                <Button asChild size="lg" className="mt-8 rounded-md px-10 bg-accent hover:bg-accent/90 text-accent-foreground">
+                    <Link href="/products">Conheça os produtos</Link>
                 </Button>
             </div>
 
+            {/* Image Section */}
+            <div className="relative flex items-center justify-center h-96">
+                <div className="relative w-full h-full max-w-md">
+                    {heroImage && (
+                        <div className="relative w-full h-full overflow-hidden rounded-lg shadow-2xl">
+                            <Image
+                                src={heroImage.imageUrl}
+                                alt={heroImage.description}
+                                data-ai-hint={heroImage.imageHint}
+                                fill
+                                className="object-cover"
+                                priority
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                            />
+                        </div>
+                    )}
+                </div>
+            </div>
+            
           </div>
         </div>
       </section>

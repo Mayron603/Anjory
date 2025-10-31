@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/product-card';
 import { getProducts } from '@/lib/products';
-import { PlaceHolderImages, getImageById } from '@/lib/placeholder-images';
+import { getImageById } from '@/lib/placeholder-images';
 import { Input } from '@/components/ui/input';
 import { ArrowRight } from 'lucide-react';
 
@@ -20,8 +20,13 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-8 w-full">
             
             {/* Image Section */}
-            <div className="md:col-span-5 relative flex items-center justify-center h-full">
+            <div className="md:col-span-5 relative flex items-center justify-center h-96">
                 {heroImage && (
+                  <>
+                    {/* Decorative white frame */}
+                    <div className="absolute w-72 h-80 md:w-[22rem] md:h-[26rem] bg-white p-4 shadow-xl transform rotate-3" />
+                    
+                    {/* Main Polaroid */}
                     <div className="relative w-72 h-80 md:w-[22rem] md:h-[26rem] bg-white p-4 shadow-2xl transform -rotate-6 transition-transform hover:scale-105 duration-300">
                         <Image
                             src={heroImage.imageUrl}
@@ -44,6 +49,7 @@ export default async function HomePage() {
                             />
                         </div>
                     </div>
+                  </>
                 )}
                
             </div>
@@ -57,7 +63,7 @@ export default async function HomePage() {
                         alt="Watercolor flower illustration"
                         data-ai-hint="watercolor flower"
                         fill
-                        className="object-contain mix-blend-multiply"
+                        className="object-contain"
                         sizes="30vw"
                     />
                 </div>

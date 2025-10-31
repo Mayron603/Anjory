@@ -40,12 +40,12 @@ export default async function HomePage() {
                          
                         <div className="absolute -bottom-10 -left-10 w-28 h-28 transform -rotate-12">
                             <Image
-                                src="/flor.png"
+                                src="/flor2.png"
                                 alt="Watercolor flower illustration"
                                 data-ai-hint="watercolor flower"
                                 width={112}
                                 height={112}
-                                className="mix-blend-multiply"
+                                className=""
                             />
                         </div>
                     </div>
@@ -59,12 +59,12 @@ export default async function HomePage() {
                
                 <div className="absolute -bottom-24 -right-24 w-72 h-72 md:w-80 md:h-80 opacity-80 transform rotate-12">
                     <Image
-                        src="/flor2.png"
+                        src="/flor.png"
                         alt="Watercolor flower illustration"
                         data-ai-hint="watercolor flower"
                         width={320}
                         height={320}
-                        className="object-contain"
+                        className="object-contain mix-blend-multiply"
                     />
                 </div>
                 

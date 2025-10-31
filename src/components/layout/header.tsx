@@ -12,7 +12,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="w-full bg-secondary text-secondary-foreground text-center py-2 text-xs font-medium tracking-wider">
-        FREE Shipping on orders over $200
+        Frete Grátis para pedidos acima de R$200
       </div>
       <div className="container flex h-20 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
@@ -40,7 +40,7 @@ export function Header() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle Menu</span>
+                <span className="sr-only">Abrir Menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="pr-0">

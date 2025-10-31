@@ -23,14 +23,14 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
   return (
     <nav className={navClass}>
       <Link href="/" className={linkClass}>
-        Home
+        Início
       </Link>
       <Link href="/products" className={linkClass}>
-        New Arrivals
+        Novidades
       </Link>
       <DropdownMenu>
         <DropdownMenuTrigger className={cn(linkClass, "flex items-center gap-1 outline-none")}>
-          Shop By <ChevronDown className="h-4 w-4" />
+          Comprar por Categoria <ChevronDown className="h-4 w-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem>Velas</DropdownMenuItem>
@@ -40,18 +40,18 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
       </DropdownMenu>
       <DropdownMenu>
         <DropdownMenuTrigger className={cn(linkClass, "flex items-center gap-1 outline-none")}>
-          Customer Care <ChevronDown className="h-4 w-4" />
+          Atendimento <ChevronDown className="h-4 w-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem>FAQ</DropdownMenuItem>
-          <DropdownMenuItem>Shipping & Returns</DropdownMenuItem>
+          <DropdownMenuItem>Envios e Devoluções</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
        <Link href="#" className={linkClass}>
         Blog
       </Link>
       <Link href="#" className={linkClass}>
-        Contact
+        Contato
       </Link>
     </nav>
   );

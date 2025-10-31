@@ -19,7 +19,7 @@ export function Logo(props: React.SVGProps<SVGSVGElement>) {
         fontSize="36"
         fill="hsl(var(--foreground))"
       >
-        Bloom & Ruby
+        Anjory
       </text>
     </svg>
   );

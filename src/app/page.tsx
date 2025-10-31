@@ -36,13 +36,13 @@ export default async function HomePage() {
                             sizes="(max-width: 768px) 100vw, 50vw"
                         />
                          {singleDaisy && (
-                            <div className="absolute -bottom-5 -left-5 w-20 h-20 transform -rotate-12">
+                            <div className="absolute -bottom-10 -left-10 w-28 h-28 transform -rotate-12">
                                 <Image
                                     src={singleDaisy.imageUrl}
                                     alt={singleDaisy.description}
                                     data-ai-hint={singleDaisy.imageHint}
-                                    width={80}
-                                    height={80}
+                                    width={112}
+                                    height={112}
                                 />
                             </div>
                         )}
@@ -54,7 +54,7 @@ export default async function HomePage() {
             {/* Text Section */}
             <div className="md:col-span-7 text-center md:text-left flex flex-col items-center md:items-start relative">
                {flowerBouquet && (
-                    <div className="absolute -bottom-32 -right-16 w-80 h-80 md:w-96 md:h-96 opacity-80">
+                    <div className="absolute -bottom-24 -right-24 w-72 h-72 md:w-80 md:h-80 opacity-80 transform rotate-12">
                         <Image
                             src={flowerBouquet.imageUrl}
                             alt={flowerBouquet.description}

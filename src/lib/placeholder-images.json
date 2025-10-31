@@ -55,34 +55,16 @@
       "imageHint": "jar candle"
     },
     {
-      "id": "flower-3",
-      "description": "Elegant flower arrangement",
-      "imageUrl": "https://images.unsplash.com/photo-1525994886778-389b77442637?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxlbGVnYW50JTIwZmxvd2VyJTIwYXJyYW5nZW1lbnR8ZW58MHx8fHwxNzYyMDA4NDMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "flower arrangement"
-    },
-    {
-      "id": "flower-5",
-      "description": "A small beautiful bouquet of flowers",
-      "imageUrl": "https://images.unsplash.com/photo-1599059818427-248553c4323e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNHx8c21hbGwlMjBidW5jaCUyMGZsb3dlcnN8ZW58MHx8fHwxNzYyMDA4MzkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "small bouquet"
-    },
-    {
-      "id": "watercolor-flower-1",
-      "description": "Watercolor flowers in the corner",
+      "id": "daisy-flower",
+      "description": "Watercolor flower illustration",
       "imageUrl": "/flor.png",
       "imageHint": "watercolor flower"
     },
     {
-      "id": "daisy-flower",
-      "description": "A single daisy flower illustration",
-      "imageUrl": "https://raw.githubusercontent.com/firebase/genkit/main/studio/images/daisy.png",
-      "imageHint": "daisy illustration"
-    },
-    {
       "id": "flower-bouquet",
-      "description": "A bouquet of daisies and other flowers",
-      "imageUrl": "https://raw.githubusercontent.com/firebase/genkit/main/studio/images/bouquet.png",
-      "imageHint": "flower bouquet"
+      "description": "Watercolor flower illustration",
+      "imageUrl": "/flor.png",
+      "imageHint": "watercolor flower"
     }
   ]
 }

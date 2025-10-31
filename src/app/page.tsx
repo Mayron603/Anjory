@@ -19,7 +19,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 w-full">
             
             {/* Text Section */}
-            <div className="text-center md:text-left flex flex-col items-center md:items-start">
+            <div className="text-center md:text-left flex flex-col items-center md:items-start relative">
                 <p className="font-script text-4xl md:text-5xl text-foreground/60 mb-2">Seja Bem Vindo!</p>
                 <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight">
                 O toque artesanal
@@ -33,22 +33,42 @@ export default async function HomePage() {
                 <Button asChild size="lg" className="mt-8 rounded-md px-10 bg-accent hover:bg-accent/90 text-accent-foreground">
                     <Link href="/products">Conheça os produtos</Link>
                 </Button>
+                <div className="absolute top-1/2 right-0 -translate-y-1/2 opacity-50">
+                    <Image
+                      src="/flor.png"
+                      alt="Aquarela de flor"
+                      width={200}
+                      height={200}
+                      className="object-contain"
+                    />
+                </div>
             </div>
 
             {/* Image Section */}
             <div className="relative flex items-center justify-center h-96">
                 <div className="relative w-full h-full max-w-md">
                     {heroImage && (
-                        <div className="relative w-full h-full overflow-hidden rounded-lg shadow-2xl">
-                            <Image
-                                src={heroImage.imageUrl}
-                                alt={heroImage.description}
-                                data-ai-hint={heroImage.imageHint}
-                                fill
-                                className="object-cover"
-                                priority
-                                sizes="(max-width: 768px) 100vw, 50vw"
-                            />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[350px] bg-white p-4 shadow-lg transform -rotate-6">
+                            <div className="relative w-full h-full">
+                                <Image
+                                    src={heroImage.imageUrl}
+                                    alt={heroImage.description}
+                                    data-ai-hint={heroImage.imageHint}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                />
+                                <div className="absolute -bottom-4 -left-4 w-24 h-24">
+                                     <Image
+                                        src="/flor2.png"
+                                        alt="Aquarela de flor"
+                                        width={96}
+                                        height={96}
+                                        className="object-contain"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>

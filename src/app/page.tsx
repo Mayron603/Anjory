@@ -23,9 +23,6 @@ export default async function HomePage() {
             {/* Image Section */}
             <div className="md:col-span-5 relative flex items-center justify-center h-96">
                 <div className="relative w-72 h-80 md:w-[22rem] md:h-[26rem]">
-                    {/* Moldura de trás */}
-                    <div className="absolute top-0 left-0 w-full h-full bg-white p-4 rounded-2xl shadow-lg transform rotate-3" />
-
                     {/* Imagem Principal (Vela) */}
                     <div className="relative w-full h-full bg-white p-4 rounded-2xl shadow-2xl transform -rotate-6 transition-transform hover:scale-105 duration-300">
                         {heroImage && (

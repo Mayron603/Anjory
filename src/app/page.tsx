@@ -62,9 +62,9 @@ export default async function HomePage() {
                         src="/flor2.png"
                         alt="Watercolor flower illustration"
                         data-ai-hint="watercolor flower"
-                        fill
+                        width={320}
+                        height={320}
                         className="object-contain"
-                        sizes="30vw"
                     />
                 </div>
                 

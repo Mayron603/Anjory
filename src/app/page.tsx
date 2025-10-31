@@ -64,12 +64,12 @@ export default async function HomePage() {
                         />
                     </div>
                 )}
-                <p className="font-script text-4xl md:text-5xl text-primary mb-2">Seja Bem Vindo à</p>
+                <p className="font-script text-4xl md:text-5xl text-primary mb-2">Seja Bem Vindo!</p>
                 <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight">
                    O toque artesanal que
                 </h1>
                 <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight mt-2">
-                   seu lar merece.
+                   seu lar merece!
                 </h1>
                 <Button asChild size="lg" className="mt-8 rounded-md px-10 bg-foreground/80 hover:bg-foreground/90 text-background">
                   <Link href="#featured-products">Conheça nossos produtos</Link>

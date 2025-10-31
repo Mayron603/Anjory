@@ -6,13 +6,12 @@ import { CartButton } from '@/components/layout/cart-button';
 import { Menu, Search, Instagram, Facebook } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
-import { TikTok } from '../icons/tiktok';
 
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="w-full bg-secondary text-secondary-foreground text-center py-2 text-xs font-medium tracking-wider">
-        Frete Grátis para pedidos acima de R$200
+        Feito à mão com amor e cera de coco.
       </div>
       <div className="container flex h-20 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
@@ -30,7 +29,6 @@ export function Header() {
         <div className="hidden md:flex items-center justify-end space-x-2">
           <Button variant="ghost" size="icon"><Facebook className="h-4 w-4" /></Button>
           <Button variant="ghost" size="icon"><Instagram className="h-4 w-4" /></Button>
-          <Button variant="ghost" size="icon"><TikTok className="h-4 w-4" /></Button>
           <CartButton />
           <UserNav />
         </div>

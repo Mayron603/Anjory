@@ -44,13 +44,12 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem>FAQ</DropdownMenuItem>
-          <DropdownMenuItem>Envios e Devoluções</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-       <Link href="#" className={linkClass}>
+       <Link href="/blog" className={linkClass}>
         Blog
       </Link>
-      <Link href="#" className={linkClass}>
+      <Link href="/contact" className={linkClass}>
         Contato
       </Link>
     </nav>

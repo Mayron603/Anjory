@@ -16,30 +16,35 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white">
-        {heroImage && (
-            <Image
-                src={heroImage.imageUrl}
-                alt={heroImage.description}
-                data-ai-hint={heroImage.imageHint}
-                fill
-                className="object-cover brightness-50"
-                priority
-            />
-        )}
-        <div className="relative z-10 p-4">
-            <p className="font-serif text-lg md:text-xl mb-2 tracking-wider">Seja Bem Vindo</p>
-            <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight">
-                O toque artesanal que seu lar merece.
-            </h1>
-            <Button asChild size="lg" className="mt-8 bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 rounded-md px-10">
-              <Link href="#featured-products">Conheça nossos produtos</Link>
-            </Button>
+      <section className="w-full bg-background">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 min-h-[70vh] items-center">
+            <div className="relative w-full h-64 md:h-full min-h-[40vh] md:min-h-0 rounded-lg overflow-hidden">
+                 {heroImage && (
+                    <Image
+                        src={heroImage.imageUrl}
+                        alt={heroImage.description}
+                        data-ai-hint={heroImage.imageHint}
+                        fill
+                        className="object-cover"
+                        priority
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                )}
+            </div>
+            <div className="text-center md:text-left p-8 md:p-16">
+                 <p className="font-serif text-lg md:text-xl mb-2 tracking-wider text-muted-foreground">Seja Bem Vindo</p>
+                <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight text-foreground leading-tight">
+                    O toque artesanal que seu lar merece.
+                </h1>
+                <Button asChild size="lg" className="mt-8 rounded-md px-10">
+                  <Link href="#featured-products">Conheça nossos produtos</Link>
+                </Button>
+            </div>
         </div>
       </section>
 
       {/* Featured Products Section */}
-      <section id="featured-products" className="py-16 md:py-24 bg-background">
+      <section id="featured-products" className="py-16 md:py-24 bg-secondary/50">
         <div className="container text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-center mb-4">
             Essenciais de Decoração Moderna
@@ -59,14 +64,8 @@ export default async function HomePage() {
       </section>
 
       {/* Special Offer Section */}
-      <section className="py-16 md:py-24 bg-secondary">
+      <section className="py-16 md:py-24 bg-background">
          <div className="container text-center relative">
-            {flowerImage3 && (
-                <div className="absolute -top-16 right-10 w-48 h-48 opacity-70">
-                    <Image src={flowerImage3.imageUrl} alt={flowerImage3.description} data-ai-hint={flowerImage3.imageHint} layout="fill" objectFit="contain" />
-                </div>
-            )}
-
             <div className="relative z-10">
                 <p className="font-script text-4xl text-foreground/80 mb-0">apresentando uma</p>
                 <h2 className="text-5xl font-serif font-bold text-foreground tracking-tighter mb-4">OFERTA ESPECIAL</h2>

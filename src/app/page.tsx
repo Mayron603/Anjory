@@ -10,8 +10,6 @@ import { ArrowRight } from 'lucide-react';
 export default async function HomePage() {
   const products = await getProducts();
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-background');
-  const flowerImage1 = PlaceHolderImages.find(p => p.id === 'flower-1');
-  const flowerImage2 = PlaceHolderImages.find(p => p.id === 'flower-2');
   const flowerImage3 = PlaceHolderImages.find(p => p.id === 'flower-3');
 
 
@@ -49,16 +47,6 @@ export default async function HomePage() {
                 />
               </div>
             )}
-             {flowerImage1 && (
-                <div className="absolute -bottom-10 -right-10 w-48 h-48 opacity-70">
-                    <Image src={flowerImage1.imageUrl} alt={flowerImage1.description} data-ai-hint={flowerImage1.imageHint} layout="fill" objectFit="contain" />
-                </div>
-             )}
-            {flowerImage2 && (
-                <div className="absolute -bottom-12 -left-4 w-24 h-24 opacity-80 transform rotate-[-20deg]">
-                    <Image src={flowerImage2.imageUrl} alt={flowerImage2.description} data-ai-hint={flowerImage2.imageHint} layout="fill" objectFit="contain" />
-                </div>
-            )}
           </div>
         </div>
       </section>
@@ -91,11 +79,6 @@ export default async function HomePage() {
                     <Image src={flowerImage3.imageUrl} alt={flowerImage3.description} data-ai-hint={flowerImage3.imageHint} layout="fill" objectFit="contain" />
                 </div>
             )}
-             {flowerImage2 && (
-                <div className="absolute -bottom-16 left-10 w-24 h-24 opacity-80 transform rotate-[-20deg]">
-                    <Image src={flowerImage2.imageUrl} alt={flowerImage2.description} data-ai-hint={flowerImage2.imageHint} layout="fill" objectFit="contain" />
-                </div>
-             )}
 
             <div className="relative z-10">
                 <p className="font-script text-4xl text-foreground/80 mb-0">apresentando uma</p>

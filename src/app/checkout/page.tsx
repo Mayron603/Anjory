@@ -1,6 +1,6 @@
 "use client";
 
-import Link from 'next/link';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/use-cart';
 import { Button } from '@/components/ui/button';
@@ -10,20 +10,27 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { formatPrice } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import { CreditCard, Truck } from 'lucide-react';
+import Link from 'next/link';
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const router = useRouter();
   const { toast } = useToast();
 
-  if (cartItems.length === 0) {
-    // In a real app, you might want a more sophisticated check,
-    // but for now, this prevents empty checkouts.
-    if (typeof window !== 'undefined') {
-        router.push('/cart');
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      router.push('/cart');
     }
-    return null;
+  }, [cartItems, router]);
+
+
+  if (cartItems.length === 0) {
+    return (
+        <div className="container mx-auto max-w-6xl py-8 md:py-12 text-center">
+            <h1 className="text-2xl font-bold">Seu carrinho está vazio</h1>
+            <p className="text-muted-foreground mt-2">Você será redirecionado para o seu carrinho.</p>
+        </div>
+    );
   }
 
   const handlePlaceOrder = (e: React.FormEvent) => {

@@ -34,15 +34,15 @@ export default async function HomePage() {
                             priority
                             sizes="(max-width: 768px) 100vw, 50vw"
                         />
-                         <div className="absolute -bottom-5 -left-5 w-20 h-20">
+                         <div className="absolute -bottom-10 -left-10 w-32 h-32 md:-bottom-12 md:-left-12 md:w-40 md:h-40">
                             {heroFlowers && (
                                 <Image
                                     src={heroFlowers.imageUrl}
                                     alt={heroFlowers.description}
                                     data-ai-hint={heroFlowers.imageHint}
-                                    width={80}
-                                    height={80}
-                                    className="object-contain filter grayscale brightness-150 contrast-200"
+                                    width={160}
+                                    height={160}
+                                    className="object-contain"
                                 />
                             )}
                         </div>

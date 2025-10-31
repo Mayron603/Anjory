@@ -9,49 +9,49 @@
     {
       "id": "adesivos-criativos-1",
       "description": "A vibrant collection of assorted creative stickers.",
-      "imageUrl": "https://images.unsplash.com/photo-1628891439203-53a7b5b2d973?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "/Adesivos Criativos.png",
       "imageHint": "creative stickers"
     },
     {
       "id": "album-figurinhas-1",
       "description": "An open sticker album with colorful pages.",
-      "imageUrl": "https://images.unsplash.com/photo-1595788352643-52467d32c0f0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "/album_de_figurinhas.png",
       "imageHint": "sticker album"
     },
     {
       "id": "bloco-de-notas-1",
       "description": "A stylish notepad with a pen on a desk.",
-      "imageUrl": "https://images.unsplash.com/photo-1495536340209-4820539c9a20?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "/Bloco de Notas.png",
       "imageHint": "stylish notepad"
     },
     {
       "id": "caderno-personalizado-1",
       "description": "A beautiful custom notebook with a floral design.",
-      "imageUrl": "https://images.unsplash.com/photo-1516414447565-7146e9c1ed30?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "/Caderno Personalizado.png",
       "imageHint": "custom notebook"
     },
     {
       "id": "uno-personalizado-1",
       "description": "A deck of custom-designed UNO playing cards.",
-      "imageUrl": "https://images.unsplash.com/photo-1614999081911-d119a016f4a5?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "/UNO Personalizado.png",
       "imageHint": "custom cards"
     },
     {
       "id": "vela-bulbos-medio-1",
       "description": "A medium-sized artisan bulb-shaped candle.",
-      "imageUrl": "https://images.unsplash.com/photo-1594052345555-d363a0353a40?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "/Vela Bulbos Médio.png",
       "imageHint": "artisan candle"
     },
     {
       "id": "vela-bulbos-mini-1",
       "description": "A small, elegant mini bulb-shaped candle.",
-      "imageUrl": "https://images.unsplash.com/photo-1614789110255-73c6a43b5932?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "/Vela_bulbos_mini.png",
       "imageHint": "small candle"
     },
     {
       "id": "vela-pote-vidro-1",
       "description": "A scented candle in a stylish glass jar.",
-      "imageUrl": "https://images.unsplash.com/photo-1594052345555-d363a0353a40?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "/Vela Pote de Vidro.png",
       "imageHint": "jar candle"
     },
     {

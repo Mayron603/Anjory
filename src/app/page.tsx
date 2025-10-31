@@ -16,41 +16,44 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
        {/* Hero Section */}
-      <section className="relative w-full bg-primary/20 overflow-hidden">
-        <div className="container mx-auto min-h-[70vh] flex items-center justify-center relative z-10 py-16 md:py-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 w-full">
-            
-            {/* Text Section */}
-            <div className="text-center md:text-left flex flex-col items-center md:items-start relative">
-                <p className="font-script text-4xl md:text-5xl text-foreground/60 mb-2">Seja Bem Vindo!</p>
-                <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight">
-                O toque artesanal
-                </h1>
-                <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight mt-2">
-                que seu lar merece
-                </h1>
-                <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-                    Velas aromáticas, papelaria criativa e jogos feitos à mão para trazer mais aconchego e personalidade para o seu espaço.
-                </p>
-                <Button asChild size="lg" className="mt-8 rounded-md px-10 bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Link href="/products">Conheça os produtos</Link>
-                </Button>
-                <div className="absolute top-1/2 right-0 -translate-y-1/2 opacity-10">
-                   <Image
-                        src="/flor.png"
-                        alt="Aquarela de flor"
-                        width={200}
-                        height={200}
-                        className="object-contain"
-                    />
-                </div>
-            </div>
+       <section className="relative w-full bg-primary/20 overflow-hidden">
+       <div className="container mx-auto min-h-[70vh] flex items-center justify-center relative z-10 py-16 md:py-0">
+         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 w-full">
+           {/* Text Section */}
+           <div className="text-center md:text-left flex flex-col items-center md:items-start relative">
+             <p className="font-script text-4xl md:text-5xl text-foreground/60 mb-2">Seja Bem Vindo!</p>
+             <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight">
+               O toque artesanal
+             </h1>
+             <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight mt-2">
+               que seu lar merece
+             </h1>
+             <p className="mt-6 max-w-lg text-lg text-muted-foreground">
+               Velas aromáticas, papelaria criativa e jogos feitos à mão para trazer mais aconchego e personalidade para o seu espaço.
+             </p>
+             <Button asChild size="lg" className="mt-8 rounded-md px-10 bg-accent hover:bg-accent/90 text-accent-foreground">
+               <Link href="/products">Conheça os produtos</Link>
+             </Button>
+             <div className="absolute -bottom-16 -right-16 opacity-20">
+                <Image
+                     src="/flor.png"
+                     alt="Aquarela de flor"
+                     width={250}
+                     height={250}
+                     className="object-contain"
+                 />
+             </div>
+           </div>
 
-            {/* Image Section */}
-            <div className="relative flex items-center justify-center h-96">
+           {/* Image Section */}
+           <div className="relative flex items-center justify-center h-96">
                 <div className="relative w-full h-full max-w-md">
+                    {/* Background Polaroid */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-[45%] -translate-y-[55%] w-[300px] h-[350px] bg-white/80 p-4 shadow-lg transform rotate-3" />
+                    
+                    {/* Main Polaroid */}
                     {heroImage && (
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[350px] bg-white p-4 shadow-lg transform -rotate-6">
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[350px] bg-white p-4 shadow-xl transform -rotate-6">
                             <div className="relative w-full h-full">
                                 <Image
                                     src={heroImage.imageUrl}
@@ -61,12 +64,12 @@ export default async function HomePage() {
                                     priority
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                 />
-                                <div className="absolute -bottom-4 -left-4 w-24 h-24">
+                                <div className="absolute -bottom-8 -left-8">
                                      <Image
                                         src="/flor2.png"
                                         alt="Aquarela de flor"
-                                        width={96}
-                                        height={96}
+                                        width={120}
+                                        height={120}
                                         className="object-contain"
                                     />
                                 </div>
@@ -75,10 +78,10 @@ export default async function HomePage() {
                     )}
                 </div>
             </div>
-            
-          </div>
-        </div>
-      </section>
+           
+         </div>
+       </div>
+     </section>
 
       {/* Featured Products */}
       <section className="py-16 md:py-24 bg-background">

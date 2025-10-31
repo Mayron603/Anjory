@@ -46,7 +46,6 @@ export default async function HomePage() {
                                 data-ai-hint="watercolor flower"
                                 width={112}
                                 height={112}
-                                className=""
                             />
                         </div>
                     </div>

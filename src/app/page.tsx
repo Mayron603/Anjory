@@ -6,9 +6,11 @@ import { getProducts } from '@/lib/products';
 import { getImageById } from '@/lib/placeholder-images';
 import { Input } from '@/components/ui/input';
 import { ArrowRight } from 'lucide-react';
+import { ProductCard } from '@/components/product-card';
 
 export default async function HomePage() {
   const products = await getProducts();
+  const featuredProducts = products.slice(0, 4);
   const heroImage = getImageById('vela-pote-vidro-1');
 
   return (
@@ -33,13 +35,13 @@ export default async function HomePage() {
                 <Button asChild size="lg" className="mt-8 rounded-md px-10 bg-accent hover:bg-accent/90 text-accent-foreground">
                     <Link href="/products">Conheça os produtos</Link>
                 </Button>
-                <div className="absolute top-1/2 right-0 -translate-y-1/2 opacity-50">
-                    <Image
-                      src="/flor.png"
-                      alt="Aquarela de flor"
-                      width={200}
-                      height={200}
-                      className="object-contain"
+                <div className="absolute top-1/2 right-0 -translate-y-1/2 opacity-10">
+                   <Image
+                        src="/flor.png"
+                        alt="Aquarela de flor"
+                        width={200}
+                        height={200}
+                        className="object-contain"
                     />
                 </div>
             </div>
@@ -78,6 +80,43 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Featured Products */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-headline font-bold">Nossos Queridinhos</h2>
+            <p className="mt-3 text-lg text-muted-foreground max-w-xl mx-auto">
+              Uma seleção dos produtos mais amados pelos nossos clientes.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Button asChild variant="outline" size="lg">
+              <Link href="/products">
+                Ver todos os produtos <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="py-16 md:py-24 bg-secondary/50">
+        <div className="container text-center max-w-2xl">
+          <h2 className="text-3xl md:text-4xl font-headline font-bold">Fique por Dentro</h2>
+          <p className="mt-3 text-lg text-muted-foreground">
+            Assine nossa newsletter e seja o primeiro a saber sobre lançamentos, promoções exclusivas e novidades do nosso ateliê.
+          </p>
+          <form className="mt-8 flex w-full max-w-md mx-auto items-center space-x-2">
+            <Input type="email" placeholder="Seu melhor e-mail" className="flex-1" />
+            <Button type="submit" size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">Inscrever</Button>
+          </form>
+        </div>
+      </section>
     </div>
   );
 }

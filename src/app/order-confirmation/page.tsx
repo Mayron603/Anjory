@@ -1,9 +1,21 @@
+"use client";
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2 } from 'lucide-react';
 
 export default function OrderConfirmationPage() {
+  const [orderId, setOrderId] = useState('');
+  const [orderDate, setOrderDate] = useState('');
+
+  useEffect(() => {
+    // Generate order details on the client side to avoid hydration mismatch
+    setOrderId(`ANJ-${Math.floor(Math.random() * 100000)}`);
+    setOrderDate(new Date().toLocaleDateString('pt-BR'));
+  }, []);
+
   return (
     <div className="container mx-auto max-w-2xl py-16 md:py-24 flex justify-center items-center">
       <Card className="w-full text-center">
@@ -18,8 +30,8 @@ export default function OrderConfirmationPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2 text-sm text-muted-foreground">
-            <p>Número do Pedido: <span className="font-medium text-foreground">ANJ-{Math.floor(Math.random() * 100000)}</span></p>
-            <p>Data do Pedido: <span className="font-medium text-foreground">{new Date().toLocaleDateString('pt-BR')}</span></p>
+            {orderId && <p>Número do Pedido: <span className="font-medium text-foreground">{orderId}</span></p>}
+            {orderDate && <p>Data do Pedido: <span className="font-medium text-foreground">{orderDate}</span></p>}
           </div>
           <Button asChild size="lg" className="mt-8">
             <Link href="/">Continuar Comprando</Link>

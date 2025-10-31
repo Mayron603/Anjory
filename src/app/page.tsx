@@ -16,38 +16,25 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full bg-secondary py-16 md:py-24">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12">
-          {/* Text Content */}
-          <div className="relative z-10 text-center md:text-left">
-            <p className="font-script text-4xl md:text-5xl text-foreground/80 mb-2">Acenda sua luz interior</p>
-            <h1 className="text-6xl md:text-8xl font-serif font-bold text-foreground tracking-tighter">
-            Velas Aromáticas
+      <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white">
+        {heroImage && (
+            <Image
+                src={heroImage.imageUrl}
+                alt={heroImage.description}
+                data-ai-hint={heroImage.imageHint}
+                fill
+                className="object-cover brightness-50"
+                priority
+            />
+        )}
+        <div className="relative z-10 p-4">
+            <p className="font-serif text-lg md:text-xl mb-2 tracking-wider">Seja Bem Vindo</p>
+            <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight">
+                O toque artesanal que seu lar merece.
             </h1>
-            <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 rounded-none px-10 py-6 text-sm tracking-widest">
-              <Link href="#featured-products">COMPRE AGORA</Link>
+            <Button asChild size="lg" className="mt-8 bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 rounded-md px-10">
+              <Link href="#featured-products">Conheça nossos produtos</Link>
             </Button>
-          </div>
-
-          {/* Image Content */}
-          <div className="relative h-[400px] md:h-[500px]">
-            {/* Background elements */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-white/50 rounded-full" />
-            <div className="absolute top-10 right-10 w-16 h-16 bg-white/30 rounded-full" />
-
-            {heroImage && (
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[360px] md:w-[350px] md:h-[420px] bg-white p-4 shadow-xl rotate-[-5deg]">
-                <Image
-                  src={heroImage.imageUrl}
-                  alt={heroImage.description}
-                  data-ai-hint={heroImage.imageHint}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            )}
-          </div>
         </div>
       </section>
 

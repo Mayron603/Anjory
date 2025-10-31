@@ -1,3 +1,58 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "Cozy living room with candles",
+      "imageUrl": "https://images.unsplash.com/photo-1667988151273-bf925e2f342e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y296eSUyMGNhbmRsZXN8ZW58MHx8fHwxNzYxOTE2ODEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cozy candles"
+    },
+    {
+      "id": "adesivos-criativos-1",
+      "description": "A collection of creative stickers.",
+      "imageUrl": "https://images.unsplash.com/photo-1616505835310-45735498d4f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjcmVhdGl2ZSUyMHN0aWNrZXJzfGVufDB8fHx8MTc2MTkxNjgxMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "creative stickers"
+    },
+    {
+      "id": "album-figurinhas-1",
+      "description": "A fun sticker album.",
+      "imageUrl": "https://images.unsplash.com/photo-1742130848624-28af3e843f0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzdGlja2VyJTIwYWxidW18ZW58MHx8fHwxNzYxOTE2ODEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sticker album"
+    },
+    {
+      "id": "bloco-de-notas-1",
+      "description": "A stylish notepad.",
+      "imageUrl": "https://images.unsplash.com/photo-1677170044634-7b373ea20a64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzdHlsaXNoJTIwbm90ZXBhZHxlbnwwfHx8fDE3NjE5MTY4MTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "stylish notepad"
+    },
+    {
+      "id": "caderno-personalizado-1",
+      "description": "A custom notebook with a unique design.",
+      "imageUrl": "https://images.unsplash.com/photo-1592101401915-1c30282c69e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjdXN0b20lMjBub3RlYm9va3xlbnwwfHx8fDE3NjE5MTY4MTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "custom notebook"
+    },
+    {
+      "id": "uno-personalizado-1",
+      "description": "A set of custom UNO cards.",
+      "imageUrl": "https://images.unsplash.com/photo-1709540235498-6a255138a68f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjdXN0b20lMjBjYXJkc3xlbnwwfHx8fDE3NjE5MTY4MTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "custom cards"
+    },
+    {
+      "id": "vela-bulbos-medio-1",
+      "description": "A medium-sized bulb-shaped candle.",
+      "imageUrl": "https://images.unsplash.com/photo-1738597966494-33f9772b2c6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhcnRpc2FuJTIwY2FuZGxlfGVufDB8fHx8MTc2MTkxNjgxMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "artisan candle"
+    },
+    {
+      "id": "vela-bulbos-mini-1",
+      "description": "A mini bulb-shaped candle.",
+      "imageUrl": "https://images.unsplash.com/photo-1760090638491-9daa9feb3bdb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzbWFsbCUyMGNhbmRsZXxlbnwwfHx8fDE3NjE5MTY4MTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "small candle"
+    },
+    {
+      "id": "vela-pote-vidro-1",
+      "description": "A scented candle in a glass jar.",
+      "imageUrl": "https://images.unsplash.com/photo-1720788810349-7e51a042404a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxqYXIlMjBjYW5kbGV8ZW58MHx8fHwxNzYxOTE2ODEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "jar candle"
+    }
+  ]
 }

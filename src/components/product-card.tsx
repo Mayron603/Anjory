@@ -19,10 +19,10 @@ export function ProductCard({ product }: ProductCardProps) {
   const image = getImageById(product.images[0]);
 
   return (
-    <Card className="w-full max-w-sm flex flex-col overflow-hidden rounded-lg shadow-sm transition-all hover:shadow-lg">
-      <CardHeader className="p-0 border-b">
+    <Card className="w-full max-w-sm flex flex-col overflow-hidden rounded-none border-none shadow-none bg-transparent">
+      <CardHeader className="p-0">
         <Link href={`/products/${product.slug}`} aria-label={product.name}>
-          <div className="aspect-square relative">
+          <div className="aspect-[4/5] relative">
             {image ? (
               <Image
                 src={image.imageUrl}
@@ -40,22 +40,16 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         </Link>
       </CardHeader>
-      <CardContent className="p-4 flex-grow">
-        <CardTitle className="text-lg font-headline tracking-tight mb-1">
+      <CardContent className="p-4 text-center">
+        <CardTitle className="text-lg font-serif tracking-tight mb-1">
           <Link href={`/products/${product.slug}`} className="hover:underline">
             {product.name}
           </Link>
         </CardTitle>
-        <p className="font-bold text-primary text-xl">
+        <p className="font-semibold text-muted-foreground">
           {formatPrice(product.price)}
         </p>
       </CardContent>
-      <CardFooter className="p-4 pt-0">
-        <Button className="w-full" onClick={() => addToCart(product, 1)}>
-          <ShoppingCart className="mr-2 h-4 w-4" />
-          Adicionar ao Carrinho
-        </Button>
-      </CardFooter>
     </Card>
   );
 }

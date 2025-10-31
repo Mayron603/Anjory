@@ -6,8 +6,8 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 
 export const metadata: Metadata = {
-  title: 'Anjory Store',
-  description: 'Sua loja de velas e artigos personalizados.',
+  title: 'Bloom & Ruby',
+  description: 'Sua loja de decoração e itens para casa.',
 };
 
 export default function RootLayout({
@@ -20,10 +20,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-          rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@400;500;600&family=Ms+Madi&display=swap" rel="stylesheet" />
       </head>
       <body
         className={cn(

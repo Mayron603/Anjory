@@ -17,8 +17,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['PT Sans', 'sans-serif'],
-        headline: ['PT Sans', 'sans-serif'],
+        body: ['Montserrat', 'sans-serif'],
+        serif: ['Crimson Text', 'serif'],
+        script: ['Ms Madi', 'cursive'],
         code: ['monospace'],
       },
       colors: {

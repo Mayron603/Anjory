@@ -20,9 +20,9 @@ export default async function HomePage() {
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12">
           {/* Text Content */}
           <div className="relative z-10 text-center md:text-left">
-            <p className="font-script text-4xl md:text-5xl text-foreground/80 mb-2">Acenda sua</p>
+            <p className="font-script text-4xl md:text-5xl text-foreground/80 mb-2">Acenda sua luz interior</p>
             <h1 className="text-6xl md:text-8xl font-serif font-bold text-foreground tracking-tighter">
-              LUZ INTERIOR
+            Velas Aromáticas
             </h1>
             <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 rounded-none px-10 py-6 text-sm tracking-widest">
               <Link href="#featured-products">COMPRE AGORA</Link>

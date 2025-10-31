@@ -10,7 +10,7 @@ import { ArrowRight } from 'lucide-react';
 export default async function HomePage() {
   const products = await getProducts();
   const heroImage = getImageById('vela-pote-vidro-1');
-  const heroFlowers = getImageById('flower-4');
+  const heroFlowers = getImageById('watercolor-flower-1');
 
 
   return (

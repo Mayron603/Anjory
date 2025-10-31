@@ -53,18 +53,6 @@
       "description": "A scented candle in a stylish glass jar.",
       "imageUrl": "/Vela Pote de Vidro.png",
       "imageHint": "jar candle"
-    },
-    {
-      "id": "daisy-flower",
-      "description": "Watercolor flower illustration",
-      "imageUrl": "/flor.png",
-      "imageHint": "watercolor flower"
-    },
-    {
-      "id": "flower-bouquet",
-      "description": "Watercolor flower illustration",
-      "imageUrl": "/flor.png",
-      "imageHint": "watercolor flower"
     }
   ]
 }

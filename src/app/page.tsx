@@ -10,9 +10,6 @@ import { ArrowRight } from 'lucide-react';
 export default async function HomePage() {
   const products = await getProducts();
   const heroImage = getImageById('vela-pote-vidro-1');
-  const singleDaisy = getImageById('daisy-flower');
-  const flowerBouquet = getImageById('flower-bouquet');
-
 
   return (
     <div className="flex flex-col">
@@ -35,17 +32,17 @@ export default async function HomePage() {
                             priority
                             sizes="(max-width: 768px) 100vw, 50vw"
                         />
-                         {singleDaisy && (
-                            <div className="absolute -bottom-10 -left-10 w-28 h-28 transform -rotate-12">
-                                <Image
-                                    src={singleDaisy.imageUrl}
-                                    alt={singleDaisy.description}
-                                    data-ai-hint={singleDaisy.imageHint}
-                                    width={112}
-                                    height={112}
-                                />
-                            </div>
-                        )}
+                         
+                        <div className="absolute -bottom-10 -left-10 w-28 h-28 transform -rotate-12">
+                            <Image
+                                src="/flor.png"
+                                alt="Watercolor flower illustration"
+                                data-ai-hint="watercolor flower"
+                                width={112}
+                                height={112}
+                                className="mix-blend-multiply"
+                            />
+                        </div>
                     </div>
                 )}
                
@@ -53,18 +50,18 @@ export default async function HomePage() {
             
             {/* Text Section */}
             <div className="md:col-span-7 text-center md:text-left flex flex-col items-center md:items-start relative">
-               {flowerBouquet && (
-                    <div className="absolute -bottom-24 -right-24 w-72 h-72 md:w-80 md:h-80 opacity-80 transform rotate-12">
-                        <Image
-                            src={flowerBouquet.imageUrl}
-                            alt={flowerBouquet.description}
-                            data-ai-hint={flowerBouquet.imageHint}
-                            fill
-                            className="object-contain"
-                            sizes="30vw"
-                        />
-                    </div>
-                )}
+               
+                <div className="absolute -bottom-24 -right-24 w-72 h-72 md:w-80 md:h-80 opacity-80 transform rotate-12">
+                    <Image
+                        src="/flor2.png"
+                        alt="Watercolor flower illustration"
+                        data-ai-hint="watercolor flower"
+                        fill
+                        className="object-contain mix-blend-multiply"
+                        sizes="30vw"
+                    />
+                </div>
+                
                 <p className="font-script text-4xl md:text-5xl text-foreground/60 mb-2">Seja Bem Vindo!</p>
                 <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground/80 leading-tight">
                    O toque artesanal

@@ -64,7 +64,7 @@ export default async function HomePage() {
                         data-ai-hint="watercolor flower"
                         width={320}
                         height={320}
-                        className="object-contain mix-blend-multiply"
+                        className="object-contain"
                     />
                 </div>
                 

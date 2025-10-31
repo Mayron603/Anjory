@@ -34,26 +34,26 @@ export default async function HomePage() {
                             priority
                             sizes="(max-width: 768px) 100vw, 50vw"
                         />
-                         <div className="absolute -bottom-16 -left-16 w-40 h-40 md:-bottom-20 md:-left-20 md:w-56 md:h-56">
-                            {heroFlowers && (
-                                <Image
-                                    src={heroFlowers.imageUrl}
-                                    alt={heroFlowers.description}
-                                    data-ai-hint={heroFlowers.imageHint}
-                                    width={224}
-                                    height={224}
-                                    className="object-contain"
-                                />
-                            )}
-                        </div>
                     </div>
                 )}
+                <div className="absolute -bottom-24 -left-20 w-48 h-48 md:-bottom-28 md:-left-24 md:w-72 md:h-72">
+                    {heroFlowers && (
+                        <Image
+                            src={heroFlowers.imageUrl}
+                            alt={heroFlowers.description}
+                            data-ai-hint={heroFlowers.imageHint}
+                            width={288}
+                            height={288}
+                            className="object-contain"
+                        />
+                    )}
+                </div>
             </div>
             
             {/* Text Section */}
             <div className="md:col-span-7 text-center md:text-left flex flex-col items-center md:items-start relative">
                {heroFlowers && (
-                    <div className="absolute bottom-0 right-0 w-64 h-64 md:w-80 md:h-80 opacity-70">
+                    <div className="absolute bottom-0 right-0 w-80 h-80 md:w-96 md:h-96 opacity-70">
                         <Image
                             src={heroFlowers.imageUrl}
                             alt={heroFlowers.description}

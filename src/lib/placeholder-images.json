@@ -3,8 +3,8 @@
     {
       "id": "hero-background",
       "description": "A stylish feminine product display",
-      "imageUrl": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8ZmVtaW5pbmV8fHx8fHwxNzIyNDI1MjM5&ixlib=rb-4.0.3&q=80&w=1080",
-      "imageHint": "feminine product"
+      "imageUrl": "https://images.unsplash.com/photo-1512845369876-26d81a677daf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8dmVsYXxlbnwwfHx8fDE3NjE5MTg1ODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "candle"
     },
     {
       "id": "adesivos-criativos-1",
@@ -53,6 +53,24 @@
       "description": "A scented candle in a stylish glass jar.",
       "imageUrl": "https://images.unsplash.com/photo-1594052345555-d363a0353a40?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "jar candle"
+    },
+    {
+      "id": "flower-1",
+      "description": "Delicate white flowers",
+      "imageUrl": "https://images.unsplash.com/photo-1565531233346-c5a5d1a58145?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkZWxpY2F0ZSUyMGZsb3dlcnN8ZW58MHx8fHwxNzYyMDA4MzE5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "delicate flowers"
+    },
+    {
+      "id": "flower-2",
+      "description": "Small bunch of flowers",
+      "imageUrl": "https://images.unsplash.com/photo-1599059818427-248553c4323e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNHx8c21hbGwlMjBidW5jaCUyMGZsb3dlcnN8ZW58MHx8fHwxNzYyMDA4MzkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "small bunch"
+    },
+    {
+      "id": "flower-3",
+      "description": "Elegant flower arrangement",
+      "imageUrl": "https://images.unsplash.com/photo-1525994886778-389b77442637?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxlbGVnYW50JTIwZmxvd2VyJTIwYXJyYW5nZW1lbnR8ZW58MHx8fHwxNzYyMDA4NDMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "flower arrangement"
     }
   ]
 }

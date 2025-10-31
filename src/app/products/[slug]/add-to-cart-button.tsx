@@ -22,7 +22,7 @@ export function AddToCartButton({ product }: { product: Product }) {
   return (
     <div className="flex items-center gap-4">
       <div className="flex items-center">
-        <Button variant="outline" size="icon" onClick={()={() => handleQuantityChange(-1)} className="h-11 w-11 rounded-r-none">
+        <Button variant="outline" size="icon" onClick={() => handleQuantityChange(-1)} className="h-11 w-11 rounded-r-none">
           -
         </Button>
         <Input

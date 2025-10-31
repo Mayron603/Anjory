@@ -46,10 +46,10 @@ export default async function HomePage() {
               </div>
             )}
              <div className="absolute -bottom-10 -right-10 w-48 h-48 opacity-70">
-                <Image src="https://storage.googleapis.com/gemini-studio-assets/response-assets/d8a5a415a770415d862804c8687b8d34" alt="flower" layout="fill" objectFit="contain" />
+                <Image src="https://images.unsplash.com/photo-1518895318357-96e7392b9b77?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="flower" layout="fill" objectFit="contain" />
             </div>
             <div className="absolute -bottom-12 -left-4 w-24 h-24 opacity-80 transform rotate-[-20deg]">
-                <Image src="https://storage.googleapis.com/gemini-studio-assets/response-assets/d8a5a415a770415d862804c8687b8d34" alt="flower" layout="fill" objectFit="contain" />
+                <Image src="https://images.unsplash.com/photo-1518895318357-96e7392b9b77?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="flower" layout="fill" objectFit="contain" />
             </div>
           </div>
         </div>
@@ -79,10 +79,10 @@ export default async function HomePage() {
       <section className="py-16 md:py-24 bg-[#EAE3E3]">
          <div className="container text-center relative">
             <div className="absolute -top-16 right-10 w-48 h-48 opacity-70">
-                <Image src="https://storage.googleapis.com/gemini-studio-assets/response-assets/b1b369d7b8813a372175962b083c6b24" alt="flower" layout="fill" objectFit="contain" />
+                <Image src="https://images.unsplash.com/photo-1562690868-603772b7b85d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="flower" layout="fill" objectFit="contain" />
             </div>
              <div className="absolute -bottom-16 left-10 w-24 h-24 opacity-80 transform rotate-[-20deg]">
-                <Image src="https://storage.googleapis.com/gemini-studio-assets/response-assets/d8a5a415a770415d862804c8687b8d34" alt="flower" layout="fill" objectFit="contain" />
+                <Image src="https://images.unsplash.com/photo-1518895318357-96e7392b9b77?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="flower" layout="fill" objectFit="contain" />
             </div>
 
             <div className="relative z-10">

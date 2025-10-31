@@ -71,6 +71,18 @@
       "description": "Watercolor flowers in the corner",
       "imageUrl": "/flor.png",
       "imageHint": "watercolor flower"
+    },
+    {
+      "id": "daisy-flower",
+      "description": "A single daisy flower illustration",
+      "imageUrl": "https://raw.githubusercontent.com/firebase/genkit/main/studio/images/daisy.png",
+      "imageHint": "daisy illustration"
+    },
+    {
+      "id": "flower-bouquet",
+      "description": "A bouquet of daisies and other flowers",
+      "imageUrl": "https://raw.githubusercontent.com/firebase/genkit/main/studio/images/bouquet.png",
+      "imageHint": "flower bouquet"
     }
   ]
 }

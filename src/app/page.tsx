@@ -57,19 +57,31 @@ export default async function HomePage() {
             {/* Large Circle */}
             <div className="absolute -right-1/4 -bottom-1/3 w-2/3 h-2/3 bg-white/30 rounded-full opacity-50 z-0"></div>
 
-            {/* Flower Bouquet in Corner */}
-            <div className="absolute bottom-0 right-0 z-10">
-                <Image
-                    src="/flor.png"
-                    alt="Buquê de flores"
-                    width={500}
-                    height={500}
-                    className="object-contain"
-                />
+            {/* Panda Drawing in Corner */}
+            <div className="absolute bottom-0 right-0 z-10 w-[250px] h-[250px] md:w-[400px] md:h-[400px] opacity-80">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="hsl(var(--foreground))" d="M49.9,-27.1C60.3,-5.4,61.5,19.9,50.7,39.3C39.9,58.7,16.2,72.2,-6.4,73.1C-29,73.9,-50.6,62.1,-63.1,43.2C-75.7,24.3,-79.3,-1.7,-70.7,-25.1C-62.1,-48.5,-41.3,-69.3,-19.7,-74.2C1.9,-79,23,-68,36.5,-52.8C49.9,-37.6,56.6,-18.2,49.9,-27.1Z" transform="translate(110 110) scale(1.2)" opacity="0.1" />
+                <g transform="translate(40 40)" style={{ filter: "url(#pencil-texture)" }}>
+                  <path d="M 80,100 C 50,130 20,110 20,80 C 20,50 40,20 80,20 C 120,20 140,50 140,80 C 140,110 110,130 80,100 Z" fill="white" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
+                  <ellipse cx="55" cy="65" rx="12" ry="18" fill="hsl(var(--foreground))" transform="rotate(-15, 55, 65)" />
+                  <ellipse cx="105" cy="65" rx="12" ry="18" fill="hsl(var(--foreground))" transform="rotate(15, 105, 65)" />
+                  <circle cx="55" cy="62" r="4" fill="white" />
+                  <circle cx="105" cy="62" r="4" fill="white" />
+                  <path d="M 70,85 C 75,95 85,95 90,85" fill="none" stroke="hsl(var(--foreground))" strokeWidth="2.5" strokeLinecap="round" />
+                  <circle cx="80" cy="78" r="4" fill="hsl(var(--foreground))" />
+                  <path d="M 40,40 Q 20,20 40,10" fill="none" stroke="hsl(var(--foreground))" strokeWidth="2.5" strokeLinecap="round" />
+                  <path d="M 120,40 Q 140,20 120,10" fill="none" stroke="hsl(var(--foreground))" strokeWidth="2.5" strokeLinecap="round" />
+                </g>
+                <defs>
+                  <filter id="pencil-texture">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch" result="turbulence" />
+                    <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="2" xChannelSelector="R" yChannelSelector="G" />
+                  </filter>
+                </defs>
+              </svg>
             </div>
          </div>
-       </div>
-     </section>
+       </section>
 
       {/* Featured Products */}
       <section className="py-16 md:py-24 bg-background">

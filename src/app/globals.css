@@ -14,19 +14,19 @@ body {
     --card-foreground: 220 25% 25%;
     --popover: 210 40% 100%;
     --popover-foreground: 220 25% 25%;
-    --primary: 205 90% 78%; /* Soft Powder Blue */
+    --primary: 205 85% 72%; /* A bit stronger Powder Blue */
     --primary-foreground: 220 25% 15%;
     --secondary: 210 40% 96%; /* Lighter Blue */
     --secondary-foreground: 220 25% 25%;
     --muted: 210 40% 96%;
     --muted-foreground: 220 20% 45%;
-    --accent: 210 70% 60%; /* A slightly stronger blue for buttons/accents */
+    --accent: 210 75% 55%; /* A stronger blue for buttons/accents */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 210 30% 90%;
-    --input: 210 30% 92%;
-    --ring: 205 90% 70%;
+    --border: 210 30% 88%;
+    --input: 210 30% 91%;
+    --ring: 205 85% 65%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -42,19 +42,19 @@ body {
     --card-foreground: 210 40% 90%;
     --popover: 220 25% 15%;
     --popover-foreground: 210 40% 90%;
-    --primary: 205 80% 70%;
+    --primary: 205 80% 65%;
     --primary-foreground: 220 25% 10%;
     --secondary: 210 20% 25%;
     --secondary-foreground: 210 40% 90%;
     --muted: 210 20% 20%;
     --muted-foreground: 210 30% 70%;
-    --accent: 210 70% 55%;
+    --accent: 210 75% 50%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 20% 25%;
     --input: 210 20% 22%;
-    --ring: 205 80% 70%;
+    --ring: 205 80% 65%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;

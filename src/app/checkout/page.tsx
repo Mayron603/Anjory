@@ -43,6 +43,9 @@ export default function CheckoutPage() {
   }
 
   const handlePlaceOrder = async () => {
+    // Generate a unique order ID
+    const orderId = `ANJ-${Math.floor(Date.now() / 1000)}-${Math.floor(Math.random() * 900 + 100)}`;
+
     // 1. Format message for WhatsApp
     const phoneNumber = "558184019864";
     let whatsappMessage = `Olá! 👋 Gostaria de finalizar minha compra com os seguintes itens: 🛍️\n\n`;
@@ -54,6 +57,7 @@ export default function CheckoutPage() {
     whatsappMessage += `Nome: ${name}\n`;
     whatsappMessage += `Telefone: ${phone} 📱\n`;
     whatsappMessage += `Endereço: ${address}, ${city}, ${zip}\n`;
+    whatsappMessage += `\n*ID do Pedido: ${orderId}*`;
     
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -69,6 +73,7 @@ export default function CheckoutPage() {
             url: "https://cdn.discordapp.com/attachments/1207833625870073857/1434208091154550957/Pastel_Purple_Retro_Bold_Cafe_Logo__4_-removebg-preview_1.png?ex=69077ddf&is=69062c5f&hm=14f77e60f6fdf789b094150821c6d3c79b527871cd5ccedca5a8bda01a864d15&"
           },
           fields: [
+            { name: "ID do Pedido", value: `**${orderId}**` },
             { name: "Cliente", value: name || "Não informado", inline: true },
             { name: "Telefone", value: phone || "Não informado", inline: true },
             { name: "Endereço de Entrega", value: `${address}, ${city} - CEP: ${zip}` || "Não informado" },

@@ -11,7 +11,10 @@ interface User {
 }
 
 interface Session {
-  user: User;
+  userId: string;
+  name: string;
+  email: string;
+  picture?: string;
   expires: string;
 }
 
@@ -43,5 +46,4 @@ export function useSession() {
 
   return { session, isLoading };
 }
-
     

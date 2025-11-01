@@ -27,11 +27,11 @@ import { signOut } from '@/app/actions';
 
 export default async function ProfilePage() {
   const session = await getSession();
-  if (!session?.user) {
+  if (!session) {
     redirect('/login');
   }
 
-  const user = session.user;
+  const user = session;
   const orders = await getOrders();
 
   const getStatusVariant = (status: string) => {
@@ -94,7 +94,7 @@ export default async function ProfilePage() {
                         <TableCell className="font-medium">{order.orderId}</TableCell>
                         <TableCell>{new Date(order.createdAt).toLocaleDateString('pt-BR')}</TableCell>
                         <TableCell>
-                            <Badge variant={getStatusVariant(order.status)} className="capitalize">
+                            <Badge variant={getStatusVariant(order.status) as any} className="capitalize">
                             {order.status}
                             </Badge>
                         </TableCell>

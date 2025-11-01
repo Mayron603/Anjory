@@ -15,23 +15,29 @@ if (!uri) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-
-let db;
+// To prevent "Topology is closed" errors in development,
+// we cache the client and the database in the global scope.
+let cachedClient: MongoClient | null = null;
+let cachedDb: any = null;
 
 async function getDb() {
-  if (db) {
-    return db;
+  if (cachedDb) {
+    return cachedDb;
   }
-  await client.connect();
-  db = client.db("Anjory");
-  return db;
+
+  if (!cachedClient) {
+     cachedClient = new MongoClient(uri, {
+        serverApi: {
+            version: ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true,
+        }
+    });
+    await cachedClient.connect();
+  }
+  
+  cachedDb = cachedClient.db("Anjory");
+  return cachedDb;
 }
 
 
@@ -57,7 +63,7 @@ export async function placeOrder(details: OrderDetails) {
   // 2. Save order to MongoDB
   const orderPayloadForDB = {
     orderId,
-    userId: session?.user?.userId ? new ObjectId(session.user.userId) : null,
+    userId: session?.userId ? new ObjectId(session.userId) : null,
     customer,
     items: cartItems.map(item => ({
       productId: item.product.id,
@@ -160,16 +166,16 @@ export async function signUp(prevState: any, data: FormData) {
   try {
     const db = await getDb();
     
-    // Verificar se o usuário já existe
+    // Check if user already exists
     const existingUser = await db.collection('users').findOne({ email });
     if (existingUser) {
       return { error: 'Este e-mail já está em uso.' };
     }
 
-    // Criptografar a senha
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Salvar o novo usuário no banco de dados
+    // Save the new user to the database
     await db.collection('users').insertOne({
       name,
       email,
@@ -182,7 +188,7 @@ export async function signUp(prevState: any, data: FormData) {
     return { error: 'Ocorreu um erro durante o registro. Tente novamente.' };
   }
   
-  // Redireciona para a página de login após o registro bem-sucedido
+  // Redirect to login page after successful registration
   redirect('/login');
 }
 
@@ -222,13 +228,13 @@ export async function signIn(prevState: any, data: FormData) {
   try {
     const db = await getDb();
     
-    // Encontrar o usuário pelo e-mail
+    // Find user by email
     user = await db.collection('users').findOne({ email });
     if (!user) {
       return { error: 'Credenciais inválidas.' };
     }
 
-    // Comparar a senha
+    // Compare password
     const isPasswordValid = await bcrypt.compare(password, user.password as string);
     if (!isPasswordValid) {
       return { error: 'Credenciais inválidas.' };
@@ -238,7 +244,7 @@ export async function signIn(prevState: any, data: FormData) {
       return { error: 'Ocorreu um erro durante o login. Tente novamente.' };
   }
   
-  // Criar a sessão
+  // Create the session payload
   const sessionPayload = {
     userId: user._id.toString(),
     email: user.email,
@@ -266,14 +272,14 @@ export async function getSession() {
 
 export async function getOrders() {
     const session = await getSession();
-    if (!session?.user?.userId) {
+    if (!session?.userId) {
         return [];
     }
 
     try {
         const db = await getDb();
         const orders = await db.collection('orders')
-            .find({ userId: new ObjectId(session.user.userId) })
+            .find({ userId: new ObjectId(session.userId) })
             .sort({ createdAt: -1 })
             .toArray();
 

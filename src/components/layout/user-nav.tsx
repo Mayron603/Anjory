@@ -24,7 +24,7 @@ import { signOut } from '@/app/actions';
 
 export function UserNav() {
   const { session, isLoading } = useSession();
-  const user = session?.user;
+  const user = session;
 
   const handleSignOut = async () => {
     await signOut();

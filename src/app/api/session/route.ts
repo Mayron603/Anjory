@@ -15,7 +15,7 @@ export async function GET() {
     return NextResponse.json(null, { status: 401 });
   }
 
-  return NextResponse.json({ user: session });
+  return NextResponse.json(session);
 }
 
     

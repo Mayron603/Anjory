@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/use-cart';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,16 @@ export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const router = useRouter();
 
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [zip, setZip] = useState('');
+  const [phone, setPhone] = useState('');
+
+
   useEffect(() => {
+    // This effect now runs only on the client after the component mounts.
+    // It will redirect to cart if it's empty.
     if (cartItems.length === 0) {
       router.push('/cart');
     }
@@ -33,22 +42,71 @@ export default function CheckoutPage() {
     );
   }
 
-  const handlePlaceOrder = () => {
-    const phoneNumber = "558184019864"; // Seu número de WhatsApp sem o "+"
-    let message = "Olá! Gostaria de finalizar minha compra com os seguintes itens:\n\n";
-    
+  const handlePlaceOrder = async () => {
+    // 1. Format message for WhatsApp
+    const phoneNumber = "558184019864";
+    let whatsappMessage = `Olá! Gostaria de finalizar minha compra com os seguintes itens:\n\n`;
     cartItems.forEach(item => {
-        message += `*${item.product.name}*\n`;
-        message += `Quantidade: ${item.quantity}\n`;
-        message += `Valor: ${formatPrice(item.product.price * item.quantity)}\n\n`;
+        whatsappMessage += `*${item.product.name}* (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}\n`;
     });
-
-    message += `*Total do Pedido: ${formatPrice(cartTotal)}*`;
-
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    whatsappMessage += `\n*Total do Pedido: ${formatPrice(cartTotal)}*\n\n`;
+    whatsappMessage += `*Meus Dados:*\n`;
+    whatsappMessage += `Nome: ${name}\n`;
+    whatsappMessage += `Telefone: ${phone}\n`;
+    whatsappMessage += `Endereço: ${address}, ${city}, ${zip}\n`;
     
-    window.open(whatsappUrl, '_blank');
-    clearCart();
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+    // 2. Format message for Discord Webhook
+    const webhookUrl = "https://discord.com/api/webhooks/1434225043923013916/Y07sjzhIBWBioQWfsvkCS2vH_67orSQhQfkYwEfC2vCNFg5wzduWSGkYOlkT_oVwwMCN";
+    const discordPayload = {
+      content: "🎉 Novo Pedido Recebido!",
+      embeds: [
+        {
+          title: "Detalhes do Pedido",
+          color: 3447003, // Blue color
+          fields: [
+            { name: "Cliente", value: name, inline: true },
+            { name: "Telefone", value: phone, inline: true },
+            { name: "Endereço", value: `${address}, ${city} - CEP: ${zip}` },
+            { 
+              name: "Produtos", 
+              value: cartItems.map(item => `${item.product.name} (x${item.quantity})`).join('\n') 
+            },
+            { name: "Valor Total", value: `**${formatPrice(cartTotal)}**`, inline: true },
+          ],
+          timestamp: new Date().toISOString(),
+          footer: {
+            text: "Anjory Store"
+          }
+        }
+      ]
+    };
+
+    try {
+        // Send to Discord
+        await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(discordPayload),
+        });
+
+        // Open WhatsApp
+        window.open(whatsappUrl, '_blank');
+        
+        // Clear cart and redirect
+        clearCart();
+        router.push('/order-confirmation');
+
+    } catch (error) {
+        console.error("Failed to send Discord notification:", error);
+        // Still try to open WhatsApp even if Discord fails
+         window.open(whatsappUrl, '_blank');
+         clearCart();
+         router.push('/order-confirmation');
+    }
   };
 
   return (
@@ -64,19 +122,23 @@ export default function CheckoutPage() {
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
                 <Label htmlFor="name">Nome Completo</Label>
-                <Input id="name" placeholder="Seu nome" />
+                <Input id="name" placeholder="Seu nome" value={name} onChange={(e) => setName(e.target.value)} />
+              </div>
+               <div className="md:col-span-2">
+                <Label htmlFor="phone">Telefone / WhatsApp</Label>
+                <Input id="phone" placeholder="(00) 90000-0000" value={phone} onChange={(e) => setPhone(e.target.value)} />
               </div>
               <div className="md:col-span-2">
                 <Label htmlFor="address">Endereço</Label>
-                <Input id="address" placeholder="Rua, Número, Bairro" />
+                <Input id="address" placeholder="Rua, Número, Bairro" value={address} onChange={(e) => setAddress(e.target.value)} />
               </div>
               <div>
                 <Label htmlFor="city">Cidade</Label>
-                <Input id="city" placeholder="Sua cidade" />
+                <Input id="city" placeholder="Sua cidade" value={city} onChange={(e) => setCity(e.target.value)} />
               </div>
               <div>
                 <Label htmlFor="zip">CEP</Label>
-                <Input id="zip" placeholder="00000-000" />
+                <Input id="zip" placeholder="00000-000" value={zip} onChange={(e) => setZip(e.target.value)} />
               </div>
             </CardContent>
           </Card>

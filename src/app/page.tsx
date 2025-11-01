@@ -90,35 +90,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="py-16 md:py-24 bg-secondary/30">
-        <div className="container">
-            <div className="max-w-2xl mx-auto text-center">
-                <Mail className="mx-auto h-10 w-10 text-primary/70 mb-4" />
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
-                    Fique por Dentro
-                </h2>
-                <p className="mt-4 text-base text-muted-foreground max-w-xl mx-auto">
-                    Assine nossa newsletter e seja o primeiro a saber sobre lançamentos, promoções exclusivas e novidades do nosso ateliê.
-                </p>
-                <form className="mt-8 flex w-full max-w-md mx-auto items-center space-x-2">
-                    <Input
-                        type="email"
-                        placeholder="Seu melhor e-mail"
-                        className="flex-1 h-12 text-base"
-                    />
-                    <Button
-                        type="submit"
-                        size="lg"
-                        className="h-12 text-base"
-                    >
-                        Inscrever
-                    </Button>
-                </form>
-            </div>
-        </div>
-      </section>
-
       {/* Instagram Section */}
       <section className="py-16 md:py-24 bg-background overflow-hidden">
         <div className="container">
@@ -143,6 +114,35 @@ export default async function HomePage() {
                 <Instagram className="mr-2 h-5 w-5" /> Siga @anjory
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="py-16 md:py-24 bg-secondary/30">
+        <div className="container">
+          <div className="max-w-2xl mx-auto text-center">
+            <Mail className="mx-auto h-10 w-10 text-primary/70 mb-4" />
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
+              Fique por Dentro
+            </h2>
+            <p className="mt-4 text-base text-muted-foreground max-w-xl mx-auto">
+              Assine nossa newsletter e seja o primeiro a saber sobre lançamentos, promoções exclusivas e novidades do nosso ateliê.
+            </p>
+            <form className="mt-8 flex w-full max-w-md mx-auto items-center space-x-2">
+              <Input
+                type="email"
+                placeholder="Seu melhor e-mail"
+                className="flex-1 h-12 text-base"
+              />
+              <Button
+                type="submit"
+                size="lg"
+                className="h-12 text-base"
+              >
+                Inscrever
+              </Button>
+            </form>
           </div>
         </div>
       </section>

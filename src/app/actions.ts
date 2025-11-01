@@ -273,14 +273,15 @@ export async function getSession() {
     const cookie = cookies().get('session')?.value;
     if (!cookie) return null;
     const session = await decrypt(cookie);
-    if (!session) return null;
+    if (!session?.userId) return null;
     
-    // Fetch the latest user data from the database
+    // Fetch the latest user data from the database to ensure it's fresh
     try {
         const db = await getDb();
         const user = await db.collection('users').findOne({ _id: new ObjectId(session.userId) });
         if (!user) return null; // User might have been deleted
 
+        // Return a consistent session object, excluding sensitive data like password
         return {
             userId: user._id.toString(),
             email: user.email,

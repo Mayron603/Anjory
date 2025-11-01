@@ -24,7 +24,7 @@ export async function placeOrder(details: OrderDetails) {
   const orderId = `ANJ-${Math.floor(Date.now() / 1000)}-${Math.floor(Math.random() * 900 + 100)}`;
 
   // 2. TODO: Adicionar lógica para salvar o pedido no MongoDB aqui
-  // - Use o snippet de conexão que você tem.
+  // - Use o snippet de conexão do MongoDB que você tem.
   // - Crie um novo documento na sua coleção de 'pedidos'.
   // - O objeto a ser salvo seria algo como:
   const orderPayloadForDB = {
@@ -106,4 +106,80 @@ export async function placeOrder(details: OrderDetails) {
   // 5. Redirect user
   // This will be caught by the frontend to open the URL
   return { whatsappUrl };
+}
+
+export async function signUp(data: FormData) {
+  const name = data.get('name') as string;
+  const email = data.get('email') as string;
+  const password = data.get('password') as string;
+
+  if (!name || !email || !password) {
+    return { error: 'Todos os campos são obrigatórios.' };
+  }
+
+  // TODO: Conectar ao MongoDB
+  // const client = await MongoClient.connect(uri);
+  // const db = client.db("Anjory");
+
+  // TODO: Verificar se o usuário já existe
+  // const existingUser = await db.collection('users').findOne({ email });
+  // if (existingUser) {
+  //   return { error: 'Este e-mail já está em uso.' };
+  // }
+
+  // TODO: Criptografar a senha
+  // Lembre-se de instalar o bcrypt: npm install bcryptjs
+  // import bcrypt from 'bcryptjs';
+  // const hashedPassword = await bcrypt.hash(password, 10);
+
+  // TODO: Salvar o novo usuário no banco de dados
+  // await db.collection('users').insertOne({
+  //   name,
+  //   email,
+  //   password: hashedPassword,
+  //   createdAt: new Date(),
+  // });
+
+  console.log('Dados de registro recebidos (simulação):', { name, email });
+  
+  // TODO: Implementar a lógica de sessão/cookie após o registro
+  // ou redirecionar para a página de login.
+
+  redirect('/');
+}
+
+export async function signIn(data: FormData) {
+  const email = data.get('email') as string;
+  const password = data.get('password') as string;
+
+  if (!email || !password) {
+    return { error: 'E-mail e senha são obrigatórios.' };
+  }
+
+  // TODO: Conectar ao MongoDB
+  // const client = await MongoClient.connect(uri);
+  // const db = client.db("Anjory");
+  
+  // TODO: Encontrar o usuário pelo e-mail
+  // const user = await db.collection('users').findOne({ email });
+  // if (!user) {
+  //   return { error: 'Credenciais inválidas.' };
+  // }
+
+  // TODO: Comparar a senha
+  // Lembre-se de instalar o bcrypt: npm install bcryptjs
+  // import bcrypt from 'bcryptjs';
+  // const isPasswordValid = await bcrypt.compare(password, user.password);
+  // if (!isPasswordValid) {
+  //   return { error: 'Credenciais inválidas.' };
+  // }
+
+  console.log('Dados de login recebidos (simulação):', { email });
+  
+  // TODO: Se as credenciais estiverem corretas, crie uma sessão.
+  // Isso geralmente envolve o uso de cookies ou JWT.
+  // Ex: import { cookies } from 'next/headers'
+  // cookies().set('session', '...', { httpOnly: true, path: '/' });
+  
+  redirect('/');
 }

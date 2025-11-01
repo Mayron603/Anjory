@@ -1,11 +1,43 @@
+
+"use client";
+
 import Link from 'next/link';
+import { useFormState, useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/icons/logo';
+import { signIn } from '@/app/actions';
+import { Loader2 } from 'lucide-react';
+import { useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
+
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" className="w-full" disabled={pending}>
+      {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+      Entrar
+    </Button>
+  );
+}
 
 export default function LoginPage() {
+  const [state, formAction] = useFormState(signIn, undefined);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (state?.error) {
+      toast({
+        variant: "destructive",
+        title: "Erro no login",
+        description: state.error,
+      });
+    }
+  }, [state, toast]);
+
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-8rem)] py-12 px-4">
       <Card className="w-full max-w-sm">
@@ -17,10 +49,10 @@ export default function LoginPage() {
           <CardDescription>Bem-vindo(a) de volta! Entre com suas credenciais.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-4">
+          <form action={formAction} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="seu@email.com" required />
+              <Input id="email" name="email" type="email" placeholder="seu@email.com" required />
             </div>
             <div className="space-y-2">
               <div className="flex items-center">
@@ -29,11 +61,9 @@ export default function LoginPage() {
                   Esqueceu a senha?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input id="password" name="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full">
-              Entrar
-            </Button>
+            <SubmitButton />
           </form>
           <div className="mt-4 text-center text-sm">
             Não tem uma conta?{' '}

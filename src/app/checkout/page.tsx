@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/use-cart';
 import { Button } from '@/components/ui/button';
@@ -12,10 +12,13 @@ import { Separator } from '@/components/ui/separator';
 import { formatPrice } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
+import { placeOrder } from '@/app/actions';
+import { Loader2 } from 'lucide-react';
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
@@ -23,15 +26,11 @@ export default function CheckoutPage() {
   const [zip, setZip] = useState('');
   const [phone, setPhone] = useState('');
 
-
   useEffect(() => {
-    // This effect now runs only on the client after the component mounts.
-    // It will redirect to cart if it's empty.
     if (cartItems.length === 0) {
       router.push('/cart');
     }
   }, [cartItems, router]);
-
 
   if (cartItems.length === 0) {
     return (
@@ -42,84 +41,33 @@ export default function CheckoutPage() {
     );
   }
 
-  const handlePlaceOrder = async () => {
-    // Generate a unique order ID
-    const orderId = `ANJ-${Math.floor(Date.now() / 1000)}-${Math.floor(Math.random() * 900 + 100)}`;
-
-    // 1. Format message for WhatsApp
-    const phoneNumber = "558184019864";
-    let whatsappMessage = `Olá! 👋 Gostaria de finalizar minha compra com os seguintes itens: 🛍️\n\n`;
-    cartItems.forEach(item => {
-        whatsappMessage += `🛒 *${item.product.name}* (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}\n`;
-    });
-    whatsappMessage += `\n*Total do Pedido: ${formatPrice(cartTotal)}* 💰\n\n`;
-    whatsappMessage += `*Meus Dados para Entrega:* 🚚\n`;
-    whatsappMessage += `Nome: ${name}\n`;
-    whatsappMessage += `Telefone: ${phone} 📱\n`;
-    whatsappMessage += `Endereço: ${address}, ${city}, ${zip}\n`;
-    whatsappMessage += `\n*ID do Pedido: ${orderId}*`;
-    
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-
-    // 2. Format message for Discord Webhook
-    const webhookUrl = "https://discord.com/api/webhooks/1434225043923013916/Y07sjzhIBWBioQWfsvkCS2vH_67orSQhQfkYwEfC2vCNFg5wzduWSGkYOlkT_oVwwMCN";
-    const discordPayload = {
-      content: "🎉 **Novo Pedido Recebido na Anjory!** 🎉",
-      embeds: [
-        {
-          title: "🛒 Detalhes do Pedido",
-          color: 1190991, // Cor #122c4f
-          thumbnail: {
-            url: "https://cdn.discordapp.com/attachments/1207833625870073857/1434208091154550957/Pastel_Purple_Retro_Bold_Cafe_Logo__4_-removebg-preview_1.png?ex=69077ddf&is=69062c5f&hm=14f77e60f6fdf789b094150821c6d3c79b527871cd5ccedca5a8bda01a864d15&"
+  const handlePlaceOrder = () => {
+    startTransition(async () => {
+      try {
+        const result = await placeOrder({
+          cartItems,
+          cartTotal,
+          customer: {
+            name,
+            phone,
+            address,
+            city,
+            zip,
           },
-          fields: [
-            { name: "ID do Pedido", value: `**${orderId}**` },
-            { name: "Cliente", value: name || "Não informado", inline: true },
-            { name: "Telefone", value: phone || "Não informado", inline: true },
-            { name: "Endereço de Entrega", value: `${address}, ${city} - CEP: ${zip}` || "Não informado" },
-            { 
-              name: "Itens do Pedido", 
-              value: cartItems.map(item => `• ${item.product.name} (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}`).join('\n') 
-            },
-            { name: "Valor Total", value: `**${formatPrice(cartTotal)}**`, inline: false },
-          ],
-          timestamp: new Date().toISOString(),
-          footer: {
-            text: "Anjory Store",
-            icon_url: "https://cdn.discordapp.com/attachments/1207833625870073857/1434208091154550957/Pastel_Purple_Retro_Bold_Cafe_Logo__4_-removebg-preview_1.png?ex=69077ddf&is=69062c5f&hm=14f77e60f6fdf789b094150821c6d3c79b527871cd5ccedca5a8bda01a864d15&"
-          }
-        }
-      ]
-    };
-
-    try {
-        // Send to Discord
-        const response = await fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(discordPayload),
         });
 
-        if (!response.ok) {
-            console.error('Failed to send Discord notification:', response.statusText);
+        if (result.whatsappUrl) {
+          clearCart();
+          window.open(result.whatsappUrl, '_blank');
+          router.push('/order-confirmation');
+        } else {
+          // Handle potential errors if needed
+          console.error("Não foi possível gerar a URL do WhatsApp.");
         }
-
-        // Open WhatsApp
-        window.open(whatsappUrl, '_blank');
-        
-        // Clear cart and redirect
-        clearCart();
-        router.push('/order-confirmation');
-
-    } catch (error) {
-        console.error("Failed to send Discord notification:", error);
-        // Still try to open WhatsApp even if Discord fails
-         window.open(whatsappUrl, '_blank');
-         clearCart();
-         router.push('/order-confirmation');
-    }
+      } catch (error) {
+        console.error("Falha ao processar o pedido:", error);
+      }
+    });
   };
 
   return (
@@ -135,23 +83,23 @@ export default function CheckoutPage() {
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
                 <Label htmlFor="name">Nome Completo</Label>
-                <Input id="name" placeholder="Seu nome" value={name} onChange={(e) => setName(e.target.value)} />
+                <Input id="name" placeholder="Seu nome" value={name} onChange={(e) => setName(e.target.value)} required />
               </div>
                <div className="md:col-span-2">
                 <Label htmlFor="phone">Telefone / WhatsApp</Label>
-                <Input id="phone" placeholder="(00) 90000-0000" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <Input id="phone" placeholder="(00) 90000-0000" value={phone} onChange={(e) => setPhone(e.target.value)} required />
               </div>
               <div className="md:col-span-2">
                 <Label htmlFor="address">Endereço</Label>
-                <Input id="address" placeholder="Rua, Número, Bairro" value={address} onChange={(e) => setAddress(e.target.value)} />
+                <Input id="address" placeholder="Rua, Número, Bairro" value={address} onChange={(e) => setAddress(e.target.value)} required />
               </div>
               <div>
                 <Label htmlFor="city">Cidade</Label>
-                <Input id="city" placeholder="Sua cidade" value={city} onChange={(e) => setCity(e.target.value)} />
+                <Input id="city" placeholder="Sua cidade" value={city} onChange={(e) => setCity(e.target.value)} required />
               </div>
               <div>
                 <Label htmlFor="zip">CEP</Label>
-                <Input id="zip" placeholder="00000-000" value={zip} onChange={(e) => setZip(e.target.value)} />
+                <Input id="zip" placeholder="00000-000" value={zip} onChange={(e) => setZip(e.target.value)} required />
               </div>
             </CardContent>
           </Card>
@@ -200,8 +148,15 @@ export default function CheckoutPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={handlePlaceOrder} size="lg" className="w-full">
-                Finalizar no WhatsApp
+              <Button onClick={handlePlaceOrder} size="lg" className="w-full" disabled={isPending}>
+                {isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processando...
+                  </>
+                ) : (
+                  'Finalizar no WhatsApp'
+                )}
               </Button>
             </CardFooter>
           </Card>
@@ -210,5 +165,3 @@ export default function CheckoutPage() {
     </div>
   );
 }
-
-    

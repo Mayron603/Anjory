@@ -61,7 +61,7 @@ export default async function HomePage() {
             <div className="absolute bottom-0 right-0 z-10 w-[250px] h-[250px] md:w-[400px] md:h-[400px] opacity-80">
               <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                 <path fill="hsl(var(--foreground))" d="M49.9,-27.1C60.3,-5.4,61.5,19.9,50.7,39.3C39.9,58.7,16.2,72.2,-6.4,73.1C-29,73.9,-50.6,62.1,-63.1,43.2C-75.7,24.3,-79.3,-1.7,-70.7,-25.1C-62.1,-48.5,-41.3,-69.3,-19.7,-74.2C1.9,-79,23,-68,36.5,-52.8C49.9,-37.6,56.6,-18.2,49.9,-27.1Z" transform="translate(110 110) scale(1.2)" opacity="0.1" />
-                <g transform="translate(40 40)" style={{ filter: "url(#pencil-texture)" }}>
+                <g transform="translate(40 40)" style={{ filter: 'url(#pencil-texture)' }}>
                   <path d="M 80,100 C 50,130 20,110 20,80 C 20,50 40,20 80,20 C 120,20 140,50 140,80 C 140,110 110,130 80,100 Z" fill="white" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
                   <ellipse cx="55" cy="65" rx="12" ry="18" fill="hsl(var(--foreground))" transform="rotate(-15, 55, 65)" />
                   <ellipse cx="105" cy="65" rx="12" ry="18" fill="hsl(var(--foreground))" transform="rotate(15, 105, 65)" />

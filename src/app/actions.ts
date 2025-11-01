@@ -38,6 +38,14 @@ async function getDb() {
   }
   
   cachedDb = cachedClient.db("Anjory");
+
+  // Ensure unique index on email
+  try {
+    await cachedDb.collection('users').createIndex({ email: 1 }, { unique: true });
+  } catch (e) {
+    console.error("Failed to create unique index on users.email:", e);
+  }
+
   return cachedDb;
 }
 
@@ -181,12 +189,6 @@ export async function signUp(prevState: any, data: FormData) {
   try {
     db = await getDb();
     
-    // Check if user already exists
-    const existingUser = await db.collection('users').findOne({ email });
-    if (existingUser) {
-      return { error: 'Este e-mail já está em uso.' };
-    }
-
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -209,12 +211,15 @@ export async function signUp(prevState: any, data: FormData) {
     cookies().set('session', session, { expires, httpOnly: true });
 
 
-  } catch (e) {
+  } catch (e: any) {
     console.error("Erro no registro:", e);
+    // Check for duplicate key error from MongoDB
+    if (e.code === 11000) {
+      return { error: 'Este e-mail já está em uso.' };
+    }
     return { error: 'Ocorreu um erro durante o registro. Tente novamente.' };
   }
   
-  // Return success state instead of redirecting
   return { success: true };
 }
 

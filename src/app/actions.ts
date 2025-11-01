@@ -83,7 +83,10 @@ export async function placeOrder(details: OrderDetails) {
   const orderPayloadForDB = {
     orderId,
     userId: session?.userId ? new ObjectId(session.userId) : null,
-    customer,
+    customer: {
+      ...customer,
+      email: session.email, // Add user email to order customer data
+    },
     items: cartItems.map(item => ({
       productId: item.product.id,
       name: item.product.name,
@@ -457,7 +460,7 @@ export async function getAllOrdersForAdmin() {
       .toArray();
 
     // Convert ObjectId to string for client-side usage
-    return orders.map(order => ({
+    return orders.map((order: any) => ({
       ...order,
       _id: order._id.toString(),
       userId: order.userId ? order.userId.toString() : null,
@@ -465,5 +468,21 @@ export async function getAllOrdersForAdmin() {
   } catch (e) {
     console.error("Failed to fetch all orders:", e);
     return [];
+  }
+}
+
+export async function getUsersCountForAdmin() {
+  const session = await getSession();
+  if (session?.role !== 'admin') {
+    console.warn('Non-admin user tried to access admin data');
+    return 0;
+  }
+  try {
+    const db = await getDb();
+    const count = await db.collection('users').countDocuments();
+    return count;
+  } catch (e) {
+    console.error("Failed to fetch users count:", e);
+    return 0;
   }
 }

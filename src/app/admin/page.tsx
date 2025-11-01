@@ -16,7 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { getSession, getAllOrdersForAdmin } from '@/app/actions';
+import { getSession, getAllOrdersForAdmin, getUsersCountForAdmin } from '@/app/actions';
 import { formatPrice } from '@/lib/utils';
 import { DollarSign, Package, CreditCard, Users } from 'lucide-react';
 
@@ -27,7 +27,11 @@ export default async function AdminDashboardPage() {
     redirect('/login');
   }
 
-  const orders = await getAllOrdersForAdmin();
+  const [orders, usersCount] = await Promise.all([
+    getAllOrdersForAdmin(),
+    getUsersCountForAdmin(),
+  ]);
+  
   const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
   const totalSales = orders.length;
   const avgOrderValue = totalSales > 0 ? totalRevenue / totalSales : 0;
@@ -79,14 +83,14 @@ export default async function AdminDashboardPage() {
            <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Clientes Ativos
+                Clientes Cadastrados
               </CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+23</div>
+              <div className="text-2xl font-bold">+{usersCount}</div>
               <p className="text-xs text-muted-foreground">
-                (Em breve)
+                Total de usuários na plataforma
               </p>
             </CardContent>
           </Card>
@@ -104,9 +108,9 @@ export default async function AdminDashboardPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Cliente</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className='hidden sm:table-cell'>Status</TableHead>
                     <TableHead className="text-right">Valor</TableHead>
-                    <TableHead className="text-right">Data</TableHead>
+                    <TableHead className="text-right hidden sm:table-cell">Data</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -118,13 +122,13 @@ export default async function AdminDashboardPage() {
                           {order.customer.email}
                         </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className='hidden sm:table-cell'>
                         <Badge className="text-xs" variant={order.status === 'pending' ? 'secondary' : 'default'}>
                           {order.status}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">{formatPrice(order.total)}</TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right hidden sm:table-cell">
                         {new Date(order.createdAt).toLocaleDateString('pt-BR')}
                       </TableCell>
                     </TableRow>

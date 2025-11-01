@@ -8,21 +8,14 @@ import { Input } from '@/components/ui/input';
 import { ArrowRight, Instagram } from 'lucide-react';
 import { ProductCard } from '@/components/product-card';
 import { cn } from '@/lib/utils';
-
-const instagramPosts = [
-  { id: 'candle-light-1', imageHint: 'candle light', className: 'md:col-span-1 md:row-span-2' },
-  { id: 'stationery-flatlay-1', imageHint: 'stationery flatlay', className: 'md:col-span-1 md:row-span-1' },
-  { id: 'writing-journal-1', imageHint: 'writing journal', className: 'md:col-span-2 md:row-span-2' },
-  { id: 'candle-making-1', imageHint: 'candle making', className: 'md:col-span-1 md:row-span-1' },
-  { id: 'notebook-pen-1', imageHint: 'notebook pen', className: 'md:col-span-1 md:row-span-1' },
-  { id: 'scented-candle-1', imageHint: 'scented candle', className: 'md:col-span-1 md:row-span-1' },
-];
+import { instagramPostsConfig } from './nos-encontre/page';
 
 
 export default async function HomePage() {
   const products = await getProducts();
   const featuredProducts = products.slice(0, 4);
   const heroImage = getImageById('vela-pote-vidro-1');
+  const instagramPosts = instagramPostsConfig.slice(0, 7);
 
   return (
     <div className="flex flex-col">

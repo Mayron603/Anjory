@@ -2,18 +2,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Instagram } from 'lucide-react';
-import { PlaceHolderImages, getImageById } from '@/lib/placeholder-images';
+import { getImageById } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
 
-const instagramPostsConfig = [
-  { id: 'adesivos-criativos-1', className: 'md:col-span-1 md:row-span-1' },
-  { id: 'candle-making-1', className: 'md:col-span-1 md:row-span-2' },
-  { id: 'stationery-desk-1', className: 'md:col-span-1 md:row-span-1' },
-  { id: 'vela-bulbos-mini-1', className: 'md:col-span-2 md:row-span-2' },
-  { id: 'writing-journal-1', className: 'md:col-span-1 md:row-span-1' },
-  { id: 'vela-pote-vidro-1', className: 'md:col-span-1 md:row-span-1' },
+export const instagramPostsConfig = [
+  { id: 'candle-light-1', className: 'md:col-span-1 md:row-span-2' },
+  { id: 'stationery-flatlay-1', className: 'md:col-span-1 md:row-span-1' },
+  { id: 'writing-journal-1', className: 'md:col-span-2 md:row-span-2' },
+  { id: 'candle-making-1', className: 'md:col-span-1 md:row-span-1' },
+  { id: 'notebook-pen-1', className: 'md:col-span-1 md:row-span-1' },
+  { id: 'scented-candle-1', className: 'md:col-span-1 md:row-span-1' },
+  { id: 'planner-stickers-1', className: 'md:col-span-1 md:row-span-1' },
+  { id: 'cozy-candle-1', className: 'md:col-span-2 md:row-span-1' },
+  { id: 'handmade-candle-1', className: 'md:col-span-1 md:row-span-2' },
+  { id: 'journaling-supplies-1', className: 'md:col-span-1 md:row-span-1' },
+  { id: 'vela-bulbos-mini-1', className: 'md:col-span-1 md:row-span-1' },
   { id: 'caderno-personalizado-1', className: 'md:col-span-1 md:row-span-1' },
 ];
+
 
 export default function NosEncontrePage() {
   return (
@@ -31,7 +37,7 @@ export default function NosEncontrePage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 auto-rows-[250px] gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[250px] gap-4">
         {instagramPostsConfig.map((postConfig) => {
           const image = getImageById(postConfig.id);
           if (!image) return null;

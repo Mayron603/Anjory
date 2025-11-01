@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -16,21 +17,60 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User, CreditCard, LogOut, Settings } from 'lucide-react';
+import { User, CreditCard, LogOut, Settings, LogIn } from 'lucide-react';
+import { useSession } from '@/hooks/use-session';
+import { Skeleton } from '../ui/skeleton';
+import { signOut } from '@/app/actions';
 
 export function UserNav() {
-  // In a real app, you'd get user data from a session.
-  const user = { name: "Usuário", email: "usuario@email.com" };
+  const { session, isLoading } = useSession();
+  const user = session?.user;
+
+  const handleSignOut = async () => {
+    await signOut();
+  }
+
+  if (isLoading) {
+    return <Skeleton className="h-8 w-8 rounded-full" />;
+  }
+
+  if (!user) {
+    return (
+       <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+            <Avatar className="h-8 w-8">
+              <AvatarFallback>
+                <User className="h-5 w-5" />
+              </AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuItem asChild>
+                <Link href="/login">
+                    <LogIn className="mr-2 h-4 w-4" />
+                    <span>Entrar</span>
+                </Link>
+            </DropdownMenuItem>
+             <DropdownMenuItem asChild>
+                <Link href="/register">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Cadastrar-se</span>
+                </Link>
+            </DropdownMenuItem>
+        </DropdownMenuContent>
+       </DropdownMenu>
+    );
+  }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-            <AvatarFallback>
-              <User className="h-5 w-5" />
-            </AvatarFallback>
+            <AvatarImage src={user.picture} alt={user.name} />
+            <AvatarFallback>{user.name?.[0].toUpperCase()}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -63,13 +103,13 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/login">
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Sair</span>
-          </Link>
+        <DropdownMenuItem onClick={handleSignOut}>
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Sair</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
+
+    

@@ -6,6 +6,8 @@ import { formatPrice } from '@/lib/utils';
 import type { CartItem } from '@/lib/types';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import bcrypt from 'bcryptjs';
+import { SignJWT, jwtVerify } from 'jose';
+import { cookies } from 'next/headers';
 
 const uri = process.env.MONGODB_URI;
 
@@ -21,10 +23,17 @@ const client = new MongoClient(uri, {
   }
 });
 
+let db;
+
 async function getDb() {
-    await client.connect();
-    return client.db("Anjory");
+  if (db) {
+    return db;
+  }
+  await client.connect();
+  db = client.db("Anjory");
+  return db;
 }
+
 
 interface OrderDetails {
   cartItems: CartItem[];
@@ -175,6 +184,30 @@ export async function signUp(prevState: any, data: FormData) {
   redirect('/login');
 }
 
+
+const secretKey = process.env.JWT_SECRET;
+const key = new TextEncoder().encode(secretKey);
+
+export async function encrypt(payload: any) {
+  return await new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('1h')
+    .sign(key);
+}
+
+export async function decrypt(input: string): Promise<any> {
+  try {
+    const { payload } = await jwtVerify(input, key, {
+      algorithms: ['HS256'],
+    });
+    return payload;
+  } catch (error) {
+    // This can happen if the token is expired or invalid
+    return null;
+  }
+}
+
 export async function signIn(prevState: any, data: FormData) {
   const email = data.get('email') as string;
   const password = data.get('password') as string;
@@ -183,11 +216,12 @@ export async function signIn(prevState: any, data: FormData) {
     return { error: 'E-mail e senha são obrigatórios.' };
   }
   
+  let user;
   try {
     const db = await getDb();
     
     // Encontrar o usuário pelo e-mail
-    const user = await db.collection('users').findOne({ email });
+    user = await db.collection('users').findOne({ email });
     if (!user) {
       return { error: 'Credenciais inválidas.' };
     }
@@ -202,10 +236,24 @@ export async function signIn(prevState: any, data: FormData) {
       return { error: 'Ocorreu um erro durante o login. Tente novamente.' };
   }
   
-  // TODO: Se as credenciais estiverem corretas, crie uma sessão.
-  // Isso geralmente envolve o uso de cookies ou JWT.
-  // Ex: import { cookies } from 'next/headers'
-  // cookies().set('session', '...', { httpOnly: true, path: '/' });
-  
+  // Criar a sessão
+  const sessionPayload = {
+    userId: user._id.toString(),
+    email: user.email,
+    name: user.name,
+  };
+
+  const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+  const session = await encrypt(sessionPayload);
+
+  cookies().set('session', session, { expires, httpOnly: true });
+
   redirect('/');
 }
+
+export async function signOut() {
+  cookies().set('session', '', { expires: new Date(0) });
+  redirect('/login');
+}
+
+    

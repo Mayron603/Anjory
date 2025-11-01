@@ -1,19 +1,37 @@
+
 import Link from 'next/link';
 import { Logo } from '@/components/icons/logo';
 import { MainNav } from '@/components/layout/main-nav';
 import { UserNav } from '@/components/layout/user-nav';
 import { CartButton } from '@/components/layout/cart-button';
-import { Menu, Instagram } from 'lucide-react';
+import { Menu, Instagram, Truck, CreditCard, Ticket, Share2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { TikTok } from '../icons/tiktok';
 import { SearchBar } from './search-bar';
 
+const announcementMessages = [
+  { icon: Truck, text: 'Enviamos para todo o Brasil' },
+  { icon: CreditCard, text: 'Aceitamos todos os tipos de cartões' },
+  { icon: Ticket, text: 'Cupom de 10% na primeira compra: ANJORY10' },
+  { icon: Share2, text: 'NOS SIGA NAS REDES SOCIAIS' },
+];
+
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="w-full bg-secondary text-secondary-foreground text-center py-2 text-xs font-medium tracking-wider">
-        Feito à mão com amor
+      <div className="w-full bg-secondary text-secondary-foreground py-2 text-xs font-medium tracking-wider overflow-hidden">
+        <div className="flex animate-marquee-infinite">
+          {Array(2)
+            .fill(announcementMessages)
+            .flat()
+            .map((item, index) => (
+              <div key={index} className="flex items-center space-x-2 mx-6 flex-shrink-0">
+                <item.icon className="h-4 w-4" />
+                <span>{item.text}</span>
+              </div>
+            ))}
+        </div>
       </div>
       <div className="container flex h-20 max-w-screen-2xl items-center">
         <div className="flex-1 flex items-center justify-start">

@@ -61,7 +61,6 @@ export default async function HomePage() {
 
           {/* Decorative Background Elements */}
           <div className="absolute inset-0 z-0 overflow-hidden">
-            <div className="absolute -right-1/4 -bottom-1/3 w-2/3 h-2/3 bg-white/30 rounded-full opacity-50 z-0"></div>
             <div className="absolute bottom-0 right-0 z-10 w-[250px] h-[250px] md:w-[400px] md:h-[400px] opacity-80">
               <Image src="/panda.png" alt="Panda desenhado" width={400} height={400} />
             </div>

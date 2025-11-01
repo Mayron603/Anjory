@@ -1,8 +1,9 @@
+
 "use client";
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useActionState } from 'react';
+import { useTransition } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,26 +29,31 @@ export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
   const { mutate } = useSession();
-  const [state, formAction] = useActionState(signIn, undefined);
+  const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    if (state?.error) {
-      toast({
-        variant: "destructive",
-        title: "Erro no login",
-        description: state.error,
-      });
-    }
-    if (state?.success) {
-      toast({
-        title: "Login bem-sucedido!",
-        description: "Você será redirecionado para o seu perfil.",
-      });
-      mutate().then(() => {
+  const handleSubmit = (formData: FormData) => {
+    startTransition(async () => {
+      const result = await signIn(null, formData);
+
+      if (result?.error) {
+        toast({
+          variant: "destructive",
+          title: "Erro no login",
+          description: result.error,
+        });
+      }
+      
+      if (result?.success) {
+        toast({
+          title: "Login bem-sucedido!",
+          description: "Você será redirecionado para o seu perfil.",
+        });
+        await mutate();
         router.push('/profile');
-      });
-    }
-  }, [state, toast, router, mutate]);
+        router.refresh(); // Forces a refresh of the current route
+      }
+    });
+  };
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-8rem)] py-12 px-4">
@@ -60,7 +66,7 @@ export default function LoginPage() {
           <CardDescription>Bem-vindo(a) de volta! Entre com suas credenciais.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={formAction} className="space-y-4">
+          <form action={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" placeholder="seu@email.com" required />
@@ -74,7 +80,10 @@ export default function LoginPage() {
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
-            <SubmitButton />
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              Entrar
+            </Button>
           </form>
           <div className="mt-4 text-center text-sm">
             Não tem uma conta?{' '}

@@ -1,6 +1,5 @@
 
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { Logo } from '@/components/icons/logo';
 import { MainNav } from '@/components/layout/main-nav';
 import { CartButton } from '@/components/layout/cart-button';
@@ -9,6 +8,8 @@ import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { TikTok } from '../icons/tiktok';
 import { SearchBar } from './search-bar';
+import { UserNav } from './user-nav';
+
 
 const announcementMessages = [
   { icon: Truck, text: 'Enviamos para todo o Brasil' },
@@ -16,11 +17,6 @@ const announcementMessages = [
   { icon: Ticket, text: 'Cupom de 10% na primeira compra: ANJORY10' },
   { icon: Share2, text: 'NOS SIGA NAS REDES SOCIAIS' },
 ];
-
-const DynamicUserNav = dynamic(() => import('./user-nav').then(mod => mod.UserNav), {
-  ssr: false,
-});
-
 
 export function Header() {
   return (
@@ -84,7 +80,7 @@ export function Header() {
             </Link>
           </Button>
           <CartButton />
-          <DynamicUserNav />
+          <UserNav />
         </div>
         
          <div className="flex-1 flex justify-end md:hidden">

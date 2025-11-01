@@ -43,10 +43,10 @@ export default async function HomePage() {
             
            {/* Text Section */}
            <div className="text-center md:text-left flex flex-col items-center md:items-start relative z-20">
-             <p className="font-script text-4xl md:text-6xl text-foreground/70 mb-2">Seja bem-vinda ao</p>
-             <h1 className="font-body text-6xl md:text-8xl font-medium tracking-[0.2em] text-foreground/80 leading-tight">
+             <h1 className="font-script text-4xl md:text-6xl text-foreground/70 mb-2">Seja bem-vinda ao</h1>
+             <p className="font-body text-5xl md:text-7xl font-medium tracking-widest text-foreground/80 leading-tight">
                NOSSO CANTINHO
-             </h1>
+             </p>
              <Button asChild size="lg" className="mt-8 rounded-sm px-10 bg-accent hover:bg-accent/90 text-accent-foreground font-body tracking-widest">
                <Link href="/products">VER PRODUTOS</Link>
              </Button>

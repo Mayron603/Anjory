@@ -47,6 +47,7 @@ export default async function HomePage() {
              <p className="font-body text-5xl md:text-7xl font-medium tracking-widest text-foreground/80 leading-tight">
                NOSSO CANTINHO
              </p>
+             <p className="mt-4 text-lg text-muted-foreground">O toque artesanal que seu lar merece.</p>
              <Button asChild size="lg" className="mt-8 rounded-sm px-10 bg-accent hover:bg-accent/90 text-accent-foreground font-body tracking-widest">
                <Link href="/products">VER PRODUTOS</Link>
              </Button>

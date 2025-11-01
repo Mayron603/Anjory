@@ -38,9 +38,6 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-       <Link href="/nos-encontre" className={linkClass}>
-        Nos encontre
-      </Link>
       <Link href="/contact" className={linkClass}>
         Contato
       </Link>

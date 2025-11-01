@@ -121,8 +121,8 @@ export default async function HomePage() {
           <InstagramCarousel />
           <div className="text-center mt-12">
             <Button asChild size="lg">
-              <Link href="/nos-encontre">
-                <Instagram className="mr-2 h-5 w-5" /> Ver mais no Instagram
+              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <Instagram className="mr-2 h-5 w-5" /> Siga @anjory
               </Link>
             </Button>
           </div>

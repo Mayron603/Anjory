@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { getProducts } from '@/lib/products';
 import { getImageById } from '@/lib/placeholder-images';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Instagram } from 'lucide-react';
+import { ArrowRight, Instagram, Mail } from 'lucide-react';
 import { ProductCard } from '@/components/product-card';
 import { InstagramCarousel } from '@/components/instagram-carousel';
 
@@ -91,29 +91,31 @@ export default async function HomePage() {
       </section>
 
       {/* Newsletter */}
-      <section className="py-16 md:py-24 bg-secondary/50">
-        <div className="container text-center max-w-2xl">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold">
-            Fique por Dentro
-          </h2>
-          <p className="mt-3 text-lg text-muted-foreground">
-            Assine nossa newsletter e seja o primeiro a saber sobre lançamentos,
-            promoções exclusivas e novidades do nosso ateliê.
-          </p>
-          <form className="mt-8 flex w-full max-w-md mx-auto items-center space-x-2">
-            <Input
-              type="email"
-              placeholder="Seu melhor e-mail"
-              className="flex-1"
-            />
-            <Button
-              type="submit"
-              size="lg"
-              className="bg-accent hover:bg-accent/90 text-accent-foreground"
-            >
-              Inscrever
-            </Button>
-          </form>
+      <section className="py-16 md:py-24 bg-secondary/30">
+        <div className="container">
+            <div className="max-w-2xl mx-auto bg-white/50 backdrop-blur-sm p-8 md:p-12 rounded-lg shadow-lg text-center border border-primary/10">
+                <Mail className="mx-auto h-12 w-12 text-primary/50 mb-4" />
+                <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
+                    Receba Nossas Novidades
+                </h2>
+                <p className="mt-3 text-base text-muted-foreground">
+                    Cadastre-se e ganhe acesso antecipado a lançamentos, promoções exclusivas e inspirações do nosso ateliê direto no seu e-mail.
+                </p>
+                <form className="mt-8 flex w-full max-w-md mx-auto flex-col sm:flex-row items-center gap-3">
+                    <Input
+                        type="email"
+                        placeholder="Digite seu melhor e-mail"
+                        className="flex-1 h-12 text-base text-center sm:text-left"
+                    />
+                    <Button
+                        type="submit"
+                        size="lg"
+                        className="h-12 w-full sm:w-auto text-base"
+                    >
+                        Quero Novidades
+                    </Button>
+                </form>
+            </div>
         </div>
       </section>
 

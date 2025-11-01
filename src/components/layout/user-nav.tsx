@@ -36,31 +36,12 @@ export function UserNav() {
 
   if (!user) {
     return (
-       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback>
-                <User className="h-5 w-5" />
-              </AvatarFallback>
-            </Avatar>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuItem asChild>
-                <Link href="/login">
-                    <LogIn className="mr-2 h-4 w-4" />
-                    <span>Entrar</span>
-                </Link>
-            </DropdownMenuItem>
-             <DropdownMenuItem asChild>
-                <Link href="/register">
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Cadastrar-se</span>
-                </Link>
-            </DropdownMenuItem>
-        </DropdownMenuContent>
-       </DropdownMenu>
+       <Button asChild variant="ghost" size="icon">
+        <Link href="/login">
+            <User className="h-5 w-5" />
+            <span className="sr-only">Login</span>
+        </Link>
+       </Button>
     );
   }
 
@@ -111,5 +92,3 @@ export function UserNav() {
     </DropdownMenu>
   );
 }
-
-    

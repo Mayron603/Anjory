@@ -14,13 +14,13 @@ body {
     --card-foreground: 220 25% 25%;
     --popover: 210 40% 100%;
     --popover-foreground: 220 25% 25%;
-    --primary: 205 85% 72%; /* A bit stronger Powder Blue */
+    --primary: 205 85% 65%; /* Stronger Powder Blue */
     --primary-foreground: 220 25% 15%;
     --secondary: 210 40% 96%; /* Lighter Blue */
     --secondary-foreground: 220 25% 25%;
     --muted: 210 40% 96%;
     --muted-foreground: 220 20% 45%;
-    --accent: 210 75% 55%; /* A stronger blue for buttons/accents */
+    --accent: 210 75% 50%; /* Stronger blue for buttons/accents */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;

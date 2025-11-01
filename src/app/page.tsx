@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -58,18 +59,6 @@ export default async function HomePage() {
               </Button>
             </div>
           </div>
-
-            {/* Decorative Background Elements */}
-            <div className="absolute inset-0 z-0 overflow-hidden">
-              <div className="absolute bottom-0 right-0 z-10 w-[250px] h-[250px] md:w-[400px] md:h-[400px] opacity-80">
-                <Image 
-                  src="/panda.png" 
-                  alt="Panda desenhado" 
-                  width={400} 
-                  height={400} 
-                />
-              </div>
-            </div>
         </div>
       </section>
 

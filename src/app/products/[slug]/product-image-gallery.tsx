@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -52,7 +53,7 @@ export function ProductImageGallery({ imageIds }: { imageIds: string[] }) {
             <div className="flex gap-2 overflow-x-auto scrollbar-hide px-4">
                 {images.map((image, index) => (
                     <button
-                        key={image!.id}
+                        key={`${image!.id}-${index}`}
                         onClick={() => setSelectedIndex(index)}
                         className={cn(
                         'w-20 h-20 flex-shrink-0 relative rounded-md overflow-hidden border-2',

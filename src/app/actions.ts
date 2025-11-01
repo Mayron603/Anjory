@@ -4,7 +4,7 @@
 import { redirect } from 'next/navigation';
 import { formatPrice } from '@/lib/utils';
 import type { CartItem } from '@/lib/types';
-import { MongoClient, ServerApiVersion } from 'mongodb';
+import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
@@ -49,6 +49,7 @@ interface OrderDetails {
 
 export async function placeOrder(details: OrderDetails) {
   const { cartItems, cartTotal, customer } = details;
+  const session = await getSession();
 
   // 1. Generate a unique Order ID
   const orderId = `ANJ-${Math.floor(Date.now() / 1000)}-${Math.floor(Math.random() * 900 + 100)}`;
@@ -56,6 +57,7 @@ export async function placeOrder(details: OrderDetails) {
   // 2. Save order to MongoDB
   const orderPayloadForDB = {
     orderId,
+    userId: session?.user?.userId ? new ObjectId(session.user.userId) : null,
     customer,
     items: cartItems.map(item => ({
       productId: item.product.id,
@@ -256,4 +258,34 @@ export async function signOut() {
   redirect('/login');
 }
 
+export async function getSession() {
+    const cookie = cookies().get('session')?.value;
+    if (!cookie) return null;
+    return await decrypt(cookie);
+}
+
+export async function getOrders() {
+    const session = await getSession();
+    if (!session?.user?.userId) {
+        return [];
+    }
+
+    try {
+        const db = await getDb();
+        const orders = await db.collection('orders')
+            .find({ userId: new ObjectId(session.user.userId) })
+            .sort({ createdAt: -1 })
+            .toArray();
+
+        // Convert ObjectId to string for client-side usage
+        return orders.map(order => ({
+            ...order,
+            _id: order._id.toString(),
+            userId: order.userId.toString(),
+        }));
+    } catch (e) {
+        console.error("Failed to fetch orders:", e);
+        return [];
+    }
+}
     

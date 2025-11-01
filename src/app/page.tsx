@@ -5,8 +5,16 @@ import { Button } from '@/components/ui/button';
 import { getProducts } from '@/lib/products';
 import { getImageById } from '@/lib/placeholder-images';
 import { Input } from '@/components/ui/input';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Instagram } from 'lucide-react';
 import { ProductCard } from '@/components/product-card';
+
+const instagramPosts = [
+  { id: 1, imageHint: 'woman coffee', imageUrl: 'https://picsum.photos/seed/insta1/400/400' },
+  { id: 4, imageHint: 'polaroid camera', imageUrl: 'https://picsum.photos/seed/insta4/400/400' },
+  { id: 3, imageHint: 'woman skincare', imageUrl: 'https://picsum.photos/seed/insta3/400/400' },
+  { id: 5, imageHint: 'woman white sweater', imageUrl: 'https://picsum.photos/seed/insta5/400/400' },
+];
+
 
 export default async function HomePage() {
   const products = await getProducts();
@@ -104,6 +112,46 @@ export default async function HomePage() {
             <Input type="email" placeholder="Seu melhor e-mail" className="flex-1" />
             <Button type="submit" size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">Inscrever</Button>
           </form>
+        </div>
+      </section>
+
+      {/* Instagram Section */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold">Nos encontre no Instagram</h2>
+            <p className="mt-3 text-lg text-muted-foreground max-w-xl mx-auto">
+              Acompanhe nosso dia a dia e inspire-se com nossas criações.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {instagramPosts.map((post, index) => (
+              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={post.id} className="group">
+                <div className={`relative bg-white p-3 shadow-lg transform ${index % 2 === 0 ? 'rotate-2' : '-rotate-2'} hover:rotate-0 hover:scale-105 transition-transform duration-300`}>
+                  <div className="relative aspect-square">
+                    <Image
+                      src={post.imageUrl}
+                      alt={`Post do Instagram ${post.id}`}
+                      data-ai-hint={post.imageHint}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Instagram className="h-8 w-8 text-white" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Button asChild size="lg">
+              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <Instagram className="mr-2 h-5 w-5" /> Siga @anjory
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
     </div>

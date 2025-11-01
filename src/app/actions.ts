@@ -64,6 +64,9 @@ export async function placeOrder(details: OrderDetails) {
   if (!session?.userId) {
     return { error: 'Usuário não autenticado. Faça login para continuar.' };
   }
+   if (!customer.name || !customer.phone || !customer.street || !customer.number || !customer.neighborhood || !customer.city || !customer.state || !customer.zip) {
+    return { error: 'Por favor, preencha todos os seus dados de entrega antes de finalizar o pedido.' };
+  }
 
   // 1. Generate a unique Order ID
   const orderId = `ANJ-${Math.floor(Date.now() / 1000)}-${Math.floor(Math.random() * 900 + 100)}`;
@@ -211,8 +214,8 @@ export async function signUp(prevState: any, data: FormData) {
     return { error: 'Ocorreu um erro durante o registro. Tente novamente.' };
   }
   
-  // Redirect to home page after successful registration and login
-  redirect('/');
+  // Return success state instead of redirecting
+  return { success: true };
 }
 
 
@@ -286,13 +289,13 @@ export async function signIn(prevState: any, data: FormData) {
 
   cookies().set('session', session, { expires, httpOnly: true });
 
-  redirect('/');
+  // Return success state instead of redirecting
+  return { success: true };
 }
 
 export async function signOut() {
   cookies().set('session', '', { expires: new Date(0) });
   revalidatePath('/', 'layout');
-  redirect('/login');
 }
 
 export async function getSession() {

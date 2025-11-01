@@ -2,6 +2,7 @@
 "use client";
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
 import { useActionState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,7 @@ import { Logo } from '@/components/icons/logo';
 import { signUp } from '@/app/actions';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useSession } from '@/hooks/use-session';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -26,6 +28,8 @@ function SubmitButton() {
 export default function RegisterPage() {
   const [state, formAction] = useActionState(signUp, undefined);
   const { toast } = useToast();
+  const router = useRouter();
+  const { mutate } = useSession();
 
   useEffect(() => {
     if (state?.error) {
@@ -35,7 +39,18 @@ export default function RegisterPage() {
         description: state.error,
       });
     }
-  }, [state, toast]);
+    if (state?.success) {
+      toast({
+        title: "Conta criada com sucesso!",
+        description: "Você será redirecionado em breve.",
+      });
+      // Mutate the session to get the new user data
+      // and then redirect to the home page.
+      mutate().then(() => {
+        router.push('/');
+      });
+    }
+  }, [state, toast, router, mutate]);
 
 
   return (

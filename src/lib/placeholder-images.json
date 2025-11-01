@@ -53,6 +53,30 @@
       "description": "A scented candle in a stylish glass jar.",
       "imageUrl": "/Vela Pote de Vidro.png",
       "imageHint": "jar candle"
+    },
+    {
+      "id": "candle-light-1",
+      "description": "A warm, glowing candle providing a cozy ambiance.",
+      "imageUrl": "https://images.unsplash.com/photo-1495667496513-9068843d7679?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjYW5kbGUlMjBsaWdodHxlbnwwfHx8fDE3NjE5NjA4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "candle light"
+    },
+    {
+      "id": "candle-making-1",
+      "description": "Hands carefully pouring wax into a candle mold.",
+      "imageUrl": "https://images.unsplash.com/photo-1612293905607-b003de9e54fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjYW5kbGUlMjBtYWtpbmd8ZW58MHx8fHwxNzYxOTExNDc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "candle making"
+    },
+    {
+      "id": "stationery-desk-1",
+      "description": "A well-organized desk with various stationery items like notebooks, pens, and a planner.",
+      "imageUrl": "https://images.unsplash.com/photo-1584628805011-382667dc3229?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8c3RhdGlvbmVyeSUyMGRlc2t8ZW58MHx8fHwxNzYxOTYwODc1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "stationery desk"
+    },
+    {
+      "id": "writing-journal-1",
+      "description": "A person writing thoughtful notes in a beautiful journal.",
+      "imageUrl": "https://images.unsplash.com/photo-1594997652537-2e2dce4ebf28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d3JpdGluZyUyMGpvdXJuYWx8ZW58MHx8fHwxNzYxODY0NzI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "writing journal"
     }
   ]
 }

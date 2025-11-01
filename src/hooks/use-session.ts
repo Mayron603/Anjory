@@ -25,7 +25,7 @@ export function useSession() {
   const fetchSession = useCallback(async () => {
     try {
       // Don't set loading to true here to avoid flickering on re-fetches
-      const res = await fetch('/api/session');
+      const res = await fetch('/api/session', { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
         setSession(data);

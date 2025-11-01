@@ -41,6 +41,10 @@ export default function LoginPage() {
       });
     }
     if (state?.success) {
+      toast({
+        title: "Login bem-sucedido!",
+        description: "Você será redirecionado para o seu perfil.",
+      });
       // Mutate the session to get the new user data
       // and then redirect to the profile page.
       mutate().then(() => {

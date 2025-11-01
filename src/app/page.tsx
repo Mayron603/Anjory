@@ -7,12 +7,13 @@ import { getImageById } from '@/lib/placeholder-images';
 import { Input } from '@/components/ui/input';
 import { ArrowRight, Instagram } from 'lucide-react';
 import { ProductCard } from '@/components/product-card';
+import { cn } from '@/lib/utils';
 
 const instagramPosts = [
-  { id: 1, imageHint: 'woman coffee', imageUrl: 'https://picsum.photos/seed/insta1/400/400' },
-  { id: 4, imageHint: 'polaroid camera', imageUrl: 'https://picsum.photos/seed/insta4/400/400' },
-  { id: 3, imageHint: 'woman skincare', imageUrl: 'https://picsum.photos/seed/insta3/400/400' },
-  { id: 5, imageHint: 'woman white sweater', imageUrl: 'https://picsum.photos/seed/insta5/400/400' },
+  { id: 'candle-light-1', imageHint: 'candle light', className: 'col-span-1 row-span-1 md:col-span-1 md:row-span-2' },
+  { id: 'adesivos-criativos-1', imageHint: 'creative stickers', className: 'col-span-1 row-span-1 md:col-span-1 md:row-span-1' },
+  { id: 'writing-journal-1', imageHint: 'writing journal', className: 'col-span-1 row-span-2 md:col-span-2 md:row-span-2' },
+  { id: 'candle-making-1', imageHint: 'candle making', className: 'col-span-1 row-span-1 md:col-span-1 md:row-span-1' },
 ];
 
 
@@ -124,31 +125,31 @@ export default async function HomePage() {
               Acompanhe nosso dia a dia e inspire-se com nossas criações.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {instagramPosts.map((post, index) => (
-              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={post.id} className="group">
-                <div className={`relative bg-white p-3 shadow-lg transform ${index % 2 === 0 ? 'rotate-2' : '-rotate-2'} hover:rotate-0 hover:scale-105 transition-transform duration-300`}>
-                  <div className="relative aspect-square">
-                    <Image
-                      src={post.imageUrl}
-                      alt={`Post do Instagram ${post.id}`}
-                      data-ai-hint={post.imageHint}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Instagram className="h-8 w-8 text-white" />
-                    </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-2 gap-4 h-[600px]">
+            {instagramPosts.map((post) => {
+              const image = getImageById(post.id);
+              if (!image) return null;
+              return (
+                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={post.id} className={cn("group relative overflow-hidden rounded-md", post.className)}>
+                  <Image
+                    src={image.imageUrl}
+                    alt={`Post do Instagram ${image.description}`}
+                    data-ai-hint={image.imageHint}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Instagram className="h-8 w-8 text-white" />
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
           <div className="text-center mt-12">
             <Button asChild size="lg">
-              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                <Instagram className="mr-2 h-5 w-5" /> Siga @anjory
+              <Link href="/nos-encontre">
+                <Instagram className="mr-2 h-5 w-5" /> Ver mais no Instagram
               </Link>
             </Button>
           </div>

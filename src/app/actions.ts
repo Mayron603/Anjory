@@ -4,6 +4,26 @@
 import { redirect } from 'next/navigation';
 import { formatPrice } from '@/lib/utils';
 import type { CartItem } from '@/lib/types';
+import { MongoClient, ServerApiVersion } from 'mongodb';
+import bcrypt from 'bcryptjs';
+
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+}
+
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function getDb() {
+    await client.connect();
+    return client.db("Anjory");
+}
 
 interface OrderDetails {
   cartItems: CartItem[];
@@ -23,10 +43,7 @@ export async function placeOrder(details: OrderDetails) {
   // 1. Generate a unique Order ID
   const orderId = `ANJ-${Math.floor(Date.now() / 1000)}-${Math.floor(Math.random() * 900 + 100)}`;
 
-  // 2. TODO: Adicionar lógica para salvar o pedido no MongoDB aqui
-  // - Use o snippet de conexão do MongoDB que você tem.
-  // - Crie um novo documento na sua coleção de 'pedidos'.
-  // - O objeto a ser salvo seria algo como:
+  // 2. Save order to MongoDB
   const orderPayloadForDB = {
     orderId,
     customer,
@@ -37,15 +54,23 @@ export async function placeOrder(details: OrderDetails) {
       price: item.product.price,
     })),
     total: cartTotal,
-    status: 'pending', // ou 'aguardando_pagamento'
+    status: 'pending',
     createdAt: new Date(),
   };
-  // Exemplo: await OrderModel.create(orderPayloadForDB);
-  console.log("Payload do pedido para salvar no DB:", orderPayloadForDB);
+
+  try {
+    const db = await getDb();
+    await db.collection('orders').insertOne(orderPayloadForDB);
+    console.log("Order saved to DB:", orderId);
+  } catch (e) {
+    console.error("Failed to save order to DB:", e);
+    // Optionally return an error to the user
+    return { error: 'Não foi possível salvar o pedido no banco de dados.' };
+  }
 
 
   // 3. Format message for Discord Webhook
-  const webhookUrl = "https://discord.com/api/webhooks/1434225043923013916/Y07sjzhIBWBioQWfsvkCS2vH_67orSQhQfkYwEfC2vCNFg5wzduWSGkYOlkT_oVwwMCN";
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
   const discordPayload = {
     content: "🎉 **Novo Pedido Recebido na Anjory!** 🎉",
     embeds: [
@@ -75,21 +100,24 @@ export async function placeOrder(details: OrderDetails) {
     ]
   };
 
-  try {
-    const response = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(discordPayload),
-    });
-    if (!response.ok) {
-      console.error('Failed to send Discord notification:', response.statusText);
-    }
-  } catch (error) {
-    console.error("Failed to send Discord notification:", error);
+  if (webhookUrl) {
+      try {
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(discordPayload),
+        });
+        if (!response.ok) {
+          console.error('Failed to send Discord notification:', response.statusText);
+        }
+      } catch (error) {
+        console.error("Failed to send Discord notification:", error);
+      }
   }
 
+
   // 4. Format message for WhatsApp
-  const phoneNumber = "558184019864";
+  const phoneNumber = process.env.WHATSAPP_PHONE_NUMBER;
   let whatsappMessage = `Olá! 👋 Gostaria de finalizar minha compra com os seguintes itens: 🛍️\n\n`;
   cartItems.forEach(item => {
     whatsappMessage += `🛒 *${item.product.name}* (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}\n`;
@@ -117,30 +145,30 @@ export async function signUp(prevState: any, data: FormData) {
     return { error: 'Todos os campos são obrigatórios.' };
   }
 
-  // TODO: Conectar ao MongoDB
-  // const client = await MongoClient.connect(uri);
-  // const db = client.db("Anjory");
+  try {
+    const db = await getDb();
+    
+    // Verificar se o usuário já existe
+    const existingUser = await db.collection('users').findOne({ email });
+    if (existingUser) {
+      return { error: 'Este e-mail já está em uso.' };
+    }
 
-  // TODO: Verificar se o usuário já existe
-  // const existingUser = await db.collection('users').findOne({ email });
-  // if (existingUser) {
-  //   return { error: 'Este e-mail já está em uso.' };
-  // }
+    // Criptografar a senha
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  // TODO: Criptografar a senha
-  // Lembre-se de instalar o bcrypt: npm install bcryptjs
-  // import bcrypt from 'bcryptjs';
-  // const hashedPassword = await bcrypt.hash(password, 10);
+    // Salvar o novo usuário no banco de dados
+    await db.collection('users').insertOne({
+      name,
+      email,
+      password: hashedPassword,
+      createdAt: new Date(),
+    });
 
-  // TODO: Salvar o novo usuário no banco de dados
-  // await db.collection('users').insertOne({
-  //   name,
-  //   email,
-  //   password: hashedPassword,
-  //   createdAt: new Date(),
-  // });
-
-  console.log('Dados de registro recebidos (simulação):', { name, email });
+  } catch (e) {
+    console.error("Erro no registro:", e);
+    return { error: 'Ocorreu um erro durante o registro. Tente novamente.' };
+  }
   
   // TODO: Implementar a lógica de sessão/cookie após o registro
   // ou redirecionar para a página de login.
@@ -155,26 +183,25 @@ export async function signIn(prevState: any, data: FormData) {
   if (!email || !password) {
     return { error: 'E-mail e senha são obrigatórios.' };
   }
-
-  // TODO: Conectar ao MongoDB
-  // const client = await MongoClient.connect(uri);
-  // const db = client.db("Anjory");
   
-  // TODO: Encontrar o usuário pelo e-mail
-  // const user = await db.collection('users').findOne({ email });
-  // if (!user) {
-  //   return { error: 'Credenciais inválidas.' };
-  // }
+  try {
+    const db = await getDb();
+    
+    // Encontrar o usuário pelo e-mail
+    const user = await db.collection('users').findOne({ email });
+    if (!user) {
+      return { error: 'Credenciais inválidas.' };
+    }
 
-  // TODO: Comparar a senha
-  // Lembre-se de instalar o bcrypt: npm install bcryptjs
-  // import bcrypt from 'bcryptjs';
-  // const isPasswordValid = await bcrypt.compare(password, user.password);
-  // if (!isPasswordValid) {
-  //   return { error: 'Credenciais inválidas.' };
-  // }
-
-  console.log('Dados de login recebidos (simulação):', { email });
+    // Comparar a senha
+    const isPasswordValid = await bcrypt.compare(password, user.password as string);
+    if (!isPasswordValid) {
+      return { error: 'Credenciais inválidas.' };
+    }
+  } catch (e) {
+      console.error("Erro no login:", e);
+      return { error: 'Ocorreu um erro durante o login. Tente novamente.' };
+  }
   
   // TODO: Se as credenciais estiverem corretas, crie uma sessão.
   // Isso geralmente envolve o uso de cookies ou JWT.

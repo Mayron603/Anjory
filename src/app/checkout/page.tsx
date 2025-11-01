@@ -18,6 +18,7 @@ import { Loader2 } from 'lucide-react';
 export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const router = useRouter();
+  const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
 
   const [name, setName] = useState('');
@@ -60,12 +61,26 @@ export default function CheckoutPage() {
           clearCart();
           window.open(result.whatsappUrl, '_blank');
           router.push('/order-confirmation');
+        } else if (result.error) {
+           toast({
+            variant: "destructive",
+            title: "Erro ao finalizar pedido",
+            description: result.error,
+          });
         } else {
-          // Handle potential errors if needed
-          console.error("Não foi possível gerar a URL do WhatsApp.");
+          toast({
+            variant: "destructive",
+            title: "Erro desconhecido",
+            description: "Não foi possível gerar a URL do WhatsApp.",
+          });
         }
       } catch (error) {
         console.error("Falha ao processar o pedido:", error);
+         toast({
+            variant: "destructive",
+            title: "Erro Inesperado",
+            description: "Ocorreu uma falha ao processar o pedido. Tente novamente.",
+          });
       }
     });
   };

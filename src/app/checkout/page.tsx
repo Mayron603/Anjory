@@ -89,13 +89,17 @@ export default function CheckoutPage() {
 
     try {
         // Send to Discord
-        await fetch(webhookUrl, {
+        const response = await fetch(webhookUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(discordPayload),
         });
+
+        if (!response.ok) {
+            console.error('Failed to send Discord notification:', response.statusText);
+        }
 
         // Open WhatsApp
         window.open(whatsappUrl, '_blank');
@@ -201,3 +205,5 @@ export default function CheckoutPage() {
     </div>
   );
 }
+
+    

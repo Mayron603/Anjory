@@ -9,7 +9,7 @@
     {
       "id": "adesivos-criativos-1",
       "description": "A vibrant collection of assorted creative stickers.",
-      "imageUrl": "/Adesivos Criativos.png",
+      "imageUrl": "/Adesivos_Criativos.png",
       "imageHint": "creative stickers"
     },
     {
@@ -21,25 +21,25 @@
     {
       "id": "bloco-de-notas-1",
       "description": "A stylish notepad with a pen on a desk.",
-      "imageUrl": "/Bloco de Notas.png",
+      "imageUrl": "/Bloco_de_Notas.png",
       "imageHint": "stylish notepad"
     },
     {
       "id": "caderno-personalizado-1",
       "description": "A beautiful custom notebook with a floral design.",
-      "imageUrl": "/Caderno Personalizado.png",
+      "imageUrl": "/Caderno_Personalizado.png",
       "imageHint": "custom notebook"
     },
     {
       "id": "uno-personalizado-1",
       "description": "A deck of custom-designed UNO playing cards.",
-      "imageUrl": "/UNO Personalizado.png",
+      "imageUrl": "/UNO_Personalizado.png",
       "imageHint": "custom cards"
     },
     {
       "id": "vela-bulbos-medio-1",
       "description": "A medium-sized artisan bulb-shaped candle.",
-      "imageUrl": "/Vela Bulbos Médio.png",
+      "imageUrl": "/Vela_Bulbos_Medio.png",
       "imageHint": "artisan candle"
     },
     {
@@ -51,7 +51,7 @@
     {
       "id": "vela-pote-vidro-1",
       "description": "A scented candle in a stylish glass jar.",
-      "imageUrl": "/Vela Pote de Vidro.png",
+      "imageUrl": "/Vela_Pote_de_Vidro.png",
       "imageHint": "jar candle"
     },
     {

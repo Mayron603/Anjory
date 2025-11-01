@@ -15,7 +15,7 @@ export default async function HomePage() {
   const products = await getProducts();
   const featuredProducts = products.slice(0, 4);
   const heroImage = getImageById('vela-pote-vidro-1');
-  const instagramPosts = instagramPostsConfig.slice(0, 7);
+  const instagramPosts = instagramPostsConfig.slice(0, 12);
 
   return (
     <div className="flex flex-col">
@@ -125,7 +125,7 @@ export default async function HomePage() {
               const image = getImageById(post.id);
               if (!image) return null;
               return (
-                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={post.id} className={cn("group relative overflow-hidden rounded-md", post.className)}>
+                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={`${post.id}-${Math.random()}`} className={cn("group relative overflow-hidden rounded-md", post.className)}>
                   <Image
                     src={image.imageUrl}
                     alt={`Post do Instagram ${image.description}`}

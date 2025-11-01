@@ -1,26 +1,19 @@
 import React from 'react';
+import Image from 'next/image';
 
-export function Logo(props: React.SVGProps<SVGSVGElement>) {
+export function Logo(props: React.ComponentProps<'div'>) {
   return (
-    <svg
-      width="200"
-      height="40"
-      viewBox="0 0 200 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+    <div
+      style={{ width: '150px', height: 'auto' }}
       {...props}
     >
-      <text
-        x="50%"
-        y="50%"
-        dominantBaseline="middle"
-        textAnchor="middle"
-        fontFamily="Ms Madi, cursive"
-        fontSize="36"
-        fill="hsl(var(--foreground))"
-      >
-        Anjory
-      </text>
-    </svg>
+      <Image
+        src="/LOGO_panda.png"
+        alt="Anjory Logo"
+        width={150}
+        height={30}
+        priority
+      />
+    </div>
   );
 }

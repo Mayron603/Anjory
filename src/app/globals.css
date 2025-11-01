@@ -7,6 +7,16 @@ body {
 }
 
 @layer base {
+  html {
+    cursor: url(/cursor.png), auto;
+  }
+
+  a, button, [role="button"], [role="link"], [role="checkbox"], [role="radio"],
+  .cursor-pointer,
+  [class*="cursor-pointer"] {
+    cursor: url(/pointer.png), pointer;
+  }
+
   :root {
     --background: 210 40% 98%; /* Very light blue */
     --foreground: 220 25% 25%; /* Dark Slate Blue/Gray */

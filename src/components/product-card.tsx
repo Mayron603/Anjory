@@ -42,10 +42,11 @@ export function ProductCard({ product }: ProductCardProps) {
         <Button 
           aria-label='Adicionar ao carrinho'
           size='sm'
-          className="absolute bottom-3 right-3 h-9 w-9 rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+          variant="secondary"
+          className="absolute bottom-3 right-3 h-9 w-9 rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white hover:bg-white/90"
           onClick={() => addToCart(product, 1)}
         >
-          <ShoppingCart className="h-4 w-4" />
+          <ShoppingCart className="h-4 w-4 text-foreground" />
         </Button>
       </CardHeader>
       <CardContent className="p-4 text-center">

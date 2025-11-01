@@ -11,7 +11,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="w-full bg-secondary text-secondary-foreground text-center py-2 text-xs font-medium tracking-wider">
-        Feito à mão com amor e cera de coco.
+        Feito à mão com amor
       </div>
       <div className="container flex h-20 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">

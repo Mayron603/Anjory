@@ -8,13 +8,13 @@ body {
 
 @layer base {
   html {
-    cursor: url(/cursor.png), auto;
+    cursor: url(/cursor.cur), auto;
   }
 
   a, button, [role="button"], [role="link"], [role="checkbox"], [role="radio"],
   .cursor-pointer,
   [class*="cursor-pointer"] {
-    cursor: url(/pointer.png), pointer;
+    cursor: url(/pointer.cur), pointer;
   }
 
   :root {

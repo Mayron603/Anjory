@@ -109,7 +109,7 @@ export async function placeOrder(details: OrderDetails) {
 
 
   // 3. Format message for Discord Webhook
-  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  const webhookUrl = "https://discord.com/api/webhooks/1434225043923013916/Y07sjzhIBWBioQWfsvkCS2vH_67orSQhQfkYwEfC2vCNFg5wzduWSGkYOlkT_oVwwMCN";
   const fullAddress = `${customer.street}, ${customer.number} - ${customer.neighborhood}, ${customer.city}/${customer.state} - CEP: ${customer.zip}`;
   const discordPayload = {
     content: "🎉 **Novo Pedido Recebido na Anjory!** 🎉",
@@ -157,7 +157,7 @@ export async function placeOrder(details: OrderDetails) {
 
 
   // 4. Format message for WhatsApp
-  const phoneNumber = process.env.WHATSAPP_PHONE_NUMBER;
+  const phoneNumber = "558184019864";
   let whatsappMessage = `Olá! 👋 Gostaria de finalizar minha compra com os seguintes itens: 🛍️\n\n`;
   cartItems.forEach(item => {
     whatsappMessage += `🛒 *${item.product.name}* (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}\n`;
@@ -429,3 +429,4 @@ export async function updateUser(prevState: any, data: FormData) {
     return { error: 'Ocorreu um erro ao atualizar os dados.' };
   }
 }
+

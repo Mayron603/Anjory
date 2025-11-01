@@ -3,18 +3,15 @@
 
 import { useState, useEffect } from 'react';
 
-interface User {
-  userId: string;
-  name: string;
-  email: string;
-  picture?: string;
-}
-
 interface Session {
   userId: string;
   name: string;
   email: string;
   picture?: string;
+  phone?: string | null;
+  address?: string | null;
+  city?: string | null;
+  zip?: string | null;
   expires: string;
 }
 

@@ -14,12 +14,14 @@ import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { placeOrder } from '@/app/actions';
 import { Loader2 } from 'lucide-react';
+import { useSession } from '@/hooks/use-session';
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
+  const { session, isLoading } = useSession();
 
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
@@ -28,10 +30,51 @@ export default function CheckoutPage() {
   const [phone, setPhone] = useState('');
 
   useEffect(() => {
+    if (!isLoading && session) {
+        setName(session.name || '');
+        setAddress(session.address || '');
+        setCity(session.city || '');
+        setZip(session.zip || '');
+        setPhone(session.phone || '');
+    }
+  }, [session, isLoading]);
+
+
+  useEffect(() => {
     if (cartItems.length === 0) {
       router.push('/cart');
     }
   }, [cartItems, router]);
+  
+  const handleCepChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const cep = e.target.value.replace(/\D/g, '');
+    setZip(cep);
+
+    if (cep.length === 8) {
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
+        if (!data.erro) {
+          setAddress(data.logradouro);
+          setCity(data.localidade);
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'CEP não encontrado',
+                description: 'Verifique o CEP e tente novamente.',
+            })
+        }
+      } catch (error) {
+        console.error("Failed to fetch CEP", error);
+        toast({
+            variant: 'destructive',
+            title: 'Erro ao buscar CEP',
+            description: 'Não foi possível consultar o CEP. Tente novamente.',
+        })
+      }
+    }
+  };
+
 
   if (cartItems.length === 0) {
     return (
@@ -104,17 +147,17 @@ export default function CheckoutPage() {
                 <Label htmlFor="phone">Telefone / WhatsApp</Label>
                 <Input id="phone" placeholder="(00) 90000-0000" value={phone} onChange={(e) => setPhone(e.target.value)} required />
               </div>
-              <div className="md:col-span-2">
-                <Label htmlFor="address">Endereço</Label>
-                <Input id="address" placeholder="Rua, Número, Bairro" value={address} onChange={(e) => setAddress(e.target.value)} required />
-              </div>
               <div>
+                <Label htmlFor="zip">CEP</Label>
+                <Input id="zip" placeholder="00000-000" value={zip} onChange={handleCepChange} required />
+              </div>
+               <div>
                 <Label htmlFor="city">Cidade</Label>
                 <Input id="city" placeholder="Sua cidade" value={city} onChange={(e) => setCity(e.target.value)} required />
               </div>
-              <div>
-                <Label htmlFor="zip">CEP</Label>
-                <Input id="zip" placeholder="00000-000" value={zip} onChange={(e) => setZip(e.target.value)} required />
+              <div className="md:col-span-2">
+                <Label htmlFor="address">Endereço</Label>
+                <Input id="address" placeholder="Rua, Número, Bairro" value={address} onChange={(e) => setAddress(e.target.value)} required />
               </div>
             </CardContent>
           </Card>

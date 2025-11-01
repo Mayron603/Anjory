@@ -16,7 +16,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
        {/* Hero Section */}
-       <section className="relative w-full bg-primary/20 overflow-hidden paint-splatter">
+       <section className="relative w-full bg-secondary/30 overflow-hidden paint-splatter">
          <div className="container mx-auto min-h-[70vh] flex items-center justify-center relative z-10 py-16 md:py-0">
            <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 w-full">
               {/* Image Section */}

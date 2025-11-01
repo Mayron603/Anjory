@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Logo } from '@/components/icons/logo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Facebook, Instagram } from 'lucide-react';
+import { Instagram } from 'lucide-react';
 import { TikTok } from '../icons/tiktok';
 
 export function Footer() {
@@ -15,7 +15,6 @@ export function Footer() {
             Sua loja de decoração e itens para casa com um toque de elegância e modernidade.
           </p>
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="icon"><Facebook className="h-5 w-5" /></Button>
             <Button variant="ghost" size="icon"><Instagram className="h-5 w-5" /></Button>
             <Button variant="ghost" size="icon"><TikTok className="h-5 w-5" /></Button>
           </div>

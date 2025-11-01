@@ -3,9 +3,10 @@ import { Logo } from '@/components/icons/logo';
 import { MainNav } from '@/components/layout/main-nav';
 import { UserNav } from '@/components/layout/user-nav';
 import { CartButton } from '@/components/layout/cart-button';
-import { Menu, Search, Instagram, Facebook } from 'lucide-react';
+import { Menu, Search, Instagram } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
+import { TikTok } from '../icons/tiktok';
 
 export function Header() {
   return (
@@ -47,8 +48,8 @@ export function Header() {
         </div>
         
         <div className="flex-1 hidden md:flex items-center justify-end space-x-2">
-          <Button variant="ghost" size="icon"><Facebook className="h-4 w-4" /></Button>
           <Button variant="ghost" size="icon"><Instagram className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon"><TikTok className="h-5 w-5" /></Button>
           <CartButton />
           <UserNav />
         </div>

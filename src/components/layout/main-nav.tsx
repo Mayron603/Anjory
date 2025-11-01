@@ -26,7 +26,7 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
         Início
       </Link>
       <Link href="/products" className={linkClass}>
-        Novidades
+        Produtos
       </Link>
       <Link href="/contact" className={linkClass}>
         Atendimento

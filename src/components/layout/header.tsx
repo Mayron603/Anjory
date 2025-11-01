@@ -3,10 +3,11 @@ import { Logo } from '@/components/icons/logo';
 import { MainNav } from '@/components/layout/main-nav';
 import { UserNav } from '@/components/layout/user-nav';
 import { CartButton } from '@/components/layout/cart-button';
-import { Menu, Search, Instagram } from 'lucide-react';
+import { Menu, Instagram } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { TikTok } from '../icons/tiktok';
+import { SearchBar } from './search-bar';
 
 export function Header() {
   return (
@@ -17,9 +18,7 @@ export function Header() {
       <div className="container flex h-20 max-w-screen-2xl items-center">
         <div className="flex-1 flex items-center justify-start">
           <div className="hidden md:flex items-center">
-             <Button variant="ghost" size="icon">
-              <Search className="h-5 w-5" />
-            </Button>
+             <SearchBar />
           </div>
           <div className="flex md:hidden items-center">
             <Sheet>
@@ -36,6 +35,9 @@ export function Header() {
                 <div className="flex flex-col space-y-3">
                   <MainNav isMobile={true} />
                 </div>
+                 <div className="mt-6">
+                    <SearchBar />
+                  </div>
               </SheetContent>
             </Sheet>
           </div>

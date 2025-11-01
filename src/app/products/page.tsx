@@ -19,6 +19,7 @@ export default async function ProductsPage({
     price?: string;
     sort?: string;
     page?: string;
+    q?: string;
   }
 }) {
   const allProducts = await getProducts();
@@ -28,6 +29,15 @@ export default async function ProductsPage({
 
   // Filtering logic
   let filteredProducts: Product[] = allProducts;
+
+  if (searchParams.q) {
+    const query = searchParams.q.toLowerCase();
+    filteredProducts = filteredProducts.filter(p =>
+      p.name.toLowerCase().includes(query) ||
+      p.description.toLowerCase().includes(query) ||
+      p.category.toLowerCase().includes(query)
+    );
+  }
 
   const selectedCategories = searchParams.categories?.split(',') || [];
   if (selectedCategories.length > 0) {
@@ -56,7 +66,9 @@ export default async function ProductsPage({
     currentPage * productsPerPage
   );
   
-  const title = "Todos os Produtos";
+  const title = searchParams.q 
+    ? `Resultados para "${searchParams.q}"`
+    : "Todos os Produtos";
 
   return (
     <div className="container py-12">
@@ -64,7 +76,9 @@ export default async function ProductsPage({
         <h1 className="text-3xl md:text-4xl font-headline font-bold">
           {title}
         </h1>
-        <p className="mt-2 text-muted-foreground">Explore nossa coleção de produtos artesanais.</p>
+        {!searchParams.q && (
+          <p className="mt-2 text-muted-foreground">Explore nossa coleção de produtos artesanais.</p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

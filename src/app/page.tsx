@@ -16,6 +16,7 @@ export default async function HomePage() {
   const featuredProducts = products.slice(0, 4);
   const heroImage = getImageById('vela-pote-vidro-1');
   const instagramPosts = instagramPostsConfig.slice(0, 12);
+  const testImageUrl = "https://images.unsplash.com/photo-1495667496513-9068843d7679?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjYW5kbGUlMjBsaWdodHxlbnwwfHx8fDE3NjE5NjA4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080";
 
   return (
     <div className="flex flex-col">
@@ -127,9 +128,8 @@ export default async function HomePage() {
               return (
                 <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={`${post.id}-${Math.random()}`} className={cn("group relative overflow-hidden rounded-md", post.className)}>
                   <Image
-                    src={image.imageUrl}
-                    alt={`Post do Instagram ${image.description}`}
-                    data-ai-hint={image.imageHint}
+                    src={testImageUrl}
+                    alt={`Post do Instagram de teste`}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                     sizes="(max-width: 768px) 50vw, 33vw"

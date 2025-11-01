@@ -30,11 +30,9 @@ export function useSession() {
         const data = await res.json();
         setSession(data);
       } else {
-        // This is an expected case when the user is not logged in.
         setSession(null);
       }
     } catch (error) {
-      // Log only unexpected network errors, not 401 responses.
       console.error('Failed to fetch session:', error);
       setSession(null);
     } finally {
@@ -50,13 +48,18 @@ export function useSession() {
         fetchSession();
       }
     };
-
+    
+    // Standard listeners
     window.addEventListener('focus', fetchSession);
     window.addEventListener('visibilitychange', handleVisibilityChange);
+    // Custom event listener to force-update session state
+    window.addEventListener('session-update', fetchSession);
 
     return () => {
         window.removeEventListener('focus', fetchSession);
         window.removeEventListener('visibilitychange', handleVisibilityChange);
+        // Cleanup custom event listener
+        window.removeEventListener('session-update', fetchSession);
     };
   }, [fetchSession]);
 

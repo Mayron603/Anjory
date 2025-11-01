@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useActionState, useEffect } from 'react';
+import { useTransition, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -13,39 +13,37 @@ import { signUp } from '@/app/actions';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
-function SubmitButton() {
-  const { pending } = useActionState(signUp, undefined) as { pending: boolean };
-  return (
-    <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-      Criar Conta
-    </Button>
-  );
-}
-
 export default function RegisterPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const [state, formAction] = useActionState(signUp, undefined);
+  const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    if (state?.error) {
-      toast({
-        variant: "destructive",
-        title: "Erro no cadastro",
-        description: state.error,
-      });
-    }
-    
-    if (state?.success) {
-      toast({
-        title: "Conta criada com sucesso!",
-        description: "Você será redirecionado para seu perfil.",
-      });
-      router.refresh();
-      router.push('/profile');
-    }
-  }, [state, router, toast]);
+  const handleSubmit = (formData: FormData) => {
+    startTransition(async () => {
+      const result = await signUp(null, formData);
+
+      if (result?.error) {
+        toast({
+          variant: "destructive",
+          title: "Erro no cadastro",
+          description: result.error,
+        });
+      }
+      
+      if (result?.success) {
+        toast({
+          title: "Conta criada com sucesso!",
+          description: "Você será redirecionado para seu perfil.",
+        });
+        
+        // Dispatch the custom event to notify all useSession hooks
+        window.dispatchEvent(new Event('session-update'));
+        
+        router.refresh(); // Optional: ensures server components are fresh
+        router.push('/profile');
+      }
+    });
+  };
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-8rem)] py-12 px-4">
@@ -58,7 +56,7 @@ export default function RegisterPage() {
           <CardDescription>É rápido e fácil. Comece a comprar agora mesmo!</CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={formAction} className="space-y-4">
+          <form action={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Nome</Label>
               <Input id="name" name="name" placeholder="Seu nome completo" required />
@@ -71,7 +69,10 @@ export default function RegisterPage() {
               <Label htmlFor="password">Senha</Label>
               <Input id="password" name="password" type="password" required />
             </div>
-            <SubmitButton />
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              Criar Conta
+            </Button>
           </form>
           <div className="mt-4 text-center text-sm">
             Já tem uma conta?{' '}

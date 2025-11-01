@@ -24,14 +24,15 @@ import { signOut } from '@/app/actions';
 import { useTransition } from 'react';
 
 export function UserNav() {
-  const { session, isLoading, mutate } = useSession();
+  const { session, isLoading } = useSession();
   const [isPending, startTransition] = useTransition();
   const user = session;
 
   const handleSignOut = async () => {
     startTransition(async () => {
         await signOut();
-        await mutate();
+        // Dispatch the custom event to notify all useSession hooks
+        window.dispatchEvent(new Event('session-update'));
     });
   }
 

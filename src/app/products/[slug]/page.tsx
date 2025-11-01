@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { AddToCartButton } from './add-to-cart-button';
 import { formatPrice } from '@/lib/utils';
 import { Star } from 'lucide-react';
+import { ProductImageGallery } from './product-image-gallery';
 
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
   const product = await getProductBySlug(params.slug);
@@ -15,25 +16,10 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
     notFound();
   }
 
-  const image = getImageById(product.images[0]);
-
   return (
     <div className="container mx-auto max-w-6xl py-8 md:py-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-        <div className="aspect-square relative rounded-lg overflow-hidden border shadow-sm">
-          {image ? (
-            <Image
-              src={image.imageUrl}
-              alt={image.description}
-              data-ai-hint={image.imageHint}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          ) : (
-            <div className="w-full h-full bg-muted" />
-          )}
-        </div>
+        <ProductImageGallery imageIds={product.images} />
         <div className="flex flex-col">
           <h1 className="text-3xl md:text-4xl font-headline font-bold">{product.name}</h1>
           <p className="text-3xl font-bold text-primary mt-4">{formatPrice(product.price)}</p>

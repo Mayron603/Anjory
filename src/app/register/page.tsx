@@ -42,12 +42,12 @@ export default function RegisterPage() {
     if (state?.success) {
       toast({
         title: "Conta criada com sucesso!",
-        description: "Você será redirecionado em breve.",
+        description: "Você será redirecionado para seu perfil.",
       });
       // Mutate the session to get the new user data
-      // and then redirect to the home page.
+      // and then redirect to the profile page.
       mutate().then(() => {
-        router.push('/');
+        router.push('/profile');
       });
     }
   }, [state, toast, router, mutate]);

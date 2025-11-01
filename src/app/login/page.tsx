@@ -42,9 +42,9 @@ export default function LoginPage() {
     }
     if (state?.success) {
       // Mutate the session to get the new user data
-      // and then redirect to the home page.
+      // and then redirect to the profile page.
       mutate().then(() => {
-        router.push('/');
+        router.push('/profile');
       });
     }
   }, [state, toast, router, mutate]);

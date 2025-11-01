@@ -54,4 +54,5 @@ export type User = {
   state?: string | null;
   role: 'admin' | 'customer';
   createdAt: string;
+  termsAcceptedAt?: string | null;
 };

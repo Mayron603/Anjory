@@ -184,9 +184,15 @@ export async function signUp(prevState: any, data: FormData) {
   const name = data.get('name') as string;
   const email = data.get('email') as string;
   const password = data.get('password') as string;
+  const termsAccepted = data.get('terms') === 'on';
+
 
   if (!name || !email || !password) {
     return { error: 'Todos os campos são obrigatórios.' };
+  }
+  
+  if (!termsAccepted) {
+    return { error: 'Você deve aceitar os termos e a política de privacidade para continuar.' };
   }
 
   let db;
@@ -207,6 +213,8 @@ export async function signUp(prevState: any, data: FormData) {
       password: hashedPassword,
       role, // Assign role
       createdAt: new Date(),
+      termsAccepted: true,
+      termsAcceptedAt: new Date(),
     });
 
     // Create session for the new user
@@ -556,6 +564,7 @@ export async function getAllUsersForAdmin() {
       ...user,
       _id: user._id.toString(),
       createdAt: user.createdAt.toISOString(),
+      termsAcceptedAt: user.termsAcceptedAt?.toISOString() || null,
     }));
   } catch (e) {
     console.error("Failed to fetch all users:", e);

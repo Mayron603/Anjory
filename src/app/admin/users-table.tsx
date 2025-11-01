@@ -43,6 +43,7 @@ export function UsersTable({ users }: UsersTableProps) {
             <TableHead>Nome</TableHead>
             <TableHead className='hidden sm:table-cell'>E-mail</TableHead>
             <TableHead className="text-center hidden sm:table-cell">Função</TableHead>
+            <TableHead className="hidden sm:table-cell">Termos Aceitos</TableHead>
             <TableHead className="text-right">Ações</TableHead>
           </TableRow>
         </TableHeader>
@@ -60,6 +61,9 @@ export function UsersTable({ users }: UsersTableProps) {
                 <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
                     {user.role}
                 </Badge>
+              </TableCell>
+              <TableCell className="hidden sm:table-cell">
+                {user.termsAcceptedAt ? new Date(user.termsAcceptedAt).toLocaleDateString('pt-BR') : 'Não'}
               </TableCell>
               <TableCell className="text-right">
                 <EditUserDialog user={user} />

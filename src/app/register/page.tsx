@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useActionState, useEffect } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,11 +13,12 @@ import { Logo } from '@/components/icons/logo';
 import { signUp } from '@/app/actions';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Checkbox } from '@/components/ui/checkbox';
 
-function SubmitButton() {
+function SubmitButton({ termsAccepted }: { termsAccepted: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full" disabled={pending}>
+    <Button type="submit" className="w-full" disabled={pending || !termsAccepted}>
       {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
       Criar Conta
     </Button>
@@ -27,6 +28,7 @@ function SubmitButton() {
 export default function RegisterPage() {
   const { toast } = useToast();
   const router = useRouter();
+  const [termsAccepted, setTermsAccepted] = useState(false);
   
   const [state, formAction] = useActionState(signUp, undefined);
 
@@ -64,7 +66,18 @@ export default function RegisterPage() {
               <Label htmlFor="password">Senha</Label>
               <Input id="password" name="password" type="password" required />
             </div>
-            <SubmitButton />
+            <div className="items-top flex space-x-2">
+                <Checkbox id="terms" name="terms" onCheckedChange={(checked) => setTermsAccepted(checked as boolean)} />
+                <div className="grid gap-1.5 leading-none">
+                    <label
+                    htmlFor="terms"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                    Eu li e concordo com os <Link href="/privacy" className="underline hover:text-primary" target="_blank">Termos e a Política de Privacidade</Link>.
+                    </label>
+                </div>
+            </div>
+            <SubmitButton termsAccepted={termsAccepted} />
           </form>
           <div className="mt-4 text-center text-sm">
             Já tem uma conta?{' '}

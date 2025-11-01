@@ -2,8 +2,8 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { formatPrice } from './lib/utils';
-import type { CartItem } from './lib/types';
+import { formatPrice } from '@/lib/utils';
+import type { CartItem } from '@/lib/types';
 
 interface OrderDetails {
   cartItems: CartItem[];

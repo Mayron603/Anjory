@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -13,10 +14,11 @@ import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useSession } from '@/hooks/use-session';
 
-function SubmitButton({ isPending }: { isPending: boolean }) {
+function SubmitButton() {
+  const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full" disabled={isPending}>
-      {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+    <Button type="submit" className="w-full" disabled={pending}>
+      {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
       Entrar
     </Button>
   );
@@ -26,33 +28,26 @@ export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
   const { mutate } = useSession();
-  const [isPending, startTransition] = useTransition();
+  const [state, formAction] = useActionState(signIn, undefined);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-
-    startTransition(async () => {
-      const result = await signIn(null, formData);
-
-      if (result?.error) {
-        toast({
-          variant: "destructive",
-          title: "Erro no login",
-          description: result.error,
-        });
-      } else if (result?.success) {
-        toast({
-          title: "Login bem-sucedido!",
-          description: "Você será redirecionado para o seu perfil.",
-        });
-        // First, mutate the session to fetch new data
-        // Then, redirect to the profile page
-        await mutate();
+  useEffect(() => {
+    if (state?.error) {
+      toast({
+        variant: "destructive",
+        title: "Erro no login",
+        description: state.error,
+      });
+    }
+    if (state?.success) {
+      toast({
+        title: "Login bem-sucedido!",
+        description: "Você será redirecionado para o seu perfil.",
+      });
+      mutate().then(() => {
         router.push('/profile');
-      }
-    });
-  };
+      });
+    }
+  }, [state, toast, router, mutate]);
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-8rem)] py-12 px-4">
@@ -65,7 +60,7 @@ export default function LoginPage() {
           <CardDescription>Bem-vindo(a) de volta! Entre com suas credenciais.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form action={formAction} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" placeholder="seu@email.com" required />
@@ -79,7 +74,7 @@ export default function LoginPage() {
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
-            <SubmitButton isPending={isPending} />
+            <SubmitButton />
           </form>
           <div className="mt-4 text-center text-sm">
             Não tem uma conta?{' '}

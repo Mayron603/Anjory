@@ -1,8 +1,8 @@
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Logo } from '@/components/icons/logo';
 import { MainNav } from '@/components/layout/main-nav';
-import { UserNav } from '@/components/layout/user-nav';
 import { CartButton } from '@/components/layout/cart-button';
 import { Menu, Instagram, Truck, CreditCard, Ticket, Share2 } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -16,6 +16,11 @@ const announcementMessages = [
   { icon: Ticket, text: 'Cupom de 10% na primeira compra: ANJORY10' },
   { icon: Share2, text: 'NOS SIGA NAS REDES SOCIAIS' },
 ];
+
+const DynamicUserNav = dynamic(() => import('./user-nav').then(mod => mod.UserNav), {
+  ssr: false,
+});
+
 
 export function Header() {
   return (
@@ -79,7 +84,7 @@ export function Header() {
             </Link>
           </Button>
           <CartButton />
-          <UserNav />
+          <DynamicUserNav />
         </div>
         
          <div className="flex-1 flex justify-end md:hidden">

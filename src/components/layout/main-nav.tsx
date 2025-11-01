@@ -28,16 +28,9 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
       <Link href="/products" className={linkClass}>
         Novidades
       </Link>
-      <DropdownMenu>
-        <DropdownMenuTrigger className={cn(linkClass, "flex items-center gap-1 outline-none")}>
-          Atendimento <ChevronDown className="h-4 w-4" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-           <DropdownMenuItem asChild>
-            <Link href="/faq">FAQ</Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Link href="/contact" className={linkClass}>
+        Atendimento
+      </Link>
       <Link href="/contact" className={linkClass}>
         Contato
       </Link>

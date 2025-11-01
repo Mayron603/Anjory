@@ -17,38 +17,38 @@ export default async function HomePage() {
     <div className="flex flex-col">
        {/* Hero Section */}
        <section className="relative w-full bg-primary/20 overflow-hidden paint-splatter">
-       <div className="container mx-auto min-h-[70vh] flex items-center justify-center relative z-10 py-16 md:py-0">
-         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 w-full">
-            {/* Image Section */}
-            <div className="relative flex items-center justify-center h-96 md:h-auto">
-                <div className="relative w-full h-full max-w-sm">
-                    {/* Main Polaroid */}
-                    {heroImage && (
-                        <div className="relative w-[300px] h-[350px] md:w-[320px] md:h-[370px] bg-white p-4 shadow-xl transform -rotate-6">
-                            <div className="relative w-full h-full">
-                                <Image
-                                    src={heroImage.imageUrl}
-                                    alt={heroImage.description}
-                                    data-ai-hint={heroImage.imageHint}
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                    sizes="(max-width: 768px) 100vw, 50vw"
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
+         <div className="container mx-auto min-h-[70vh] flex items-center justify-center relative z-10 py-16 md:py-0">
+           <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 w-full">
+              {/* Image Section */}
+              <div className="relative flex items-center justify-center h-96 md:h-auto">
+                  <div className="relative w-full h-full max-w-sm">
+                      {/* Main Polaroid */}
+                      {heroImage && (
+                          <div className="relative w-[300px] h-[350px] md:w-[320px] md:h-[370px] bg-white p-4 shadow-xl transform -rotate-6">
+                              <div className="relative w-full h-full">
+                                  <Image
+                                      src={heroImage.imageUrl}
+                                      alt={heroImage.description}
+                                      data-ai-hint={heroImage.imageHint}
+                                      fill
+                                      className="object-cover"
+                                      priority
+                                      sizes="(max-width: 768px) 100vw, 50vw"
+                                  />
+                              </div>
+                          </div>
+                      )}
+                  </div>
+              </div>
             
            {/* Text Section */}
            <div className="text-center md:text-left flex flex-col items-center md:items-start relative z-20">
-             <p className="font-script text-4xl md:text-6xl text-foreground/70 mb-2">She's a</p>
+             <p className="font-script text-4xl md:text-6xl text-foreground/70 mb-2">Seja bem-vinda ao</p>
              <h1 className="font-body text-6xl md:text-8xl font-medium tracking-[0.2em] text-foreground/80 leading-tight">
-               WILD ONE
+               NOSSO CANTINHO
              </h1>
              <Button asChild size="lg" className="mt-8 rounded-sm px-10 bg-accent hover:bg-accent/90 text-accent-foreground font-body tracking-widest">
-               <Link href="/products">SHOP NOW</Link>
+               <Link href="/products">VER PRODUTOS</Link>
              </Button>
            </div>
          </div>

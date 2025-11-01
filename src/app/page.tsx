@@ -123,8 +123,6 @@ export default async function HomePage() {
           </div>
            <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[250px] gap-4">
             {instagramPosts.map((post) => {
-              const image = getImageById(post.id);
-              if (!image) return null;
               return (
                 <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={`${post.id}-${Math.random()}`} className={cn("group relative overflow-hidden rounded-md", post.className)}>
                   <Image

@@ -96,7 +96,7 @@ export async function placeOrder(details: OrderDetails) {
       price: item.product.price,
     })),
     total: cartTotal,
-    status: 'pending',
+    status: 'Pendente',
     createdAt: new Date(),
   };
 
@@ -484,5 +484,61 @@ export async function getUsersCountForAdmin() {
   } catch (e) {
     console.error("Failed to fetch users count:", e);
     return 0;
+  }
+}
+
+export async function updateOrderStatus(orderId: string, status: string) {
+  const session = await getSession();
+  if (session?.role !== 'admin') {
+    return { error: 'Acesso não autorizado.' };
+  }
+
+  if (!orderId || !status) {
+    return { error: 'ID do pedido e status são obrigatórios.' };
+  }
+
+  try {
+    const db = await getDb();
+    const result = await db.collection('orders').updateOne(
+      { _id: new ObjectId(orderId) },
+      { $set: { status: status } }
+    );
+
+    if (result.matchedCount === 0) {
+      return { error: 'Pedido não encontrado.' };
+    }
+
+    revalidatePath('/admin');
+    return { success: `Status do pedido atualizado para ${status}.` };
+
+  } catch (e) {
+    console.error("Erro ao atualizar status do pedido:", e);
+    return { error: 'Ocorreu um erro no servidor.' };
+  }
+}
+
+export async function deleteOrder(orderId: string) {
+  const session = await getSession();
+  if (session?.role !== 'admin') {
+    return { error: 'Acesso não autorizado.' };
+  }
+
+  if (!orderId) {
+    return { error: 'ID do pedido é obrigatório.' };
+  }
+
+  try {
+    const db = await getDb();
+    const result = await db.collection('orders').deleteOne({ _id: new ObjectId(orderId) });
+
+    if (result.deletedCount === 0) {
+      return { error: 'Pedido não encontrado.' };
+    }
+
+    revalidatePath('/admin');
+    return { success: 'Pedido excluído com sucesso.' };
+  } catch (e) {
+    console.error("Erro ao excluir pedido:", e);
+    return { error: 'Ocorreu um erro no servidor ao tentar excluir o pedido.' };
   }
 }

@@ -14,16 +14,29 @@ export type CartItem = {
 };
 
 export type Order = {
-  id: string;
-  items: CartItem[];
-  total: number;
-  date: string;
-  status: 'Processing' | 'Shipped' | 'Delivered';
-  shippingAddress: {
+  _id: string;
+  orderId: string;
+  userId: string;
+  customer: {
     name: string;
-    address: string;
+    email: string;
+    phone: string;
+    street: string;
+    number: string;
+    neighborhood: string;
     city: string;
+    state: string;
     zip: string;
-    country: string;
   };
+  items: {
+    productId: string;
+    name: string;
+    slug: string;
+    image: string;
+    quantity: number;
+    price: number;
+  }[];
+  total: number;
+  status: 'Pendente' | 'Enviado' | 'Entregue' | 'Cancelado';
+  createdAt: Date;
 };

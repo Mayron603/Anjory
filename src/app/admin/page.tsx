@@ -15,10 +15,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
 import { getSession, getAllOrdersForAdmin, getUsersCountForAdmin } from '@/app/actions';
 import { formatPrice } from '@/lib/utils';
 import { DollarSign, Package, CreditCard, Users } from 'lucide-react';
+import { OrderStatusSelector } from './order-status-selector';
+import type { Order } from '@/lib/types';
+import { OrderDetailsDialog } from './order-details-dialog';
 
 
 export default async function AdminDashboardPage() {
@@ -100,7 +102,7 @@ export default async function AdminDashboardPage() {
             <CardHeader>
               <CardTitle>Pedidos Recentes</CardTitle>
               <CardDescription>
-                Uma lista dos 10 pedidos mais recentes.
+                Uma lista de todos os pedidos.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -111,10 +113,11 @@ export default async function AdminDashboardPage() {
                     <TableHead className='hidden sm:table-cell'>Status</TableHead>
                     <TableHead className="text-right">Valor</TableHead>
                     <TableHead className="text-right hidden sm:table-cell">Data</TableHead>
+                    <TableHead className="text-right">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {orders.slice(0, 10).map((order) => (
+                  {orders.map((order: Order) => (
                     <TableRow key={order.orderId}>
                       <TableCell>
                         <div className="font-medium">{order.customer.name}</div>
@@ -123,13 +126,14 @@ export default async function AdminDashboardPage() {
                         </div>
                       </TableCell>
                       <TableCell className='hidden sm:table-cell'>
-                        <Badge className="text-xs" variant={order.status === 'pending' ? 'secondary' : 'default'}>
-                          {order.status}
-                        </Badge>
+                        <OrderStatusSelector orderId={order._id} currentStatus={order.status} />
                       </TableCell>
                       <TableCell className="text-right">{formatPrice(order.total)}</TableCell>
                       <TableCell className="text-right hidden sm:table-cell">
                         {new Date(order.createdAt).toLocaleDateString('pt-BR')}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <OrderDetailsDialog order={order} />
                       </TableCell>
                     </TableRow>
                   ))}

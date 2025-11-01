@@ -4,9 +4,11 @@ import type { NextRequest } from 'next/server'
 import { decrypt } from '@/app/actions';
 import { cookies } from 'next/headers';
 
+// This is required to enable Node.js APIs in middleware
+export const runtime = 'nodejs'
+
 // 1. Specify protected routes
 const protectedRoutes = ['/admin'];
-const publicRoutes = ['/login', '/register', '/'];
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;

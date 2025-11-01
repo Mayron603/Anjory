@@ -21,13 +21,18 @@ import { User, CreditCard, LogOut, Settings, LogIn } from 'lucide-react';
 import { useSession } from '@/hooks/use-session';
 import { Skeleton } from '../ui/skeleton';
 import { signOut } from '@/app/actions';
+import { useTransition } from 'react';
 
 export function UserNav() {
-  const { session, isLoading } = useSession();
+  const { session, isLoading, mutate } = useSession();
+  const [isPending, startTransition] = useTransition();
   const user = session;
 
   const handleSignOut = async () => {
-    await signOut();
+    startTransition(async () => {
+        await signOut();
+        await mutate();
+    });
   }
 
   if (isLoading) {
@@ -84,7 +89,7 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSignOut}>
+        <DropdownMenuItem onClick={handleSignOut} disabled={isPending}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Sair</span>
         </DropdownMenuItem>

@@ -24,7 +24,7 @@ export function useSession() {
 
   const fetchSession = useCallback(async () => {
     try {
-      setIsLoading(true);
+      // Don't set loading to true here to avoid flickering on re-fetches
       const res = await fetch('/api/session');
       if (res.ok) {
         const data = await res.json();
@@ -43,18 +43,18 @@ export function useSession() {
   useEffect(() => {
     fetchSession();
 
-    // Re-fetch session on window focus or when tab becomes visible
-    // to keep session in sync across tabs and after long periods of inactivity
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        fetchSession();
+      }
+    };
+
     window.addEventListener('focus', fetchSession);
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            fetchSession();
-        }
-    });
+    window.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
         window.removeEventListener('focus', fetchSession);
-        document.removeEventListener('visibilitychange', fetchSession);
+        window.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [fetchSession]);
 

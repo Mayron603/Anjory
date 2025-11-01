@@ -45,14 +45,14 @@ export default function CheckoutPage() {
   const handlePlaceOrder = async () => {
     // 1. Format message for WhatsApp
     const phoneNumber = "558184019864";
-    let whatsappMessage = `Olá! Gostaria de finalizar minha compra com os seguintes itens:\n\n`;
+    let whatsappMessage = `Olá! 👋 Gostaria de finalizar minha compra com os seguintes itens: 🛍️\n\n`;
     cartItems.forEach(item => {
-        whatsappMessage += `*${item.product.name}* (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}\n`;
+        whatsappMessage += `🛒 *${item.product.name}* (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}\n`;
     });
-    whatsappMessage += `\n*Total do Pedido: ${formatPrice(cartTotal)}*\n\n`;
-    whatsappMessage += `*Meus Dados:*\n`;
+    whatsappMessage += `\n*Total do Pedido: ${formatPrice(cartTotal)}* 💰\n\n`;
+    whatsappMessage += `*Meus Dados para Entrega:* 🚚\n`;
     whatsappMessage += `Nome: ${name}\n`;
-    whatsappMessage += `Telefone: ${phone}\n`;
+    whatsappMessage += `Telefone: ${phone} 📱\n`;
     whatsappMessage += `Endereço: ${address}, ${city}, ${zip}\n`;
     
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;

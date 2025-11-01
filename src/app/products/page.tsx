@@ -1,20 +1,62 @@
 import Link from 'next/link';
 import { ProductCard } from '@/components/product-card';
 import { getProducts } from '@/lib/products';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { ProductFilters } from './product-filters';
+import type { Product } from '@/lib/types';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
-export default async function ProductsPage({ searchParams }: { searchParams: { category?: string }}) {
+export default async function ProductsPage({ 
+  searchParams 
+}: { 
+  searchParams: { 
+    categories?: string;
+    price?: string;
+    sort?: string;
+    page?: string;
+  }
+}) {
   const allProducts = await getProducts();
-  
-  const categories = [...new Set(allProducts.map(p => p.category))];
+  const allCategories = [...new Set(allProducts.map(p => p.category))];
+  const maxPrice = Math.max(...allProducts.map(p => p.price));
+  const minPrice = Math.min(...allProducts.map(p => p.price));
 
-  const filteredProducts = searchParams.category 
-    ? allProducts.filter(p => p.category.toLowerCase() === searchParams.category?.toLowerCase())
-    : allProducts;
+  // Filtering logic
+  let filteredProducts: Product[] = allProducts;
+
+  const selectedCategories = searchParams.categories?.split(',') || [];
+  if (selectedCategories.length > 0) {
+    filteredProducts = filteredProducts.filter(p => selectedCategories.includes(p.category.toLowerCase()));
+  }
+
+  const priceRange = searchParams.price ? parseInt(searchParams.price, 10) : maxPrice;
+  if (priceRange) {
+    filteredProducts = filteredProducts.filter(p => p.price <= priceRange);
+  }
+
+  // Sorting logic
+  const sortOption = searchParams.sort || 'relevance';
+  if (sortOption === 'price-asc') {
+    filteredProducts.sort((a, b) => a.price - b.price);
+  } else if (sortOption === 'price-desc') {
+    filteredProducts.sort((a, b) => b.price - a.price);
+  }
   
-  const currentCategory = searchParams.category;
-  const title = currentCategory ? `${currentCategory}` : "Todos os Produtos";
+  // Pagination logic
+  const currentPage = searchParams.page ? parseInt(searchParams.page, 10) : 1;
+  const productsPerPage = 9;
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
+  
+  const title = "Todos os Produtos";
 
   return (
     <div className="container py-12">
@@ -25,30 +67,49 @@ export default async function ProductsPage({ searchParams }: { searchParams: { c
         <p className="mt-2 text-muted-foreground">Explore nossa coleção de produtos artesanais.</p>
       </div>
 
-      <div className="flex justify-center gap-2 mb-10 flex-wrap">
-        <Button asChild variant={!currentCategory ? 'default' : 'outline'}>
-          <Link href="/products">Todos</Link>
-        </Button>
-        {categories.map(category => (
-          <Button 
-            asChild 
-            key={category}
-            variant={currentCategory?.toLowerCase() === category.toLowerCase() ? 'default' : 'outline'}
-          >
-            <Link href={`/products?category=${category}`}>{category}</Link>
-          </Button>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-        {filteredProducts.length === 0 && (
-          <p className="text-center col-span-full text-muted-foreground">
-            Nenhum produto encontrado nesta categoria.
-          </p>
-        )}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <aside className="md:col-span-1">
+           <ProductFilters 
+            categories={allCategories} 
+            minPrice={minPrice}
+            maxPrice={maxPrice} 
+           />
+        </aside>
+        
+        <main className="md:col-span-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {paginatedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+            {paginatedProducts.length === 0 && (
+              <p className="text-center col-span-full text-muted-foreground py-12">
+                Nenhum produto encontrado com os filtros selecionados.
+              </p>
+            )}
+          </div>
+          
+          {totalPages > 1 && (
+            <Pagination className="mt-12">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    href={`/products?${new URLSearchParams({...searchParams, page: String(Math.max(1, currentPage - 1))})}`}
+                    aria-disabled={currentPage === 1}
+                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                  />
+                </PaginationItem>
+                {/* You can add page numbers here if you want */}
+                <PaginationItem>
+                  <PaginationNext 
+                    href={`/products?${new URLSearchParams({...searchParams, page: String(Math.min(totalPages, currentPage + 1))})}`}
+                    aria-disabled={currentPage === totalPages}
+                    className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          )}
+        </main>
       </div>
     </div>
   );

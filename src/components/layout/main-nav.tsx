@@ -34,10 +34,10 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem asChild>
-             <Link href="/products?category=Velas">Velas</Link>
+             <Link href="/products?categories=velas">Velas</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/products?category=Papelaria">Papelaria</Link>
+            <Link href="/products?categories=papelaria">Papelaria</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -174,8 +174,9 @@ export async function signUp(prevState: any, data: FormData) {
     return { error: 'Todos os campos são obrigatórios.' };
   }
 
+  let db;
   try {
-    const db = await getDb();
+    db = await getDb();
     
     // Check if user already exists
     const existingUser = await db.collection('users').findOne({ email });
@@ -187,20 +188,31 @@ export async function signUp(prevState: any, data: FormData) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Save the new user to the database
-    await db.collection('users').insertOne({
+    const newUserResult = await db.collection('users').insertOne({
       name,
       email,
       password: hashedPassword,
       createdAt: new Date(),
     });
 
+    // Create session for the new user
+     const sessionPayload = {
+      userId: newUserResult.insertedId.toString(),
+      email: email,
+      name: name,
+    };
+    const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const session = await encrypt(sessionPayload);
+    cookies().set('session', session, { expires, httpOnly: true });
+
+
   } catch (e) {
     console.error("Erro no registro:", e);
     return { error: 'Ocorreu um erro durante o registro. Tente novamente.' };
   }
   
-  // Redirect to login page after successful registration
-  redirect('/login');
+  // Redirect to home page after successful registration and login
+  redirect('/');
 }
 
 
@@ -279,6 +291,7 @@ export async function signIn(prevState: any, data: FormData) {
 
 export async function signOut() {
   cookies().set('session', '', { expires: new Date(0) });
+  revalidatePath('/', 'layout');
   redirect('/login');
 }
 

@@ -229,7 +229,7 @@ export default function CheckoutPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={handlePlaceOrder} size="lg" className="w-full" disabled={isPending}>
+              <Button onClick={handlePlaceOrder} size="lg" className="w-full" disabled={isPending || !name || !phone || !zip || !street || !number || !neighborhood || !city || !state}>
                 {isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

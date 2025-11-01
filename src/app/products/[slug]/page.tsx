@@ -1,13 +1,14 @@
+
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getProductBySlug } from '@/lib/products';
+import { getProductBySlug, getProducts } from '@/lib/products';
 import { getImageById } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { AddToCartButton } from './add-to-cart-button';
 import { formatPrice } from '@/lib/utils';
-import { Star } from 'lucide-react';
 import { ProductImageGallery } from './product-image-gallery';
+import { ProductCard } from '@/components/product-card';
 
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
   const product = await getProductBySlug(params.slug);
@@ -15,6 +16,11 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   if (!product) {
     notFound();
   }
+
+  const allProducts = await getProducts();
+  const relatedProducts = allProducts
+    .filter(p => p.category === product.category && p.id !== product.id)
+    .slice(0, 4);
 
   return (
     <div className="container mx-auto max-w-6xl py-8 md:py-16">
@@ -31,6 +37,22 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
           </div>
         </div>
       </div>
+
+      {relatedProducts.length > 0 && (
+        <div className="mt-24">
+          <Separator className="mb-16"/>
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold">
+              Dá uma olhadinha nesses produtos, são o par perfeito pro que você escolheu!
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {relatedProducts.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

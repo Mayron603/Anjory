@@ -30,19 +30,6 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
       </Link>
       <DropdownMenu>
         <DropdownMenuTrigger className={cn(linkClass, "flex items-center gap-1 outline-none")}>
-          Comprar por Categoria <ChevronDown className="h-4 w-4" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem asChild>
-             <Link href="/products?categories=velas">Velas</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/products?categories=papelaria">Papelaria</Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <DropdownMenu>
-        <DropdownMenuTrigger className={cn(linkClass, "flex items-center gap-1 outline-none")}>
           Atendimento <ChevronDown className="h-4 w-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>

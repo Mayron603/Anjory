@@ -36,18 +36,8 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
         </div>
         <div className="flex flex-col">
           <h1 className="text-3xl md:text-4xl font-headline font-bold">{product.name}</h1>
-          <div className="flex items-center gap-2 mt-2">
-            <div className="flex items-center text-primary">
-              <Star className="w-5 h-5 fill-current" />
-              <Star className="w-5 h-5 fill-current" />
-              <Star className="w-5 h-5 fill-current" />
-              <Star className="w-5 h-5 fill-current" />
-              <Star className="w-5 h-5 fill-current" />
-            </div>
-            <span className="text-sm text-muted-foreground">(34 avaliações)</span>
-          </div>
           <p className="text-3xl font-bold text-primary mt-4">{formatPrice(product.price)}</p>
-          <p className="text-muted-foreground mt-1">em até 3x sem juros</p>
+          <p className="text-muted-foreground mt-1">em 2x sem juros</p>
           <Separator className="my-6" />
           <p className="text-foreground/80 leading-relaxed">{product.description}</p>
           <div className="mt-8">

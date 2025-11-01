@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Esta versão usa o <path> do logo preenchido
 export function TikTok(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -7,16 +8,12 @@ export function TikTok(props: React.SVGProps<SVGSVGElement>) {
       width="24"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      // Mudamos de "stroke" para "fill"
+      fill="currentColor"
       {...props}
     >
-      <path d="M21 7.5a4.5 4.5 0 0 1-4.5 4.5H12V4.5a4.5 4.5 0 0 1 4.5-4.5h.5" />
-      <path d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
-      <path d="M7.5 12V21" />
+      {/* Este é o path do logo padrão do TikTok */}
+      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-1.06-.63-1.9-1.48-2.48-2.52-1.17-2.08-1.19-4.71.02-6.88.63-1.15 1.48-2.12 2.5-2.85 1.01-.73 2.18-1.25 3.39-1.56.02 2.87-.01 5.74.02 8.61.01.21.05.42.12.62.18.56.53 1.01 1.01 1.29.7.4 1.6.38 2.32-.06.39-.24.68-.58.87-.98.17-.36.25-.75.25-1.13V.02z" />
     </svg>
   );
 }

@@ -60,24 +60,28 @@ export default function CheckoutPage() {
     // 2. Format message for Discord Webhook
     const webhookUrl = "https://discord.com/api/webhooks/1434225043923013916/Y07sjzhIBWBioQWfsvkCS2vH_67orSQhQfkYwEfC2vCNFg5wzduWSGkYOlkT_oVwwMCN";
     const discordPayload = {
-      content: "🎉 Novo Pedido Recebido!",
+      content: "🎉 **Novo Pedido Recebido na Anjory!** 🎉",
       embeds: [
         {
-          title: "Detalhes do Pedido",
-          color: 3447003, // Blue color
+          title: "🛒 Detalhes do Pedido",
+          color: 1190991, // Cor #122c4f
+          thumbnail: {
+            url: "https://cdn.discordapp.com/attachments/1207833625870073857/1434208091154550957/Pastel_Purple_Retro_Bold_Cafe_Logo__4_-removebg-preview_1.png?ex=69077ddf&is=69062c5f&hm=14f77e60f6fdf789b094150821c6d3c79b527871cd5ccedca5a8bda01a864d15&"
+          },
           fields: [
-            { name: "Cliente", value: name, inline: true },
-            { name: "Telefone", value: phone, inline: true },
-            { name: "Endereço", value: `${address}, ${city} - CEP: ${zip}` },
+            { name: "Cliente", value: name || "Não informado", inline: true },
+            { name: "Telefone", value: phone || "Não informado", inline: true },
+            { name: "Endereço de Entrega", value: `${address}, ${city} - CEP: ${zip}` || "Não informado" },
             { 
-              name: "Produtos", 
-              value: cartItems.map(item => `${item.product.name} (x${item.quantity})`).join('\n') 
+              name: "Itens do Pedido", 
+              value: cartItems.map(item => `• ${item.product.name} (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}`).join('\n') 
             },
-            { name: "Valor Total", value: `**${formatPrice(cartTotal)}**`, inline: true },
+            { name: "Valor Total", value: `**${formatPrice(cartTotal)}**`, inline: false },
           ],
           timestamp: new Date().toISOString(),
           footer: {
-            text: "Anjory Store"
+            text: "Anjory Store",
+            icon_url: "https://cdn.discordapp.com/attachments/1207833625870073857/1434208091154550957/Pastel_Purple_Retro_Bold_Cafe_Logo__4_-removebg-preview_1.png?ex=69077ddf&is=69062c5f&hm=14f77e60f6fdf789b094150821c6d3c79b527871cd5ccedca5a8bda01a864d15&"
           }
         }
       ]

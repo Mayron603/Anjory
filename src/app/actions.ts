@@ -398,10 +398,21 @@ export async function updateUser(prevState: any, data: FormData) {
     if (result.matchedCount === 0) {
       return { error: 'Usuário não encontrado.' };
     }
+
+    // Create a new session with the updated data
+    const newSessionPayload = {
+        ...session, // Keep old session data like userId
+        ...updateData // Overwrite with new data
+    };
+    
+    const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const newSession = await encrypt(newSessionPayload);
+    cookies().set('session', newSession, { expires, httpOnly: true });
     
     // Revalidate the profile path to show the updated data
     revalidatePath('/profile');
-    revalidatePath('/api/session'); // Also revalidate the session API route
+    revalidatePath('/checkout'); 
+    revalidatePath('/api/session');
 
     return { success: 'Dados atualizados com sucesso!' };
 

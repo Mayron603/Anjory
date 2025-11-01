@@ -10,6 +10,7 @@ export const runtime = 'nodejs'
 // 1. Specify protected routes
 const protectedRoutes = ['/admin'];
 
+// The default export is the middleware function itself
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const isProtectedRoute = protectedRoutes.some((prefix) => path.startsWith(prefix));
@@ -30,7 +31,7 @@ export default async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-// Routes Middleware should not run on
+// The config object specifies which routes the middleware should run on.
 export const config = {
   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 };

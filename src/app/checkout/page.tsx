@@ -33,6 +33,11 @@ export default function CheckoutPage() {
   const [state, setState] = useState('');
 
   useEffect(() => {
+    // Redirect to login if not authenticated
+    if (!isLoading && !session) {
+      router.push('/login?redirect=/checkout');
+    }
+
     if (!isLoading && session) {
         setName(session.name || '');
         setPhone(session.phone || '');
@@ -43,7 +48,7 @@ export default function CheckoutPage() {
         setCity(session.city || '');
         setState(session.state || '');
     }
-  }, [session, isLoading]);
+  }, [session, isLoading, router]);
 
 
   useEffect(() => {
@@ -83,6 +88,17 @@ export default function CheckoutPage() {
     }
   };
 
+  const isFormIncomplete = !name || !phone || !zip || !street || !number || !neighborhood || !city || !state;
+
+  if (isLoading || !session) {
+     return (
+        <div className="container mx-auto max-w-6xl py-8 md:py-12 text-center">
+            <Loader2 className="mx-auto h-12 w-12 animate-spin text-muted-foreground" />
+            <h1 className="text-2xl font-bold mt-4">Carregando...</h1>
+            <p className="text-muted-foreground mt-2">Verificando sua sessão.</p>
+        </div>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (
@@ -94,6 +110,16 @@ export default function CheckoutPage() {
   }
 
   const handlePlaceOrder = () => {
+    if (!session) {
+       toast({
+            variant: "destructive",
+            title: "Sessão Expirada",
+            description: "Você precisa estar logado para finalizar um pedido.",
+          });
+      router.push('/login');
+      return;
+    }
+
     startTransition(async () => {
       try {
         const result = await placeOrder({
@@ -125,7 +151,7 @@ export default function CheckoutPage() {
           toast({
             variant: "destructive",
             title: "Erro desconhecido",
-            description: "Não foi possível gerar la URL do WhatsApp.",
+            description: "Não foi possível gerar a URL do WhatsApp.",
           });
         }
       } catch (error) {
@@ -229,7 +255,7 @@ export default function CheckoutPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={handlePlaceOrder} size="lg" className="w-full" disabled={isPending || !name || !phone || !zip || !street || !number || !neighborhood || !city || !state}>
+              <Button onClick={handlePlaceOrder} size="lg" className="w-full" disabled={isPending || isFormIncomplete}>
                 {isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

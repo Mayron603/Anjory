@@ -60,6 +60,10 @@ interface OrderDetails {
 export async function placeOrder(details: OrderDetails) {
   const { cartItems, cartTotal, customer } = details;
   const session = await getSession();
+  
+  if (!session?.userId) {
+    return { error: 'Usuário não autenticado. Faça login para continuar.' };
+  }
 
   // 1. Generate a unique Order ID
   const orderId = `ANJ-${Math.floor(Date.now() / 1000)}-${Math.floor(Math.random() * 900 + 100)}`;
@@ -72,6 +76,8 @@ export async function placeOrder(details: OrderDetails) {
     items: cartItems.map(item => ({
       productId: item.product.id,
       name: item.product.name,
+      slug: item.product.slug,
+      image: item.product.images[0],
       quantity: item.quantity,
       price: item.product.price,
     })),

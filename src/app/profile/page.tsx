@@ -1,30 +1,26 @@
 
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter
 } from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { formatPrice } from '@/lib/utils';
 import { getOrders, getSession } from '@/app/actions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { LogOut } from 'lucide-react';
 import { signOut } from '@/app/actions';
 import { UserDetailsForm } from './user-details-form';
+import { Separator } from '@/components/ui/separator';
+import { getImageById } from '@/lib/placeholder-images';
 
 export default async function ProfilePage() {
   const session = await getSession();
@@ -80,30 +76,65 @@ export default async function ProfilePage() {
             </CardHeader>
             <CardContent>
                {orders.length > 0 ? (
-                <Table>
-                    <TableHeader>
-                    <TableRow>
-                        <TableHead>Pedido</TableHead>
-                        <TableHead>Data</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Total</TableHead>
-                    </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                    {orders.map((order: any) => (
-                        <TableRow key={order.orderId}>
-                        <TableCell className="font-medium">{order.orderId}</TableCell>
-                        <TableCell>{new Date(order.createdAt).toLocaleDateString('pt-BR')}</TableCell>
-                        <TableCell>
-                            <Badge variant={getStatusVariant(order.status) as any} className="capitalize">
-                            {order.status}
-                            </Badge>
-                        </TableCell>
-                        <TableCell className="text-right">{formatPrice(order.total)}</TableCell>
-                        </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
+                <div className="space-y-6">
+                    {orders.map((order: any) => {
+                        const orderDate = new Date(order.createdAt).toLocaleDateString('pt-BR');
+                        return (
+                            <Card key={order.orderId}>
+                                <CardHeader className="flex flex-row items-center justify-between">
+                                    <div>
+                                        <h3 className="font-semibold">Pedido <span className="text-primary">#{order.orderId}</span></h3>
+                                        <p className="text-sm text-muted-foreground">Realizado em {orderDate}</p>
+                                    </div>
+                                    <Badge variant={getStatusVariant(order.status) as any} className="capitalize">
+                                        {order.status}
+                                    </Badge>
+                                </CardHeader>
+                                <CardContent>
+                                    <ul className="space-y-4">
+                                        {order.items.map((item: any) => {
+                                            const image = getImageById(item.image);
+                                            return (
+                                                <li key={item.productId} className="flex items-center gap-4">
+                                                     <div className="relative h-16 w-16 rounded-md overflow-hidden border">
+                                                      {image ? (
+                                                        <Image
+                                                          src={image.imageUrl}
+                                                          alt={item.name}
+                                                          fill
+                                                          className="object-cover"
+                                                        />
+                                                      ) : (
+                                                        <div className="w-full h-full bg-muted" />
+                                                      )}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <Link href={`/products/${item.slug}`} className="font-semibold hover:underline">
+                                                            {item.name}
+                                                        </Link>
+                                                        <p className="text-sm text-muted-foreground">
+                                                            {item.quantity} x {formatPrice(item.price)}
+                                                        </p>
+                                                    </div>
+                                                    <p className="font-medium">
+                                                        {formatPrice(item.quantity * item.price)}
+                                                    </p>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </CardContent>
+                                <Separator />
+                                <CardFooter className="flex justify-end pt-4 font-semibold">
+                                    <div className="flex gap-4">
+                                        <span>Total</span>
+                                        <span>{formatPrice(order.total)}</span>
+                                    </div>
+                                </CardFooter>
+                            </Card>
+                        )
+                    })}
+                </div>
                ) : (
                 <div className="text-center py-16 border border-dashed rounded-lg">
                     <h3 className="text-xl font-semibold">Nenhum pedido encontrado</h3>

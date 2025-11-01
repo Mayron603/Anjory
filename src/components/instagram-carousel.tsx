@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -81,34 +82,37 @@ export const InstagramCarousel = () => {
     <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex -ml-4" style={{ perspective: '1000px' }}>
-          {instagramPosts.map((src, index) => (
-            <div
-              className="flex-shrink-0 flex-grow-0 basis-full min-w-0 pl-4 transition-transform duration-200 ease-out"
-              key={index}
-              style={{
-                transform: `
-                  translateX(${tweenValues[index] * 100}%) 
-                  scale(${1 - Math.abs(tweenValues[index]) * 0.2})
-                  rotateY(${tweenValues[index] * 20}deg)
-                `,
-                transformOrigin: '50% 50%',
-                opacity: 1 - Math.abs(tweenValues[index]) * 0.5,
-              }}
-            >
-              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group relative block overflow-hidden rounded-lg aspect-[9/16]">
-                <Image
-                  src={src}
-                  alt={`Post do Instagram ${index + 1}`}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                 <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Instagram className="h-8 w-8 text-white" />
-                </div>
-              </Link>
-            </div>
-          ))}
+          {instagramPosts.map((src, index) => {
+            const tweenValue = tweenValues[index] || 0;
+            return (
+              <div
+                className="flex-shrink-0 flex-grow-0 basis-full min-w-0 pl-4 transition-transform duration-200 ease-out"
+                key={index}
+                style={{
+                  transform: `
+                    translateX(${tweenValue * 100}%) 
+                    scale(${1 - Math.abs(tweenValue) * 0.2})
+                    rotateY(${tweenValue * 20}deg)
+                  `,
+                  transformOrigin: '50% 50%',
+                  opacity: 1 - Math.abs(tweenValue) * 0.5,
+                }}
+              >
+                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group relative block overflow-hidden rounded-lg aspect-[9/16]">
+                  <Image
+                    src={src}
+                    alt={`Post do Instagram ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                   <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Instagram className="h-8 w-8 text-white" />
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center gap-2">

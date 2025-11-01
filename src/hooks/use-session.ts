@@ -9,8 +9,11 @@ interface Session {
   email: string;
   picture?: string;
   phone?: string | null;
-  address?: string | null;
+  street?: string | null;
+  number?: string | null;
+  neighborhood?: string | null;
   city?: string | null;
+  state?: string | null;
   zip?: string | null;
   expires: string;
 }

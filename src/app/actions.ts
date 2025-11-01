@@ -48,8 +48,11 @@ interface OrderDetails {
   customer: {
     name: string;
     phone: string;
-    address: string;
+    street: string;
+    number: string;
+    neighborhood: string;
     city: string;
+    state: string;
     zip: string;
   };
 }
@@ -90,6 +93,7 @@ export async function placeOrder(details: OrderDetails) {
 
   // 3. Format message for Discord Webhook
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  const fullAddress = `${customer.street}, ${customer.number} - ${customer.neighborhood}, ${customer.city}/${customer.state} - CEP: ${customer.zip}`;
   const discordPayload = {
     content: "🎉 **Novo Pedido Recebido na Anjory!** 🎉",
     embeds: [
@@ -103,7 +107,7 @@ export async function placeOrder(details: OrderDetails) {
           { name: "ID do Pedido", value: `**${orderId}**` },
           { name: "Cliente", value: customer.name || "Não informado", inline: true },
           { name: "Telefone", value: customer.phone || "Não informado", inline: true },
-          { name: "Endereço de Entrega", value: `${customer.address}, ${customer.city} - CEP: ${customer.zip}` || "Não informado" },
+          { name: "Endereço de Entrega", value: fullAddress || "Não informado" },
           {
             name: "Itens do Pedido",
             value: cartItems.map(item => `• ${item.product.name} (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}`).join('\n')
@@ -145,7 +149,7 @@ export async function placeOrder(details: OrderDetails) {
   whatsappMessage += `*Meus Dados para Entrega:* 🚚\n`;
   whatsappMessage += `Nome: ${customer.name}\n`;
   whatsappMessage += `Telefone: ${customer.phone} 📱\n`;
-  whatsappMessage += `Endereço: ${customer.address}, ${customer.city}, ${customer.zip}\n`;
+  whatsappMessage += `Endereço: ${fullAddress}\n`;
   whatsappMessage += `\n*ID do Pedido: ${orderId}*`;
   
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -250,10 +254,13 @@ export async function signIn(prevState: any, data: FormData) {
     userId: user._id.toString(),
     email: user.email,
     name: user.name,
-    address: user.address,
-    city: user.city,
-    zip: user.zip,
     phone: user.phone,
+    street: user.street,
+    number: user.number,
+    neighborhood: user.neighborhood,
+    city: user.city,
+    state: user.state,
+    zip: user.zip,
   };
 
   const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
@@ -286,10 +293,13 @@ export async function getSession() {
             userId: user._id.toString(),
             email: user.email,
             name: user.name,
-            address: user.address,
-            city: user.city,
-            zip: user.zip,
             phone: user.phone,
+            street: user.street,
+            number: user.number,
+            neighborhood: user.neighborhood,
+            city: user.city,
+            state: user.state,
+            zip: user.zip,
         };
     } catch (e) {
         console.error("Failed to fetch fresh session data:", e);
@@ -331,19 +341,36 @@ export async function updateUser(prevState: any, data: FormData) {
   const name = data.get('name') as string;
   const email = data.get('email') as string;
   const phone = data.get('phone') as string;
-  const address = data.get('address') as string;
-  const city = data.get('city') as string;
   const zip = data.get('zip') as string;
+  const street = data.get('street') as string;
+  const number = data.get('number') as string;
+  const neighborhood = data.get('neighborhood') as string;
+  const city = data.get('city') as string;
+  const state = data.get('state') as string;
+
 
   if (!name || !email) {
     return { error: 'Nome e e-mail são obrigatórios.' };
   }
 
+  const updateData = {
+    name,
+    email,
+    phone,
+    zip,
+    street,
+    number,
+    neighborhood,
+    city,
+    state,
+  };
+
+
   try {
     const db = await getDb();
     const result = await db.collection('users').updateOne(
       { _id: new ObjectId(session.userId) },
-      { $set: { name, email, phone, address, city, zip } }
+      { $set: updateData }
     );
 
     if (result.matchedCount === 0) {

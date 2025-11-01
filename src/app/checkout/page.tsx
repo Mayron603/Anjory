@@ -24,27 +24,33 @@ export default function CheckoutPage() {
   const { session, isLoading } = useSession();
 
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [zip, setZip] = useState('');
   const [phone, setPhone] = useState('');
+  const [zip, setZip] = useState('');
+  const [street, setStreet] = useState('');
+  const [number, setNumber] = useState('');
+  const [neighborhood, setNeighborhood] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
 
   useEffect(() => {
     if (!isLoading && session) {
         setName(session.name || '');
-        setAddress(session.address || '');
-        setCity(session.city || '');
-        setZip(session.zip || '');
         setPhone(session.phone || '');
+        setZip(session.zip || '');
+        setStreet(session.street || '');
+        setNumber(session.number || '');
+        setNeighborhood(session.neighborhood || '');
+        setCity(session.city || '');
+        setState(session.state || '');
     }
   }, [session, isLoading]);
 
 
   useEffect(() => {
-    if (cartItems.length === 0) {
+    if (cartItems.length === 0 && !isPending) {
       router.push('/cart');
     }
-  }, [cartItems, router]);
+  }, [cartItems, router, isPending]);
   
   const handleCepChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const cep = e.target.value.replace(/\D/g, '');
@@ -55,8 +61,10 @@ export default function CheckoutPage() {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
         if (!data.erro) {
-          setAddress(data.logradouro);
+          setStreet(data.logradouro);
+          setNeighborhood(data.bairro);
           setCity(data.localidade);
+          setState(data.uf);
         } else {
             toast({
                 variant: 'destructive',
@@ -94,9 +102,12 @@ export default function CheckoutPage() {
           customer: {
             name,
             phone,
-            address,
-            city,
             zip,
+            street,
+            number,
+            neighborhood,
+            city,
+            state,
           },
         });
 
@@ -114,7 +125,7 @@ export default function CheckoutPage() {
           toast({
             variant: "destructive",
             title: "Erro desconhecido",
-            description: "Não foi possível gerar a URL do WhatsApp.",
+            description: "Não foi possível gerar la URL do WhatsApp.",
           });
         }
       } catch (error) {
@@ -138,26 +149,38 @@ export default function CheckoutPage() {
               <CardTitle>Endereço de Entrega</CardTitle>
               <CardDescription>Preencha seus dados para agilizar o atendimento no WhatsApp.</CardDescription>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="md:col-span-2">
+            <CardContent className="grid grid-cols-1 md:grid-cols-6 gap-4">
+              <div className="md:col-span-6">
                 <Label htmlFor="name">Nome Completo</Label>
                 <Input id="name" placeholder="Seu nome" value={name} onChange={(e) => setName(e.target.value)} required />
               </div>
-               <div className="md:col-span-2">
+               <div className="md:col-span-6">
                 <Label htmlFor="phone">Telefone / WhatsApp</Label>
                 <Input id="phone" placeholder="(00) 90000-0000" value={phone} onChange={(e) => setPhone(e.target.value)} required />
               </div>
-              <div>
+              <div className="md:col-span-2">
                 <Label htmlFor="zip">CEP</Label>
-                <Input id="zip" placeholder="00000-000" value={zip} onChange={handleCepChange} required />
+                <Input id="zip" placeholder="00000-000" value={zip} onChange={handleCepChange} required maxLength={9}/>
               </div>
-               <div>
+              <div className="md:col-span-4">
+                <Label htmlFor="street">Rua</Label>
+                <Input id="street" placeholder="Sua rua" value={street} onChange={(e) => setStreet(e.target.value)} required />
+              </div>
+              <div className="md:col-span-2">
+                <Label htmlFor="number">Número</Label>
+                <Input id="number" placeholder="123" value={number} onChange={(e) => setNumber(e.target.value)} required />
+              </div>
+              <div className="md:col-span-4">
+                <Label htmlFor="neighborhood">Bairro</Label>
+                <Input id="neighborhood" placeholder="Seu bairro" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} required />
+              </div>
+               <div className="md:col-span-4">
                 <Label htmlFor="city">Cidade</Label>
                 <Input id="city" placeholder="Sua cidade" value={city} onChange={(e) => setCity(e.target.value)} required />
               </div>
               <div className="md:col-span-2">
-                <Label htmlFor="address">Endereço</Label>
-                <Input id="address" placeholder="Rua, Número, Bairro" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                <Label htmlFor="state">Estado</Label>
+                <Input id="state" placeholder="UF" value={state} onChange={(e) => setState(e.target.value)} required />
               </div>
             </CardContent>
           </Card>

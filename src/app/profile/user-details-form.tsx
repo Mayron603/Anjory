@@ -16,8 +16,11 @@ interface UserDetailsFormProps {
     name: string;
     email: string;
     phone?: string | null;
-    address?: string | null;
+    street?: string | null;
+    number?: string | null;
+    neighborhood?: string | null;
     city?: string | null;
+    state?: string | null;
     zip?: string | null;
   };
 }
@@ -42,12 +45,15 @@ export function UserDetailsForm({ user }: UserDetailsFormProps) {
   const [state, formAction] = useActionState(updateUser, undefined);
   const { toast } = useToast();
 
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  const [name, setName] = useState(user.name || "");
+  const [email, setEmail] = useState(user.email || "");
   const [phone, setPhone] = useState(user.phone || "");
-  const [address, setAddress] = useState(user.address || "");
-  const [city, setCity] = useState(user.city || "");
   const [zip, setZip] = useState(user.zip || "");
+  const [street, setStreet] = useState(user.street || "");
+  const [number, setNumber] = useState(user.number || "");
+  const [neighborhood, setNeighborhood] = useState(user.neighborhood || "");
+  const [city, setCity] = useState(user.city || "");
+  const [stateUf, setStateUf] = useState(user.state || "");
 
   useEffect(() => {
     if (state?.error) {
@@ -74,8 +80,10 @@ export function UserDetailsForm({ user }: UserDetailsFormProps) {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
         if (!data.erro) {
-          setAddress(data.logradouro);
+          setStreet(data.logradouro);
+          setNeighborhood(data.bairro);
           setCity(data.localidade);
+          setStateUf(data.uf);
         } else {
             toast({
                 variant: 'destructive',
@@ -111,19 +119,32 @@ export function UserDetailsForm({ user }: UserDetailsFormProps) {
         <Label htmlFor="phone">Telefone / WhatsApp</Label>
         <Input id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="space-y-2 md:col-span-1">
-            <Label htmlFor="zip">CEP</Label>
-            <Input id="zip" name="zip" value={zip} onChange={handleCepChange} />
-        </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
         <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="address">Endereço (Rua, Número, Bairro)</Label>
-            <Input id="address" name="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+            <Label htmlFor="zip">CEP</Label>
+            <Input id="zip" name="zip" value={zip} onChange={handleCepChange} maxLength={9}/>
         </div>
-      </div>
-      <div className="space-y-2">
+        <div className="space-y-2 md:col-span-4">
+            <Label htmlFor="street">Rua</Label>
+            <Input id="street" name="street" value={street} onChange={(e) => setStreet(e.target.value)} />
+        </div>
+         <div className="space-y-2 md:col-span-2">
+            <Label htmlFor="number">Número</Label>
+            <Input id="number" name="number" value={number} onChange={(e) => setNumber(e.target.value)} />
+        </div>
+        <div className="space-y-2 md:col-span-4">
+            <Label htmlFor="neighborhood">Bairro</Label>
+            <Input id="neighborhood" name="neighborhood" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} />
+        </div>
+        <div className="space-y-2 md:col-span-4">
           <Label htmlFor="city">Cidade</Label>
           <Input id="city" name="city" value={city} onChange={(e) => setCity(e.target.value)} />
+        </div>
+         <div className="space-y-2 md:col-span-2">
+          <Label htmlFor="state">Estado</Label>
+          <Input id="state" name="state" value={stateUf} onChange={(e) => setStateUf(e.target.value)} />
+        </div>
       </div>
       <SubmitButton />
     </form>

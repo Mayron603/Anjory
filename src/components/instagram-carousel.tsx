@@ -84,9 +84,10 @@ export const InstagramCarousel = () => {
         <div className="flex -ml-4" style={{ perspective: '1000px' }}>
           {instagramPosts.map((src, index) => {
             const tweenValue = tweenValues[index] || 0;
+            const opacity = 1 - Math.abs(tweenValue || 0) * 0.5;
             return (
               <div
-                className="flex-shrink-0 flex-grow-0 basis-full min-w-0 pl-4 transition-transform duration-200 ease-out"
+                className="flex-shrink-0 flex-grow-0 basis-1/2 md:basis-1/3 min-w-0 pl-4 transition-transform duration-200 ease-out"
                 key={index}
                 style={{
                   transform: `
@@ -95,10 +96,10 @@ export const InstagramCarousel = () => {
                     rotateY(${tweenValue * 20}deg)
                   `,
                   transformOrigin: '50% 50%',
-                  opacity: 1 - Math.abs(tweenValue) * 0.5,
+                  opacity: isNaN(opacity) ? 0 : opacity,
                 }}
               >
-                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group relative block overflow-hidden rounded-lg aspect-[9/16]">
+                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group relative block overflow-hidden rounded-lg aspect-[4/5]">
                   <Image
                     src={src}
                     alt={`Post do Instagram ${index + 1}`}

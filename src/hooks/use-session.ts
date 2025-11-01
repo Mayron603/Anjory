@@ -24,15 +24,17 @@ export function useSession() {
 
   const fetchSession = useCallback(async () => {
     try {
-      // Don't set loading to true here to avoid flickering on re-fetches
       const res = await fetch('/api/session', { cache: 'no-store' });
+      
       if (res.ok) {
         const data = await res.json();
         setSession(data);
       } else {
+        // This is an expected case when the user is not logged in.
         setSession(null);
       }
     } catch (error) {
+      // Log only unexpected network errors, not 401 responses.
       console.error('Failed to fetch session:', error);
       setSession(null);
     } finally {

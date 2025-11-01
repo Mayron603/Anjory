@@ -14,10 +14,30 @@ export function Header() {
         Feito à mão com amor
       </div>
       <div className="container flex h-20 max-w-screen-2xl items-center">
-        <div className="mr-4 hidden md:flex">
-          <Button variant="ghost" size="icon">
-            <Search className="h-5 w-5" />
-          </Button>
+        <div className="flex-1 flex items-center justify-start">
+          <div className="hidden md:flex items-center">
+             <Button variant="ghost" size="icon">
+              <Search className="h-5 w-5" />
+            </Button>
+          </div>
+          <div className="flex md:hidden items-center">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Abrir Menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="pr-0">
+                <Link href="/" className="flex items-center mb-6">
+                  <Logo />
+                </Link>
+                <div className="flex flex-col space-y-3">
+                  <MainNav isMobile={true} />
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
         
         <div className="flex-1 flex justify-center">
@@ -26,31 +46,18 @@ export function Header() {
             </Link>
         </div>
         
-        <div className="hidden md:flex items-center justify-end space-x-2">
+        <div className="flex-1 hidden md:flex items-center justify-end space-x-2">
           <Button variant="ghost" size="icon"><Facebook className="h-4 w-4" /></Button>
           <Button variant="ghost" size="icon"><Instagram className="h-4 w-4" /></Button>
           <CartButton />
           <UserNav />
         </div>
-
-        <div className="flex md:hidden items-center">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Abrir Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="pr-0">
-              <Link href="/" className="flex items-center mb-6">
-                <Logo />
-              </Link>
-              <div className="flex flex-col space-y-3">
-                <MainNav isMobile={true} />
-              </div>
-            </SheetContent>
-          </Sheet>
+        
+         <div className="flex-1 flex justify-end md:hidden">
+          <CartButton />
         </div>
+
+
       </div>
        <div className="hidden md:flex justify-center border-t">
           <MainNav />

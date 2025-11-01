@@ -227,7 +227,7 @@ export async function signUp(prevState: any, data: FormData) {
     return { error: 'Ocorreu um erro durante o registro. Tente novamente.' };
   }
   
-  return { success: true };
+  redirect('/profile');
 }
 
 
@@ -413,10 +413,10 @@ export async function updateUser(prevState: any, data: FormData) {
       return { error: 'Usuário não encontrado.' };
     }
 
-    // Create a new session with the updated data
+    // Re-encrypt the session with the new data
     const newSessionPayload = {
-        ...session, // Keep old session data like userId and role
-        ...updateData // Overwrite with new data
+      ...session, // Keep old session data like userId and role
+      ...updateData // Overwrite with new data
     };
     
     const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
@@ -436,5 +436,34 @@ export async function updateUser(prevState: any, data: FormData) {
       return { error: 'Este e-mail já está em uso por outra conta.' };
     }
     return { error: 'Ocorreu um erro ao atualizar os dados.' };
+  }
+}
+
+export async function getAllOrdersForAdmin() {
+  const session = await getSession();
+  // Protect this route: only admins can access
+  if (session?.role !== 'admin') {
+    // You can either redirect or return an error/empty array
+    // redirect('/login');
+    console.warn('Non-admin user tried to access admin data');
+    return [];
+  }
+
+  try {
+    const db = await getDb();
+    const orders = await db.collection('orders')
+      .find({})
+      .sort({ createdAt: -1 })
+      .toArray();
+
+    // Convert ObjectId to string for client-side usage
+    return orders.map(order => ({
+      ...order,
+      _id: order._id.toString(),
+      userId: order.userId ? order.userId.toString() : null,
+    }));
+  } catch (e) {
+    console.error("Failed to fetch all orders:", e);
+    return [];
   }
 }

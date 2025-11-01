@@ -10,10 +10,12 @@ import { ProductCard } from '@/components/product-card';
 import { cn } from '@/lib/utils';
 
 const instagramPosts = [
-  { id: 'candle-light-1', imageHint: 'candle light', className: 'col-span-1 row-span-1 md:col-span-1 md:row-span-2' },
-  { id: 'adesivos-criativos-1', imageHint: 'creative stickers', className: 'col-span-1 row-span-1 md:col-span-1 md:row-span-1' },
-  { id: 'writing-journal-1', imageHint: 'writing journal', className: 'col-span-1 row-span-2 md:col-span-2 md:row-span-2' },
-  { id: 'candle-making-1', imageHint: 'candle making', className: 'col-span-1 row-span-1 md:col-span-1 md:row-span-1' },
+  { id: 'candle-light-1', imageHint: 'candle light', className: 'md:col-span-1 md:row-span-2' },
+  { id: 'stationery-flatlay-1', imageHint: 'stationery flatlay', className: 'md:col-span-1 md:row-span-1' },
+  { id: 'writing-journal-1', imageHint: 'writing journal', className: 'md:col-span-2 md:row-span-2' },
+  { id: 'candle-making-1', imageHint: 'candle making', className: 'md:col-span-1 md:row-span-1' },
+  { id: 'notebook-pen-1', imageHint: 'notebook pen', className: 'md:col-span-1 md:row-span-1' },
+  { id: 'scented-candle-1', imageHint: 'scented candle', className: 'md:col-span-1 md:row-span-1' },
 ];
 
 
@@ -125,7 +127,7 @@ export default async function HomePage() {
               Acompanhe nosso dia a dia e inspire-se com nossas criações.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-2 gap-4 h-[600px]">
+           <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[250px] gap-4">
             {instagramPosts.map((post) => {
               const image = getImageById(post.id);
               if (!image) return null;

@@ -8,6 +8,7 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 import bcrypt from 'bcryptjs';
 
 const uri = process.env.MONGODB_URI;
+
 if (!uri) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
@@ -170,10 +171,8 @@ export async function signUp(prevState: any, data: FormData) {
     return { error: 'Ocorreu um erro durante o registro. Tente novamente.' };
   }
   
-  // TODO: Implementar a lógica de sessão/cookie após o registro
-  // ou redirecionar para a página de login.
-
-  redirect('/');
+  // Redireciona para a página de login após o registro bem-sucedido
+  redirect('/login');
 }
 
 export async function signIn(prevState: any, data: FormData) {

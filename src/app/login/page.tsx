@@ -4,7 +4,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
-import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -13,22 +12,10 @@ import { Logo } from '@/components/icons/logo';
 import { signIn } from '@/app/actions';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useSession } from '@/hooks/use-session';
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-      Entrar
-    </Button>
-  );
-}
 
 export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const { mutate } = useSession();
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (formData: FormData) => {
@@ -48,9 +35,8 @@ export default function LoginPage() {
           title: "Login bem-sucedido!",
           description: "Você será redirecionado para o seu perfil.",
         });
-        await mutate();
+        router.refresh();
         router.push('/profile');
-        router.refresh(); // Forces a refresh of the current route
       }
     });
   };

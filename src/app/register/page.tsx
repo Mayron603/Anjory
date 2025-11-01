@@ -12,12 +12,10 @@ import { Logo } from '@/components/icons/logo';
 import { signUp } from '@/app/actions';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useSession } from '@/hooks/use-session';
 
 export default function RegisterPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const { mutate } = useSession();
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (formData: FormData) => {
@@ -37,9 +35,8 @@ export default function RegisterPage() {
           title: "Conta criada com sucesso!",
           description: "Você será redirecionado para seu perfil.",
         });
-        await mutate();
-        router.push('/profile');
         router.refresh();
+        router.push('/profile');
       }
     });
   };

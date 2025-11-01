@@ -117,33 +117,33 @@ export function UserDetailsForm({ user }: UserDetailsFormProps) {
       </div>
       <div className="space-y-2">
         <Label htmlFor="phone">Telefone / WhatsApp</Label>
-        <Input id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+        <Input id="phone" name="phone" value={phone ?? ''} onChange={(e) => setPhone(e.target.value)} />
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
         <div className="space-y-2 md:col-span-2">
             <Label htmlFor="zip">CEP</Label>
-            <Input id="zip" name="zip" value={zip} onChange={handleCepChange} maxLength={9}/>
+            <Input id="zip" name="zip" value={zip ?? ''} onChange={handleCepChange} maxLength={9}/>
         </div>
         <div className="space-y-2 md:col-span-4">
             <Label htmlFor="street">Rua</Label>
-            <Input id="street" name="street" value={street} onChange={(e) => setStreet(e.target.value)} />
+            <Input id="street" name="street" value={street ?? ''} onChange={(e) => setStreet(e.target.value)} />
         </div>
          <div className="space-y-2 md:col-span-2">
             <Label htmlFor="number">Número</Label>
-            <Input id="number" name="number" value={number} onChange={(e) => setNumber(e.target.value)} />
+            <Input id="number" name="number" value={number ?? ''} onChange={(e) => setNumber(e.target.value)} />
         </div>
         <div className="space-y-2 md:col-span-4">
             <Label htmlFor="neighborhood">Bairro</Label>
-            <Input id="neighborhood" name="neighborhood" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} />
+            <Input id="neighborhood" name="neighborhood" value={neighborhood ?? ''} onChange={(e) => setNeighborhood(e.target.value)} />
         </div>
         <div className="space-y-2 md:col-span-4">
           <Label htmlFor="city">Cidade</Label>
-          <Input id="city" name="city" value={city} onChange={(e) => setCity(e.target.value)} />
+          <Input id="city" name="city" value={city ?? ''} onChange={(e) => setCity(e.target.value)} />
         </div>
          <div className="space-y-2 md:col-span-2">
           <Label htmlFor="state">Estado</Label>
-          <Input id="state" name="state" value={stateUf} onChange={(e) => setStateUf(e.target.value)} />
+          <Input id="state" name="state" value={stateUf ?? ''} onChange={(e) => setStateUf(e.target.value)} />
         </div>
       </div>
       <SubmitButton />

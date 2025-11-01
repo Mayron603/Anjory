@@ -2,7 +2,8 @@
 "use client";
 
 import Link from 'next/link';
-import { useFormStatus, useFormState } from 'react-dom';
+import { useFormStatus } from 'react-dom';
+import { useActionState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,7 +11,6 @@ import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/icons/logo';
 import { signIn } from '@/app/actions';
 import { Loader2 } from 'lucide-react';
-import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 
@@ -25,7 +25,7 @@ function SubmitButton() {
 }
 
 export default function LoginPage() {
-  const [state, formAction] = useFormState(signIn, undefined);
+  const [state, formAction] = useActionState(signIn, undefined);
   const { toast } = useToast();
 
   useEffect(() => {

@@ -52,7 +52,7 @@ export function Footer() {
       <div className="border-t border-border/40">
         <div className="container flex flex-col md:flex-row items-center justify-between py-4 text-center text-sm text-muted-foreground">
             <p>© {new Date().getFullYear()} Anjory. Todos os direitos reservados.</p>
-            <p>Feito com ♥ por <Link href="https://firebase.google.com/products/studio" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-foreground">Firebase Studio</Link></p>
+            <p>Feito com ♥ por Mayron <Link href="https://firebase.google.com/studio" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-foreground">Firebase Studio</Link></p>
         </div>
       </div>
     </footer>

@@ -121,16 +121,16 @@ export default async function HomePage() {
               Acompanhe nosso dia a dia e inspire-se com nossas criações.
             </p>
           </div>
-           <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[250px] gap-4">
-            {instagramPosts.map((post) => {
+           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {Array.from({ length: 12 }).map((_, index) => {
               return (
-                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={`${post.id}-${Math.random()}`} className={cn("group relative overflow-hidden rounded-md", post.className)}>
+                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={index} className="group relative overflow-hidden rounded-md aspect-[9/16]">
                   <Image
                     src={testImageUrl}
-                    alt={`Post do Instagram de teste`}
+                    alt={`Post do Instagram de teste ${index + 1}`}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 768px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                   />
                   <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Instagram className="h-8 w-8 text-white" />

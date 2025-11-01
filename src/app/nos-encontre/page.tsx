@@ -17,7 +17,7 @@ const instagramPosts = [
 ];
 
 
-export default function BlogPage() {
+export default function NosEncontrePage() {
   return (
     <div className="container mx-auto max-w-4xl py-12 md:py-16">
       <div className="text-center mb-12">

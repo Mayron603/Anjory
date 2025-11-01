@@ -38,8 +38,8 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-       <Link href="/blog" className={linkClass}>
-        Blog
+       <Link href="/nos-encontre" className={linkClass}>
+        Nos encontre
       </Link>
       <Link href="/contact" className={linkClass}>
         Contato

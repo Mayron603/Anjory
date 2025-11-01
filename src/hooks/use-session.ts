@@ -15,6 +15,7 @@ interface Session {
   city?: string | null;
   state?: string | null;
   zip?: string | null;
+  role?: 'admin' | 'customer';
   expires: string;
 }
 
@@ -33,7 +34,7 @@ export function useSession() {
         setSession(null);
       }
     } catch (error) {
-      console.error('Failed to fetch session:', error);
+      // Don't log failed fetches, as they are expected when not logged in
       setSession(null);
     } finally {
       setIsLoading(false);

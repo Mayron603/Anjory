@@ -158,16 +158,17 @@ export async function placeOrder(details: OrderDetails) {
 
   // 4. Format message for WhatsApp
   const phoneNumber = "558184019864";
-  let whatsappMessage = `Olá! 👋 Gostaria de finalizar minha compra com os seguintes itens: 🛍️\n\n`;
+  let whatsappMessage = `Olá! Gostaria de finalizar minha compra com os seguintes itens:\n\n`;
   cartItems.forEach(item => {
-    whatsappMessage += `🛒 *${item.product.name}* (x${item.quantity}) - ${formatPrice(item.product.price * item.quantity)}\n`;
+    whatsappMessage += `• ${item.product.name} (x${item.quantity}) — ${formatPrice(item.product.price * item.quantity)}\n`;
   });
-  whatsappMessage += `\n*Total do Pedido: ${formatPrice(cartTotal)}* 💰\n\n`;
-  whatsappMessage += `*Meus Dados para Entrega:* 🚚\n`;
+  whatsappMessage += `\nTotal do Pedido: ${formatPrice(cartTotal)}\n\n`;
+  whatsappMessage += `Meus dados para entrega:\n`;
   whatsappMessage += `Nome: ${customer.name}\n`;
-  whatsappMessage += `Telefone: ${customer.phone} 📱\n`;
+  whatsappMessage += `Telefone: ${customer.phone}\n`;
   whatsappMessage += `Endereço: ${fullAddress}\n`;
-  whatsappMessage += `\n*ID do Pedido: ${orderId}*`;
+  whatsappMessage += `\nID do Pedido: ${orderId}\n\n`;
+  whatsappMessage += `Aguardando a confirmação da equipe Anjory.`;
   
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   
@@ -189,6 +190,10 @@ export async function signUp(prevState: any, data: FormData) {
   try {
     db = await getDb();
     
+    // Check if it's the first user to assign 'admin' role
+    const userCount = await db.collection('users').countDocuments();
+    const role = userCount === 0 ? 'admin' : 'customer';
+
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -197,6 +202,7 @@ export async function signUp(prevState: any, data: FormData) {
       name,
       email,
       password: hashedPassword,
+      role, // Assign role
       createdAt: new Date(),
     });
 
@@ -205,6 +211,7 @@ export async function signUp(prevState: any, data: FormData) {
       userId: newUserResult.insertedId.toString(),
       email: email,
       name: name,
+      role: role,
     };
     const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
     const session = await encrypt(sessionPayload);
@@ -287,6 +294,7 @@ export async function signIn(prevState: any, data: FormData) {
     city: user.city,
     state: user.state,
     zip: user.zip,
+    role: user.role, // Add role to session
   };
 
   const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
@@ -327,6 +335,7 @@ export async function getSession() {
             city: user.city,
             state: user.state,
             zip: user.zip,
+            role: user.role,
         };
     } catch (e) {
         console.error("Failed to fetch fresh session data:", e);
@@ -406,7 +415,7 @@ export async function updateUser(prevState: any, data: FormData) {
 
     // Create a new session with the updated data
     const newSessionPayload = {
-        ...session, // Keep old session data like userId
+        ...session, // Keep old session data like userId and role
         ...updateData // Overwrite with new data
     };
     
@@ -429,4 +438,3 @@ export async function updateUser(prevState: any, data: FormData) {
     return { error: 'Ocorreu um erro ao atualizar os dados.' };
   }
 }
-

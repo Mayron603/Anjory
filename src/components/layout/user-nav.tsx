@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User, CreditCard, LogOut, Settings, LogIn } from 'lucide-react';
+import { User, CreditCard, LogOut, Settings, LayoutDashboard } from 'lucide-react';
 import { useSession } from '@/hooks/use-session';
 import { Skeleton } from '../ui/skeleton';
 import { signOut } from '@/app/actions';
@@ -72,6 +72,14 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          {user.role === 'admin' && (
+            <DropdownMenuItem asChild>
+              <Link href="/admin">
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                <span>Painel</span>
+              </Link>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem asChild>
             <Link href="/profile">
               <User className="mr-2 h-4 w-4" />

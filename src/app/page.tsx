@@ -36,23 +36,13 @@ export default async function HomePage() {
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                             </div>
-                             {/* Single Flower on Polaroid */}
-                            <div className="absolute -bottom-5 -left-5 z-10">
-                                <Image
-                                    src="/flor2.png"
-                                    alt="Flor decorativa"
-                                    width={100}
-                                    height={100}
-                                    className="object-contain"
-                                />
-                            </div>
                         </div>
                     )}
                 </div>
             </div>
             
            {/* Text Section */}
-           <div className="text-center md:text-left flex flex-col items-center md:items-start relative">
+           <div className="text-center md:text-left flex flex-col items-center md:items-start relative z-20">
              <p className="font-script text-4xl md:text-6xl text-foreground/70 mb-2">She's a</p>
              <h1 className="font-body text-6xl md:text-8xl font-medium tracking-[0.2em] text-foreground/80 leading-tight">
                WILD ONE
@@ -62,15 +52,21 @@ export default async function HomePage() {
              </Button>
            </div>
          </div>
-         {/* Flower Bouquet in Corner */}
-         <div className="absolute bottom-0 right-0 z-0">
-            <Image
-                 src="/flor.png"
-                 alt="Buquê de flores"
-                 width={400}
-                 height={400}
-                 className="object-contain"
-             />
+         {/* Decorative Background Elements */}
+         <div className="absolute inset-0 z-0 overflow-hidden">
+            {/* Large Circle */}
+            <div className="absolute -right-1/4 -bottom-1/3 w-2/3 h-2/3 bg-white/30 rounded-full opacity-50 z-0"></div>
+
+            {/* Flower Bouquet in Corner */}
+            <div className="absolute bottom-0 right-0 z-10">
+                <Image
+                    src="/flor.png"
+                    alt="Buquê de flores"
+                    width={500}
+                    height={500}
+                    className="object-contain"
+                />
+            </div>
          </div>
        </div>
      </section>

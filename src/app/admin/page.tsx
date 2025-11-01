@@ -15,12 +15,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getSession, getAllOrdersForAdmin, getUsersCountForAdmin } from '@/app/actions';
+import { getSession, getAllOrdersForAdmin, getUsersCountForAdmin, getAllUsersForAdmin } from '@/app/actions';
 import { formatPrice } from '@/lib/utils';
 import { DollarSign, Package, CreditCard, Users } from 'lucide-react';
 import { OrderStatusSelector } from './order-status-selector';
 import type { Order } from '@/lib/types';
 import { OrderDetailsDialog } from './order-details-dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { UsersTable } from './users-table';
 
 
 export default async function AdminDashboardPage() {
@@ -29,9 +31,10 @@ export default async function AdminDashboardPage() {
     redirect('/login');
   }
 
-  const [orders, usersCount] = await Promise.all([
+  const [orders, usersCount, users] = await Promise.all([
     getAllOrdersForAdmin(),
     getUsersCountForAdmin(),
+    getAllUsersForAdmin(),
   ]);
   
   const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
@@ -97,51 +100,71 @@ export default async function AdminDashboardPage() {
             </CardContent>
           </Card>
         </div>
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Pedidos Recentes</CardTitle>
-              <CardDescription>
-                Uma lista de todos os pedidos.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Cliente</TableHead>
-                    <TableHead className='hidden sm:table-cell'>Status</TableHead>
-                    <TableHead className="text-right">Valor</TableHead>
-                    <TableHead className="text-right hidden sm:table-cell">Data</TableHead>
-                    <TableHead className="text-right">Ações</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {orders.map((order: Order) => (
-                    <TableRow key={order.orderId}>
-                      <TableCell>
-                        <div className="font-medium">{order.customer.name}</div>
-                        <div className="text-sm text-muted-foreground hidden md:inline">
-                          {order.customer.email}
-                        </div>
-                      </TableCell>
-                      <TableCell className='hidden sm:table-cell'>
-                        <OrderStatusSelector orderId={order._id} currentStatus={order.status} />
-                      </TableCell>
-                      <TableCell className="text-right">{formatPrice(order.total)}</TableCell>
-                      <TableCell className="text-right hidden sm:table-cell">
-                        {new Date(order.createdAt).toLocaleDateString('pt-BR')}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <OrderDetailsDialog order={order} />
-                      </TableCell>
+        
+        <Tabs defaultValue="orders">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="orders">Pedidos</TabsTrigger>
+            <TabsTrigger value="users">Clientes</TabsTrigger>
+          </TabsList>
+          <TabsContent value="orders">
+            <Card>
+              <CardHeader>
+                <CardTitle>Pedidos Recentes</CardTitle>
+                <CardDescription>
+                  Uma lista de todos os pedidos.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Cliente</TableHead>
+                      <TableHead className='hidden sm:table-cell'>Status</TableHead>
+                      <TableHead className="text-right">Valor</TableHead>
+                      <TableHead className="text-right hidden sm:table-cell">Data</TableHead>
+                      <TableHead className="text-right">Ações</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </div>
+                  </TableHeader>
+                  <TableBody>
+                    {orders.map((order: Order) => (
+                      <TableRow key={order.orderId}>
+                        <TableCell>
+                          <div className="font-medium">{order.customer.name}</div>
+                          <div className="text-sm text-muted-foreground hidden md:inline">
+                            {order.customer.email}
+                          </div>
+                        </TableCell>
+                        <TableCell className='hidden sm:table-cell'>
+                          <OrderStatusSelector orderId={order._id} currentStatus={order.status} />
+                        </TableCell>
+                        <TableCell className="text-right">{formatPrice(order.total)}</TableCell>
+                        <TableCell className="text-right hidden sm:table-cell">
+                          {new Date(order.createdAt).toLocaleDateString('pt-BR')}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <OrderDetailsDialog order={order} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+           <TabsContent value="users">
+            <Card>
+              <CardHeader>
+                <CardTitle>Gerenciamento de Clientes</CardTitle>
+                <CardDescription>
+                  Visualize, pesquise e edite os dados dos seus clientes.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <UsersTable users={users} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );

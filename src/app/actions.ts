@@ -542,3 +542,53 @@ export async function deleteOrder(orderId: string) {
     return { error: 'Ocorreu um erro no servidor ao tentar excluir o pedido.' };
   }
 }
+
+export async function getAllUsersForAdmin() {
+  const session = await getSession();
+  if (session?.role !== 'admin') {
+    return [];
+  }
+
+  try {
+    const db = await getDb();
+    const users = await db.collection('users').find({}, { projection: { password: 0 } }).sort({ createdAt: -1 }).toArray();
+    return users.map(user => ({
+      ...user,
+      _id: user._id.toString(),
+      createdAt: user.createdAt.toISOString(),
+    }));
+  } catch (e) {
+    console.error("Failed to fetch all users:", e);
+    return [];
+  }
+}
+
+
+export async function updateUserByAdmin(userId: string, data: any) {
+    const session = await getSession();
+    if (session?.role !== 'admin') {
+        return { error: 'Acesso não autorizado.' };
+    }
+
+    try {
+        const db = await getDb();
+        const result = await db.collection('users').updateOne(
+            { _id: new ObjectId(userId) },
+            { $set: data }
+        );
+
+        if (result.matchedCount === 0) {
+            return { error: 'Usuário não encontrado.' };
+        }
+
+        revalidatePath('/admin');
+        return { success: 'Dados do usuário atualizados com sucesso!' };
+
+    } catch (e: any) {
+        console.error("Erro ao atualizar dados do usuário pelo admin:", e);
+        if (e.code === 11000) {
+            return { error: 'Este e-mail já está em uso por outra conta.' };
+        }
+        return { error: 'Ocorreu um erro ao atualizar os dados do usuário.' };
+    }
+}

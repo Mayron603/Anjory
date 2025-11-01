@@ -99,7 +99,7 @@ export const InstagramCarousel = () => {
                   opacity: isNaN(opacity) ? 0 : opacity,
                 }}
               >
-                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group relative block overflow-hidden rounded-lg aspect-[4/5]">
+                <Link href="https://www.instagram.com/anjory.loja/" target="_blank" rel="noopener noreferrer" className="group relative block overflow-hidden rounded-lg aspect-[4/5]">
                   <Image
                     src={src}
                     alt={`Post do Instagram ${index + 1}`}

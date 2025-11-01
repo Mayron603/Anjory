@@ -107,11 +107,11 @@ export default async function HomePage() {
           <div className="text-center mt-12">
             <Button asChild size="lg">
               <Link
-                href="https://instagram.com"
+                href="https://www.instagram.com/anjory.loja/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Instagram className="mr-2 h-5 w-5" /> Siga @anjory
+                <Instagram className="mr-2 h-5 w-5" /> Siga @anjory.loja
               </Link>
             </Button>
           </div>

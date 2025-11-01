@@ -15,8 +15,16 @@ export function Footer() {
             Sua loja de decoração e itens para casa com um toque de elegância e modernidade.
           </p>
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="icon"><Instagram className="h-5 w-5" /></Button>
-            <Button variant="ghost" size="icon"><TikTok className="h-5 w-5" /></Button>
+            <Button asChild variant="ghost" size="icon">
+              <Link href="https://www.instagram.com/anjory.loja/" target="_blank" rel="noopener noreferrer">
+                <Instagram className="h-5 w-5" />
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" size="icon">
+              <Link href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
+                <TikTok className="h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </div>
         

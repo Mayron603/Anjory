@@ -48,8 +48,16 @@ export function Header() {
         </div>
         
         <div className="flex-1 hidden md:flex items-center justify-end space-x-2">
-          <Button variant="ghost" size="icon"><Instagram className="h-4 w-4" /></Button>
-          <Button variant="ghost" size="icon"><TikTok className="h-5 w-5" /></Button>
+          <Button asChild variant="ghost" size="icon">
+            <Link href="https://www.instagram.com/anjory.loja/" target="_blank" rel="noopener noreferrer">
+              <Instagram className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button asChild variant="ghost" size="icon">
+            <Link href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
+              <TikTok className="h-5 w-5" />
+            </Link>
+          </Button>
           <CartButton />
           <UserNav />
         </div>

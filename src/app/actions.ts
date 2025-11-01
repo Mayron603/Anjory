@@ -108,7 +108,7 @@ export async function placeOrder(details: OrderDetails) {
   return { whatsappUrl };
 }
 
-export async function signUp(data: FormData) {
+export async function signUp(prevState: any, data: FormData) {
   const name = data.get('name') as string;
   const email = data.get('email') as string;
   const password = data.get('password') as string;
@@ -148,7 +148,7 @@ export async function signUp(data: FormData) {
   redirect('/');
 }
 
-export async function signIn(data: FormData) {
+export async function signIn(prevState: any, data: FormData) {
   const email = data.get('email') as string;
   const password = data.get('password') as string;
 

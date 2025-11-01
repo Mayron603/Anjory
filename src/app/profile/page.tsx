@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { LogOut } from 'lucide-react';
 import { signOut } from '@/app/actions';
+import { UserDetailsForm } from './user-details-form';
 
 export default async function ProfilePage() {
   const session = await getSession();
@@ -119,10 +120,10 @@ export default async function ProfilePage() {
           <Card>
               <CardHeader>
                 <CardTitle>Meus Dados</CardTitle>
-                <CardDescription>Gerencie suas informações pessoais e endereços.</CardDescription>
+                <CardDescription>Gerencie suas informações pessoais e endereços para agilizar futuras compras.</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className='text-muted-foreground'>Funcionalidade em desenvolvimento.</p>
+                <UserDetailsForm user={user} />
               </CardContent>
           </Card>
         </TabsContent>

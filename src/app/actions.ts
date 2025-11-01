@@ -8,6 +8,7 @@ import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 
 const uri = process.env.MONGODB_URI;
 
@@ -249,6 +250,10 @@ export async function signIn(prevState: any, data: FormData) {
     userId: user._id.toString(),
     email: user.email,
     name: user.name,
+    address: user.address,
+    city: user.city,
+    zip: user.zip,
+    phone: user.phone,
   };
 
   const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
@@ -267,7 +272,28 @@ export async function signOut() {
 export async function getSession() {
     const cookie = cookies().get('session')?.value;
     if (!cookie) return null;
-    return await decrypt(cookie);
+    const session = await decrypt(cookie);
+    if (!session) return null;
+    
+    // Fetch the latest user data from the database
+    try {
+        const db = await getDb();
+        const user = await db.collection('users').findOne({ _id: new ObjectId(session.userId) });
+        if (!user) return null; // User might have been deleted
+
+        return {
+            userId: user._id.toString(),
+            email: user.email,
+            name: user.name,
+            address: user.address,
+            city: user.city,
+            zip: user.zip,
+            phone: user.phone,
+        };
+    } catch (e) {
+        console.error("Failed to fetch fresh session data:", e);
+        return null;
+    }
 }
 
 export async function getOrders() {
@@ -295,3 +321,45 @@ export async function getOrders() {
     }
 }
     
+export async function updateUser(prevState: any, data: FormData) {
+  const session = await getSession();
+  if (!session?.userId) {
+    return { error: 'Usuário não autenticado.' };
+  }
+
+  const name = data.get('name') as string;
+  const email = data.get('email') as string;
+  const phone = data.get('phone') as string;
+  const address = data.get('address') as string;
+  const city = data.get('city') as string;
+  const zip = data.get('zip') as string;
+
+  if (!name || !email) {
+    return { error: 'Nome e e-mail são obrigatórios.' };
+  }
+
+  try {
+    const db = await getDb();
+    const result = await db.collection('users').updateOne(
+      { _id: new ObjectId(session.userId) },
+      { $set: { name, email, phone, address, city, zip } }
+    );
+
+    if (result.matchedCount === 0) {
+      return { error: 'Usuário não encontrado.' };
+    }
+    
+    // Revalidate the profile path to show the updated data
+    revalidatePath('/profile');
+    revalidatePath('/api/session'); // Also revalidate the session API route
+
+    return { success: 'Dados atualizados com sucesso!' };
+
+  } catch (e: any) {
+    console.error("Erro ao atualizar dados:", e);
+     if (e.code === 11000) { // Duplicate key error for email
+      return { error: 'Este e-mail já está em uso por outra conta.' };
+    }
+    return { error: 'Ocorreu um erro ao atualizar os dados.' };
+  }
+}

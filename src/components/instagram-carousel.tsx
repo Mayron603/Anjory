@@ -12,16 +12,8 @@ import Link from 'next/link';
 
 const TWEEN_FACTOR = 1.2;
 
-const instagramPosts = [
-  "https://images.unsplash.com/photo-1594224456839-8a221f043105?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2VudGVkJTIwY2FuZGxlfGVufDB8fHx8MTc2MTkxODU4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
-  "https://images.unsplash.com/photo-1518676590629-3797b8734631?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxqb3VybmFsaW5nfGVufDB8fHx8MTc2MTg2NDcyOHww&ixlib=rb-4.1.0&q=80&w=1080",
-  "https://images.unsplash.com/photo-1601120123589-9e0a5f434b9c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoYW5kbWFkZSUyMGNhbmRsZXxlbnwwfHx8fDE3NjE5NjA4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-  "https://images.unsplash.com/photo-1599818816853-91d6b052140b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhcnRpc3RpYyUyMHN0YXRpb25lcnl8ZW58MHx8fHwxNzYxODY0NzI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  "https://images.unsplash.com/photo-1495667496513-9068843d7679?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjYW5kbGUlMjBsaWdodHxlbnwwfHx8fDE3NjE5NjA4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-  "https://images.unsplash.com/photo-1554189097-94915336de6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb3p5JTIwY2FuZGxlfGVufDB8fHx8MTc2MTkxODU4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
-  "https://images.unsplash.com/photo-1594997652537-2e2dce4ebf28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d3JpdGluZyUyMGpvdXJuYWx8ZW58MHx8fHwxNzYxODY0NzI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzdGF0aW9uZXJ5fGVufDB8fHx8MTc2MTg2NDcyOHww&ixlib=rb-4.1.0&q=80&w=1080",
-  "https://images.unsplash.com/photo-1612293905607-b003de9e54fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjYW5kbGUlMjBtYWtpbmd8ZW58MHx8fHwxNzYxOTExNDc5fDA&ixlib=rb-4.1.0&q=80&w=1080"
+const instagramPosts: string[] = [
+  // Add your instagram post image URLs here
 ];
 
 export const InstagramCarousel = () => {
@@ -77,6 +69,14 @@ export const InstagramCarousel = () => {
     emblaApi.on('reInit', onScroll);
   }, [emblaApi, onScroll, onSelect]);
 
+
+  if (instagramPosts.length === 0) {
+    return (
+      <div className="text-center py-10 bg-muted/50 rounded-lg">
+        <p className="text-muted-foreground">Adicione as URLs das imagens dos posts do Instagram em `src/components/instagram-carousel.tsx` para exibi-las aqui.</p>
+      </div>
+    )
+  }
 
   return (
     <div className="relative">

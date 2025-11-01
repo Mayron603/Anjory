@@ -9,7 +9,7 @@
     {
       "id": "adesivos-criativos-1",
       "description": "A vibrant collection of assorted creative stickers.",
-      "imageUrl": "/Adesivos_Criativos.png",
+      "imageUrl": "/adesivos_criativos.png",
       "imageHint": "creative stickers"
     },
     {
@@ -21,13 +21,13 @@
     {
       "id": "bloco-de-notas-1",
       "description": "A stylish notepad with a pen on a desk.",
-      "imageUrl": "/Bloco_de_Notas.png",
+      "imageUrl": "/bloco_de_notas.png",
       "imageHint": "stylish notepad"
     },
     {
       "id": "caderno-personalizado-1",
       "description": "A beautiful custom notebook with a floral design.",
-      "imageUrl": "/Caderno_Personalizado.png",
+      "imageUrl": "/caderno_personalizado.png",
       "imageHint": "custom notebook"
     },
     {

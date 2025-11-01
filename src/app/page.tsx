@@ -7,15 +7,19 @@ import { getImageById } from '@/lib/placeholder-images';
 import { Input } from '@/components/ui/input';
 import { ArrowRight, Instagram } from 'lucide-react';
 import { ProductCard } from '@/components/product-card';
-import { cn } from '@/lib/utils';
-import { instagramPostsConfig } from './nos-encontre/page';
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 
 
 export default async function HomePage() {
   const products = await getProducts();
   const featuredProducts = products.slice(0, 4);
   const heroImage = getImageById('vela-pote-vidro-1');
-  const instagramPosts = instagramPostsConfig.slice(0, 12);
   const testImageUrl = "https://images.unsplash.com/photo-1495667496513-9068843d7679?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjYW5kbGUlMjBsaWdodHxlbnwwfHx8fDE3NjE5NjA4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080";
 
   return (
@@ -121,24 +125,34 @@ export default async function HomePage() {
               Acompanhe nosso dia a dia e inspire-se com nossas criações.
             </p>
           </div>
-           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {Array.from({ length: 12 }).map((_, index) => {
-              return (
-                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" key={index} className="group relative overflow-hidden rounded-md aspect-[9/16]">
-                  <Image
-                    src={testImageUrl}
-                    alt={`Post do Instagram de teste ${index + 1}`}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                  />
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Instagram className="h-8 w-8 text-white" />
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {Array.from({ length: 12 }).map((_, index) => (
+                <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
+                  <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group relative block overflow-hidden rounded-md aspect-[9/16]">
+                    <Image
+                      src={testImageUrl}
+                      alt={`Post do Instagram de teste ${index + 1}`}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <Instagram className="h-8 w-8 text-white" />
+                    </div>
+                  </Link>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
+          </Carousel>
           <div className="text-center mt-12">
             <Button asChild size="lg">
               <Link href="/nos-encontre">

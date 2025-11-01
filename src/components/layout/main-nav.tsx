@@ -33,9 +33,12 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
           Comprar por Categoria <ChevronDown className="h-4 w-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>Velas</DropdownMenuItem>
-          <DropdownMenuItem>Papelaria</DropdownMenuItem>
-          <DropdownMenuItem>Jogos</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+             <Link href="/products?category=Velas">Velas</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/products?category=Papelaria">Papelaria</Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <DropdownMenu>
@@ -43,7 +46,9 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
           Atendimento <ChevronDown className="h-4 w-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>FAQ</DropdownMenuItem>
+           <DropdownMenuItem asChild>
+            <Link href="/faq">FAQ</Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
        <Link href="/blog" className={linkClass}>

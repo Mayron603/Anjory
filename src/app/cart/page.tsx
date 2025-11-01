@@ -77,10 +77,6 @@ export default function CartPage() {
                   <span>Subtotal ({cartCount} {cartCount > 1 ? 'itens' : 'item'})</span>
                   <span>{formatPrice(cartTotal)}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Frete</span>
-                  <span className="text-primary font-semibold">Grátis</span>
-                </div>
                 <Separator />
                 <div className="flex justify-between font-bold text-lg">
                   <span>Total</span>

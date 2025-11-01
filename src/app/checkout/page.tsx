@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect } from 'react';
@@ -15,7 +16,6 @@ import Link from 'next/link';
 export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const router = useRouter();
-  const { toast } = useToast();
 
   useEffect(() => {
     if (cartItems.length === 0) {
@@ -33,68 +33,60 @@ export default function CheckoutPage() {
     );
   }
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: 'Pedido Recebido!',
-      description: 'Obrigado pela sua compra. Enviamos um email de confirmação.',
+  const handlePlaceOrder = () => {
+    const phoneNumber = "558184019864"; // Seu número de WhatsApp sem o "+"
+    let message = "Olá! Gostaria de finalizar minha compra com os seguintes itens:\n\n";
+    
+    cartItems.forEach(item => {
+        message += `*${item.product.name}*\n`;
+        message += `Quantidade: ${item.quantity}\n`;
+        message += `Valor: ${formatPrice(item.product.price * item.quantity)}\n\n`;
     });
+
+    message += `*Total do Pedido: ${formatPrice(cartTotal)}*`;
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    
+    window.open(whatsappUrl, '_blank');
     clearCart();
-    router.push('/order-confirmation');
   };
 
   return (
     <div className="container mx-auto max-w-6xl py-8 md:py-12">
       <h1 className="text-3xl md:text-4xl font-headline font-bold mb-8">Finalizar Compra</h1>
-      <form onSubmit={handlePlaceOrder} className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
         <div className="lg:col-span-2 space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>Endereço de Entrega</CardTitle>
+              <CardDescription>Preencha seus dados para agilizar o atendimento no WhatsApp.</CardDescription>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
                 <Label htmlFor="name">Nome Completo</Label>
-                <Input id="name" placeholder="Seu nome" required />
+                <Input id="name" placeholder="Seu nome" />
               </div>
               <div className="md:col-span-2">
                 <Label htmlFor="address">Endereço</Label>
-                <Input id="address" placeholder="Rua, Número, Bairro" required />
+                <Input id="address" placeholder="Rua, Número, Bairro" />
               </div>
               <div>
                 <Label htmlFor="city">Cidade</Label>
-                <Input id="city" placeholder="Sua cidade" required />
+                <Input id="city" placeholder="Sua cidade" />
               </div>
               <div>
                 <Label htmlFor="zip">CEP</Label>
-                <Input id="zip" placeholder="00000-000" required />
+                <Input id="zip" placeholder="00000-000" />
               </div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle>Informações de Pagamento</CardTitle>
-              <CardDescription>Todos os pagamentos são seguros e criptografados.</CardDescription>
+              <CardTitle>Pagamento</CardTitle>
+              <CardDescription>O pagamento será combinado diretamente pelo WhatsApp.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <Label htmlFor="card-number">Número do Cartão</Label>
-                    <Input id="card-number" placeholder="**** **** **** ****" required />
-                </div>
-                <div>
-                    <Label htmlFor="card-name">Nome no Cartão</Label>
-                    <Input id="card-name" placeholder="Nome como no cartão" required />
-                </div>
-                <div>
-                    <Label htmlFor="expiry-date">Validade</Label>
-                    <Input id="expiry-date" placeholder="MM/AA" required />
-                </div>
-                <div>
-                    <Label htmlFor="cvc">CVC</Label>
-                    <Input id="cvc" placeholder="123" required />
-                </div>
-               </div>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">Aceitamos Pix e transferência bancária.</p>
             </CardContent>
           </Card>
         </div>
@@ -123,7 +115,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Frete</span>
-                  <span>{formatPrice(0)}</span>
+                  <span>A combinar</span>
                 </div>
                 <Separator className="my-2" />
                 <div className="flex justify-between font-bold text-lg">
@@ -133,13 +125,13 @@ export default function CheckoutPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button type="submit" size="lg" className="w-full">
-                Finalizar Pedido
+              <Button onClick={handlePlaceOrder} size="lg" className="w-full">
+                Finalizar no WhatsApp
               </Button>
             </CardFooter>
           </Card>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

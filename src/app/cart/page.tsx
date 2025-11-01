@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -77,6 +78,10 @@ export default function CartPage() {
                   <span>Subtotal ({cartCount} {cartCount > 1 ? 'itens' : 'item'})</span>
                   <span>{formatPrice(cartTotal)}</span>
                 </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Frete</span>
+                  <span>A combinar</span>
+                </div>
                 <Separator />
                 <div className="flex justify-between font-bold text-lg">
                   <span>Total</span>
@@ -85,7 +90,7 @@ export default function CartPage() {
               </CardContent>
               <CardFooter>
                 <Button asChild size="lg" className="w-full">
-                  <Link href="/checkout">Finalizar Compra</Link>
+                  <Link href="/checkout">Ir para o Checkout</Link>
                 </Button>
               </CardFooter>
             </Card>

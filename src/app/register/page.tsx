@@ -1,10 +1,8 @@
-
 "use client";
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useFormStatus } from 'react-dom';
-import { useActionState, useEffect } from 'react';
+import { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,43 +13,46 @@ import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useSession } from '@/hooks/use-session';
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
+function SubmitButton({ isPending }: { isPending: boolean }) {
   return (
-    <Button type="submit" className="w-full" disabled={pending}>
-       {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+    <Button type="submit" className="w-full" disabled={isPending}>
+      {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
       Criar Conta
     </Button>
   );
 }
 
 export default function RegisterPage() {
-  const [state, formAction] = useActionState(signUp, undefined);
   const { toast } = useToast();
   const router = useRouter();
   const { mutate } = useSession();
+  const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    if (state?.error) {
-      toast({
-        variant: "destructive",
-        title: "Erro no cadastro",
-        description: state.error,
-      });
-    }
-    if (state?.success) {
-      toast({
-        title: "Conta criada com sucesso!",
-        description: "Você será redirecionado para seu perfil.",
-      });
-      // Mutate the session to get the new user data
-      // and then redirect to the profile page.
-      mutate().then(() => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+    startTransition(async () => {
+      const result = await signUp(null, formData);
+
+      if (result?.error) {
+        toast({
+          variant: "destructive",
+          title: "Erro no cadastro",
+          description: result.error,
+        });
+      } else if (result?.success) {
+        toast({
+          title: "Conta criada com sucesso!",
+          description: "Você será redirecionado para seu perfil.",
+        });
+        // First, mutate the session to fetch new data
+        // Then, redirect to the profile page
+        await mutate();
         router.push('/profile');
-      });
-    }
-  }, [state, toast, router, mutate]);
-
+      }
+    });
+  };
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-8rem)] py-12 px-4">
@@ -64,7 +65,7 @@ export default function RegisterPage() {
           <CardDescription>É rápido e fácil. Comece a comprar agora mesmo!</CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={formAction} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Nome</Label>
               <Input id="name" name="name" placeholder="Seu nome completo" required />
@@ -77,7 +78,7 @@ export default function RegisterPage() {
               <Label htmlFor="password">Senha</Label>
               <Input id="password" name="password" type="password" required />
             </div>
-            <SubmitButton />
+            <SubmitButton isPending={isPending} />
           </form>
           <div className="mt-4 text-center text-sm">
             Já tem uma conta?{' '}

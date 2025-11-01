@@ -77,6 +77,54 @@
       "description": "A person writing thoughtful notes in a beautiful journal.",
       "imageUrl": "https://images.unsplash.com/photo-1594997652537-2e2dce4ebf28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d3JpdGluZyUyMGpvdXJuYWx8ZW58MHx8fHwxNzYxODY0NzI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "writing journal"
+    },
+    {
+      "id": "candle-decor-1",
+      "description": "A decorative candle on a wooden table with some books.",
+      "imageUrl": "https://images.unsplash.com/photo-1525944342-37d4b1a37397?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjYW5kbGUlMjBkZWNvcnxlbnwwfHx8fDE3NjE5NjA4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "candle decor"
+    },
+    {
+      "id": "stationery-flatlay-1",
+      "description": "A flatlay of beautiful stationery items on a white background.",
+      "imageUrl": "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzdGF0aW9uZXJ5fGVufDB8fHx8MTc2MTg2NDcyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "stationery flatlay"
+    },
+    {
+      "id": "cozy-candle-1",
+      "description": "A lit candle in a cozy home setting, creating a relaxing atmosphere.",
+      "imageUrl": "https://images.unsplash.com/photo-1554189097-94915336de6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb3p5JTIwY2FuZGxlfGVufDB8fHx8MTc2MTkxODU4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cozy candle"
+    },
+    {
+      "id": "notebook-pen-1",
+      "description": "An open notebook with a pen, ready for writing or drawing.",
+      "imageUrl": "https://images.unsplash.com/photo-1515462277126-2ddde2527233?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxub3RlYm9vayUyMHBlbnxlbnwwfHx8fDE3NjE5NjA4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "notebook pen"
+    },
+    {
+      "id": "handmade-candle-1",
+      "description": "A close-up of a handmade candle with dried flowers.",
+      "imageUrl": "https://images.unsplash.com/photo-1601120123589-9e0a5f434b9c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoYW5kbWFkZSUyMGNhbmRsZXxlbnwwfHx8fDE3NjE5NjA4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "handmade candle"
+    },
+    {
+      "id": "planner-stickers-1",
+      "description": "A planner decorated with various colorful stickers.",
+      "imageUrl": "https://images.unsplash.com/photo-1599818816853-91d6b052140b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhcnRpc3RpYyUyMHN0YXRpb25lcnl8ZW58MHx8fHwxNzYxODY0NzI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "artistic stationery"
+    },
+    {
+      "id": "scented-candle-1",
+      "description": "A scented candle in a glass jar, with a soft glow.",
+      "imageUrl": "https://images.unsplash.com/photo-1594224456839-8a221f043105?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2VudGVkJTIwY2FuZGxlfGVufDB8fHx8MTc2MTkxODU4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "scented candle"
+    },
+    {
+      "id": "journaling-supplies-1",
+      "description": "A collection of journaling supplies, including notebooks, washi tape, and pens.",
+      "imageUrl": "https://images.unsplash.com/photo-1518676590629-3797b8734631?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxqb3VybmFsaW5nfGVufDB8fHx8MTc2MTg2NDcyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "journaling supplies"
     }
   ]
 }

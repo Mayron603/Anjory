@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
+import { useActionState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -13,33 +13,39 @@ import { signIn } from '@/app/actions';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
+function SubmitButton() {
+  const { pending } = useActionState(signIn, undefined) as { pending: boolean };
+  return (
+    <Button type="submit" className="w-full" disabled={pending}>
+      {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+      Entrar
+    </Button>
+  );
+}
+
 export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [state, formAction] = useActionState(signIn, undefined);
 
-  const handleSubmit = (formData: FormData) => {
-    startTransition(async () => {
-      const result = await signIn(null, formData);
-
-      if (result?.error) {
-        toast({
-          variant: "destructive",
-          title: "Erro no login",
-          description: result.error,
-        });
-      }
-      
-      if (result?.success) {
-        toast({
-          title: "Login bem-sucedido!",
-          description: "Você será redirecionado para o seu perfil.",
-        });
-        router.refresh();
-        router.push('/profile');
-      }
-    });
-  };
+   useEffect(() => {
+    if (state?.error) {
+      toast({
+        variant: "destructive",
+        title: "Erro no login",
+        description: state.error,
+      });
+    }
+    
+    if (state?.success) {
+      toast({
+        title: "Login bem-sucedido!",
+        description: "Você será redirecionado para o seu perfil.",
+      });
+      router.refresh();
+      router.push('/profile');
+    }
+  }, [state, router, toast]);
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-8rem)] py-12 px-4">
@@ -52,7 +58,7 @@ export default function LoginPage() {
           <CardDescription>Bem-vindo(a) de volta! Entre com suas credenciais.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={handleSubmit} className="space-y-4">
+          <form action={formAction} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" placeholder="seu@email.com" required />
@@ -66,10 +72,7 @@ export default function LoginPage() {
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-              Entrar
-            </Button>
+            <SubmitButton />
           </form>
           <div className="mt-4 text-center text-sm">
             Não tem uma conta?{' '}

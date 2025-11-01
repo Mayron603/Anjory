@@ -14,9 +14,9 @@ export function TikTok(props: React.SVGProps<SVGSVGElement>) {
       strokeLinejoin="round"
       {...props}
     >
-      <path d="M16 4h4v4" />
-      <path d="M12 4h-2a4 4 0 0 0-4 4v10" />
-      <path d="M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" />
+      <path d="M21 7.5a4.5 4.5 0 0 1-4.5 4.5H12V4.5a4.5 4.5 0 0 1 4.5-4.5h.5" />
+      <path d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+      <path d="M7.5 12V21" />
     </svg>
   );
 }

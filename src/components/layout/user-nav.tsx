@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -92,9 +91,11 @@ export function UserNav() {
               <span>Pedidos</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem disabled>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Configurações</span>
+          <DropdownMenuItem asChild>
+            <Link href="/profile">
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Configurações</span>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

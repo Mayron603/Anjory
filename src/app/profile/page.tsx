@@ -1,4 +1,6 @@
 
+"use client";
+
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,24 +15,45 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { formatPrice } from '@/lib/utils';
-import { getOrders, getSession } from '@/app/actions';
+import { getOrders, getSession, dismissProfileCompletionNotification } from '@/app/actions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 import { signOut } from '@/app/actions';
 import { UserDetailsForm } from './user-details-form';
+import { SettingsForm } from './settings-form';
 import { Separator } from '@/components/ui/separator';
 import { getImageById } from '@/lib/placeholder-images';
+import { Notification } from '@/components/ui/notification';
+import { use, useEffect, useState } from 'react';
 
-export default async function ProfilePage() {
-  const session = await getSession();
-  if (!session) {
-    redirect('/login');
+export default function ProfilePage() {
+  const [user, setUser] = useState<any>(null);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    const fetchSessionAndOrders = async () => {
+      const session = await getSession();
+      if (!session) {
+        redirect('/login');
+      }
+      setUser(session);
+      const userOrders = await getOrders();
+      setOrders(userOrders);
+
+      if (session && !session.profileCompletionNotificationSeen) {
+        setShowNotification(true);
+      }
+    };
+
+    fetchSessionAndOrders();
+  }, []);
+
+  if (!user) {
+    return null; // Or a loading spinner
   }
-
-  const user = session;
-  const orders = await getOrders();
-
+  
   const getStatusVariant = (status: string) => {
     switch (status.toLowerCase()) {
         case 'entregue':
@@ -42,9 +65,22 @@ export default async function ProfilePage() {
             return 'default';
     }
   }
+  
+  const handleDismissNotification = async () => {
+    await dismissProfileCompletionNotification();
+    setShowNotification(false);
+  };
 
   return (
     <div className="container mx-auto max-w-6xl py-8 md:py-12">
+         {showNotification && (
+            <div className="mb-8">
+                <Notification
+                message="Bem-vindo! Para uma melhor experiência, por favor, preencha seus dados de perfil na aba 'Meus Dados'."
+                onDismiss={handleDismissNotification}
+                />
+            </div>
+      )}
       <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
         <Avatar className="h-24 w-24">
             <AvatarImage src={user.picture} alt={user.name} />
@@ -62,9 +98,10 @@ export default async function ProfilePage() {
         </div>
       </div>
       <Tabs defaultValue="orders">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="orders">Meus Pedidos</TabsTrigger>
           <TabsTrigger value="details">Meus Dados</TabsTrigger>
+          <TabsTrigger value="settings">Configurações</TabsTrigger>
         </TabsList>
         <TabsContent value="orders">
           <Card>
@@ -156,6 +193,17 @@ export default async function ProfilePage() {
               <CardContent>
                 <UserDetailsForm user={user} />
               </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="settings">
+          <Card>
+            <CardHeader>
+              <CardTitle>Configurações</CardTitle>
+              <CardDescription>Gerencie suas credenciais de acesso e foto de perfil.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SettingsForm user={user} />
+            </CardContent>
           </Card>
         </TabsContent>
       </Tabs>

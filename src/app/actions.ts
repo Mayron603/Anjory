@@ -1,14 +1,22 @@
-
 'use server';
 
 import { redirect } from 'next/navigation';
 import { formatPrice } from '@/lib/utils';
 import type { CartItem } from '@/lib/types';
-import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
+import { MongoClient, ObjectId, ServerApiVersion, type Document, type WithId } from 'mongodb';
 import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
+import { v2 as cloudinary } from 'cloudinary';
+
+// --- Cloudinary Configuration ---
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 
 const uri = process.env.MONGODB_URI;
 
@@ -27,7 +35,7 @@ async function getDb() {
   }
 
   if (!cachedClient) {
-     cachedClient = new MongoClient(uri, {
+    cachedClient = new MongoClient(uri!, {
         serverApi: {
             version: ServerApiVersion.v1,
             strict: true,
@@ -215,6 +223,7 @@ export async function signUp(prevState: any, data: FormData) {
       createdAt: new Date(),
       termsAccepted: true,
       termsAcceptedAt: new Date(),
+      profileCompletionNotificationSeen: false, 
     });
 
     // Create session for the new user
@@ -223,10 +232,11 @@ export async function signUp(prevState: any, data: FormData) {
       email: email,
       name: name,
       role: role,
+      profileCompletionNotificationSeen: false,
     };
     const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
     const session = await encrypt(sessionPayload);
-    cookies().set('session', session, { expires, httpOnly: true });
+    (await cookies()).set('session', session, { expires, httpOnly: true });
 
 
   } catch (e: any) {
@@ -243,7 +253,7 @@ export async function signUp(prevState: any, data: FormData) {
 
 
 const secretKey = process.env.JWT_SECRET;
-const key = new TextEncoder().encode(secretKey);
+const key = new TextEncoder().encode(secretKey!);
 
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)
@@ -306,24 +316,25 @@ export async function signIn(prevState: any, data: FormData) {
     state: user.state,
     zip: user.zip,
     role: user.role, // Add role to session
+    picture: user.picture, // Add picture to session
   };
 
   const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
   const session = await encrypt(sessionPayload);
 
-  cookies().set('session', session, { expires, httpOnly: true });
+  (await cookies()).set('session', session, { expires, httpOnly: true });
 
   // Return success state instead of redirecting
   return { success: true };
 }
 
 export async function signOut() {
-  cookies().set('session', '', { expires: new Date(0) });
+  (await cookies()).set('session', '', { expires: new Date(0) });
   revalidatePath('/', 'layout');
 }
 
 export async function getSession() {
-    const cookie = cookies().get('session')?.value;
+    const cookie = (await cookies()).get('session')?.value;
     if (!cookie) return null;
     const session = await decrypt(cookie);
     if (!session?.userId) return null;
@@ -347,6 +358,8 @@ export async function getSession() {
             state: user.state,
             zip: user.zip,
             role: user.role,
+            picture: user.picture,
+            profileCompletionNotificationSeen: user.profileCompletionNotificationSeen,
         };
     } catch (e) {
         console.error("Failed to fetch fresh session data:", e);
@@ -368,7 +381,7 @@ export async function getOrders() {
             .toArray();
 
         // Convert ObjectId to string for client-side usage
-        return orders.map(order => ({
+        return orders.map((order: WithId<Document>) => ({
             ...order,
             _id: order._id.toString(),
             userId: order.userId.toString(),
@@ -432,7 +445,7 @@ export async function updateUser(prevState: any, data: FormData) {
     
     const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
     const newSession = await encrypt(newSessionPayload);
-    cookies().set('session', newSession, { expires, httpOnly: true });
+    (await cookies()).set('session', newSession, { expires, httpOnly: true });
     
     // Revalidate the profile path to show the updated data
     revalidatePath('/profile');
@@ -450,12 +463,134 @@ export async function updateUser(prevState: any, data: FormData) {
   }
 }
 
+export async function updateUserCredentials(prevState: any, data: FormData) {
+    const session = await getSession();
+    if (!session?.userId) {
+        return { error: 'Usuário não autenticado.' };
+    }
+
+    const email = data.get('email') as string;
+    const currentPassword = data.get('password') as string;
+    const newPassword = data.get('newPassword') as string;
+
+    if (!email) {
+        return { error: 'O e-mail é obrigatório.' };
+    }
+
+    const db = await getDb();
+    const user = await db.collection('users').findOne({ _id: new ObjectId(session.userId) });
+
+    if (!user) {
+        return { error: 'Usuário não encontrado.' };
+    }
+
+    const updateData: { email?: string; password?: string } = {};
+    
+    if (email !== user.email) {
+        updateData.email = email;
+    }
+
+    if (newPassword) {
+        if (!currentPassword) {
+            return { error: 'A senha atual é necessária para definir uma nova.' };
+        }
+        const isPasswordValid = await bcrypt.compare(currentPassword, user.password as string);
+        if (!isPasswordValid) {
+            return { error: 'A senha atual está incorreta.' };
+        }
+        updateData.password = await bcrypt.hash(newPassword, 10);
+    } else if (currentPassword && email !== user.email) {
+        const isPasswordValid = await bcrypt.compare(currentPassword, user.password as string);
+        if (!isPasswordValid) {
+            return { error: 'A senha atual está incorreta para confirmar a alteração de e-mail.' };
+        }
+    }
+
+    if (Object.keys(updateData).length === 0) {
+        return { success: 'Nenhuma alteração foi feita.' };
+    }
+
+    try {
+        await db.collection('users').updateOne(
+            { _id: new ObjectId(user._id) },
+            { $set: updateData }
+        );
+
+        const newSessionPayload = { ...session, ...updateData };
+        delete newSessionPayload.password; // Do not include password in session
+
+        const expires = new Date(Date.now() + 60 * 60 * 1000);
+        const newSession = await encrypt(newSessionPayload);
+        (await cookies()).set('session', newSession, { expires, httpOnly: true });
+
+        revalidatePath('/profile');
+        return { success: 'Credenciais atualizadas com sucesso!' };
+
+    } catch (e: any) {
+        console.error("Erro ao atualizar credenciais:", e);
+        if (e.code === 11000) {
+            return { error: 'Este e-mail já está em uso por outra conta.' };
+        }
+        return { error: 'Ocorreu um erro ao atualizar as credenciais.' };
+    }
+}
+
+export async function updateUserProfilePicture(prevState: any, data: FormData) {
+  const session = await getSession();
+  if (!session?.userId) {
+    return { error: 'Usuário não autenticado.' };
+  }
+
+  const file = data.get('picture') as File;
+  if (!file || file.size === 0) {
+    return { error: 'Nenhum arquivo foi selecionado.' };
+  }
+
+  try {
+    // Convert file to buffer
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    // Upload to Cloudinary
+    const uploadResult = await new Promise<any>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: 'profile_pictures' },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      uploadStream.end(buffer);
+    });
+
+    const pictureUrl = uploadResult.secure_url;
+
+    // Update user in DB
+    const db = await getDb();
+    await db.collection('users').updateOne(
+      { _id: new ObjectId(session.userId) },
+      { $set: { picture: pictureUrl } }
+    );
+
+    // Update session
+    const newSessionPayload = { ...session, picture: pictureUrl };
+    const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const newSession = await encrypt(newSessionPayload);
+    (await cookies()).set('session', newSession, { expires, httpOnly: true });
+
+    revalidatePath('/profile');
+    return { success: 'Foto de perfil atualizada com sucesso!' };
+
+  } catch (e) {
+    console.error("Erro ao fazer upload da foto de perfil:", e);
+    return { error: 'Ocorreu um erro ao fazer upload da imagem.' };
+  }
+}
+
+
 export async function getAllOrdersForAdmin() {
   const session = await getSession();
-  // Protect this route: only admins can access
   if (session?.role !== 'admin') {
-    // You can either redirect or return an error/empty array
-    // redirect('/login');
     console.warn('Non-admin user tried to access admin data');
     return [];
   }
@@ -467,8 +602,7 @@ export async function getAllOrdersForAdmin() {
       .sort({ createdAt: -1 })
       .toArray();
 
-    // Convert ObjectId to string for client-side usage
-    return orders.map((order: any) => ({
+    return orders.map((order: WithId<Document>) => ({
       ...order,
       _id: order._id.toString(),
       userId: order.userId ? order.userId.toString() : null,
@@ -560,7 +694,7 @@ export async function getAllUsersForAdmin() {
   try {
     const db = await getDb();
     const users = await db.collection('users').find({}, { projection: { password: 0 } }).sort({ createdAt: -1 }).toArray();
-    return users.map(user => ({
+    return users.map((user: WithId<Document>) => ({
       ...user,
       _id: user._id.toString(),
       createdAt: user.createdAt.toISOString(),
@@ -600,4 +734,24 @@ export async function updateUserByAdmin(userId: string, data: any) {
         }
         return { error: 'Ocorreu um erro ao atualizar os dados do usuário.' };
     }
+}
+
+export async function dismissProfileCompletionNotification() {
+  const session = await getSession();
+  if (!session?.userId) {
+    return { error: 'Usuário não autenticado.' };
+  }
+
+  try {
+    const db = await getDb();
+    await db.collection('users').updateOne(
+      { _id: new ObjectId(session.userId) },
+      { $set: { profileCompletionNotificationSeen: true } }
+    );
+    revalidatePath('/profile');
+    return { success: true };
+  } catch (e) {
+    console.error("Failed to dismiss notification:", e);
+    return { error: 'Ocorreu um erro no servidor.' };
+  }
 }

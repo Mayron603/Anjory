@@ -13,7 +13,12 @@ import Link from 'next/link';
 const TWEEN_FACTOR = 1.2;
 
 const instagramPosts: string[] = [
-  // Add your instagram post image URLs here
+  "/products/vela-artesanal.png",
+  "/products/vela-decorativa.png",
+  "/products/planner-semanal.png",
+  "/products/caderno-espiral.png",
+  "/products/jogo-memoria.png",
+  "/products/quebra-cabeca.png"
 ];
 
 export const InstagramCarousel = () => {
